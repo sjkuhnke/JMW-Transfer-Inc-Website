@@ -1,9 +1,70 @@
 <!-- templates/home.html -->
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Home - JMW Transfer, Inc.{% endblock %}
 
 {% block content %}
-<h2>Welcome to JMW Transfer!</h2>
-<p>We provide top-quality transportation services. Explore our page, and feel free to contact us with any inquiries.</p>
+<div class="home-container">
+    <div id="map" class="map-container">
+        <script>
+            function initMap() {
+                // Coordinates for the center of the map
+                console.log('initMap function called');
+                
+                const center = { lat: 44.3418, lng: -88.4171 };
+        
+                // Create a new map instance
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    center: center,
+                    zoom: 18, // Set initial zoom level
+                    mapTypeId: google.maps.MapTypeId.SATELLITE // Set map type to ROADMAP (other options include SATELLITE, HYBRID, TERRAIN)
+                });
+        
+                // Optional: Add a marker for the center
+                const marker = new google.maps.Marker({
+                    position: center,
+                    map: map,
+                    title: 'JMW Transfer, Inc.' // Title displayed when marker is hovered over
+                });
+                
+                console.log('map and marker initialized');
+            }
+        </script>
+
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5aH58qJcAkj8fn8j0fCjlIO158fef_pk&callback=initMap">
+        </script>
+    </div>
+    <div class="trailer-container">
+        <h3>Trailer Types</h3>
+        <ul class="trailer-list">
+            <li class="trailer-item" onclick="window.location.href='/trailer-types/'">
+                <img src="{% static 'images/trailer1.jpg' %}" alt="Dry Van" class="trailer-image">
+                Dry Van
+            </li>
+            <li class="trailer-item" onclick="window.location.href='/trailer-types/'">
+                <img src="{% static 'images/trailer2.jpg' %}" alt="Storage Van" class="trailer-image">
+                Storage Van
+            </li>
+            <li class="trailer-item" onclick="window.location.href='/trailer-types/'">
+                <img src="{% static 'images/trailer3.jpg' %}" alt="Flatbed" class="trailer-image">
+                Flatbed
+            </li>
+            <li class="trailer-item" onclick="window.location.href='/trailer-types/'">
+                <img src="{% static 'images/trailer4.jpg' %}" alt="Conestoga" class="trailer-image">
+                Conestoga
+            </li>
+            <li class="trailer-item" onclick="window.location.href='/trailer-types/'">
+                <img src="{% static 'images/trailer5.jpg' %}" alt="Heated Flatbed Roll" class="trailer-image">
+                Heated Flatbed Roll
+            </li>
+        </ul>
+    </div>
+    <div class="mission-container">
+        <h3>Our Mission</h3>
+        <p>We aim to provide top-quality transportation services and exceed our customers' expectations.</p>
+    </div>
+</div>
 {% endblock %}

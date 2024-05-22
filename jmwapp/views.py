@@ -25,3 +25,7 @@ def rent_lease(request):
 
 def jobs(request):
     return render(request, 'jobs.html')
+
+
+def trailer_types(request):
+    return render(request, 'trailer_types.html')

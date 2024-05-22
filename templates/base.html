@@ -9,21 +9,31 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>JMW Transfer, Inc.</h1>
-            <p>Phone: (123) 456-7890</p>
-            <p>Address: 123 Main Street, Anytown, USA</p>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'about_us' %}">About Us</a></li>
-                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                    <li><a href="{% url 'services' %}">Services</a></li>
-                    <li><a href="{% url 'rent_lease' %}">Rent/Lease</a></li>
-                    <li><a href="{% url 'jobs' %}">Jobs</a></li>
-                </ul>
-            </nav>
+    <header class="site-header">
+        <div class="top-header">
+            <div class="container">
+                <div class="left">
+                    <h1>JMW Transfer, Inc.</h1>
+                </div>
+                <div class="right">
+                    <p>(920) 731-4628</p>
+                    <p>N2833 Hwy 47, Appleton, WI 54913</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-header">
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'services' %}">Services</a></li>
+                        <li><a href="{% url 'rent_lease' %}">Rent/Lease</a></li>
+                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                        <li><a href="{% url 'jobs' %}">Jobs</a></li>
+                        <li><a href="{% url 'about_us' %}">About Us</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 

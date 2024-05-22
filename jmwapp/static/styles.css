@@ -1,25 +1,59 @@
 /* static/styles.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Candara, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-header {
-    background-color: #f8f8f8;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-header .container {
-    max-width: 1200px;
+.container {
+    max-width: 1000px; /* Reduce the max-width for the main container */
     margin: 0 auto;
     padding: 0 20px;
+}
+
+.site-header {
+    overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.top-header {
+    background: linear-gradient(90deg, #1672E9, #125BBA);
+    padding: 10px 0;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 0 auto 10px auto;
+    max-width: 1000px;
+}
+
+.bottom-header {
+    background: linear-gradient(90deg, #1672E9, #125BBA);
+    padding: 10px 0;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.site-header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-header h1 {
+.left h1 {
     margin: 0;
+    color: #EE6206;
+}
+
+.right p {
+    font-family: Book Antiqua, sans-serif;
+    margin: 0;
+    color: white;
+    text-align: right;
 }
 
 nav ul {
@@ -27,6 +61,7 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
 }
 
 nav ul li {
@@ -35,18 +70,50 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #333;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: background-color 0.3s; /* Add transition for smooth color change */
+}
+
+nav ul li a:hover {
+    background-color: #125BBA; /* Change background color on hover */
 }
 
 main {
-    max-width: 1200px;
+    max-width: 1000px; /* Ensure the main content area doesn't span too wide */
     margin: 20px auto;
     padding: 0 20px;
 }
 
 footer {
-    text-align: center;
+    font-family: Book Antiqua, sans-serif;
+    font-size: 16px;
+    max-width: 1000px; /* Ensure the footer matches the width of the content */
+    text-align: left;
     padding: 20px 0;
-    background-color: #f8f8f8;
-    border-top: 1px solid #ddd;
+    background-color: #d8d8d8;
+    border-top: 2px inset #000000;
+    margin: 0 auto;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .site-header .container {
+        flex-direction: column; /* Stack header items vertically on smaller screens */
+        text-align: center; /* Center align text for better appearance */
+    }
+
+    .right p {
+        text-align: center;
+    }
+
+    nav ul {
+        justify-content: center; /* Center the navigation links */
+    }
+
+    nav ul li {
+        margin-bottom: 10px; /* Add space between links */
+        margin-right: 0; /* Remove right margin */
+    }
 }

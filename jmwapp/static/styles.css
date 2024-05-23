@@ -186,6 +186,7 @@ nav ul li a:hover {
     border-radius: 10px;
 }
 
+/* Trailer Types */
 body.sticky-header-padding {
     padding-top: 150px;
 }
@@ -193,6 +194,64 @@ body.sticky-header-padding {
 .site-header .container {
     max-width: none;
     padding: 0 20px;
+}
+
+.trailer-types-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+}
+
+.trailer-type {
+    text-align: center;
+}
+
+.trailer-type img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.trailer-type h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.trailer-type p {
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+/* Slideshow controls */
+.slideshow-controls {
+    position: relative;
+    margin-top: 10px;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-340%);
+    color: black;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
 }
 
 

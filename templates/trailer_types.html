@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+<!-- templates/trailer_types.html -->
+
+{% load static %}
+
+{% block title %}Trailer Types - JMW Transfer, Inc.{% endblock %}
+
+{% block content %}
+<div class="trailer-types-container">
+    <div class="trailer-type" id="trailer-type-1">
+        <img class="slide" src="{% static 'images/dry_van1.jpg' %}" alt="Dry Van">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 1)">❮</button>
+            <button class="next" onclick="plusSlides(1, 1)">❯</button>
+        </div>
+        <h2>Dry Van Trailers</h2>
+        <p>Trailer Size: 53' x 102"</p>
+        <p>Other sizes: 48' x 102", 48' x 110", 53' x 110"</p>
+    </div>
+    <div class="trailer-type" id="trailer-type-2">
+        <img class="slide" src="{% static 'images/heated1.jpg' %}" alt="Heated Flatbed Roll">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 2)">❮</button>
+            <button class="next" onclick="plusSlides(1, 2)">❯</button>
+        </div>
+        <h2>Heated Flatbed Roll Trailers</h2>
+        <p>Trailer Size: 48' x 102"</p>
+        <p>Other sizes: 45' x 102"</p>
+    </div>
+    <div class="trailer-type" id="trailer-type-3">
+        <img class="slide" src="{% static 'images/conestoga1.jpg' %}" alt="Conestoga">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 3)">❮</button>
+            <button class="next" onclick="plusSlides(1, 3)">❯</button>
+        </div>
+        <h2>Conestoga Trailers</h2>
+        <p>Drop Deck Conestoga: Bottom Deck Length - 37.5 ft. Top Deck Length - 10 ft. Inside Height - 118". Inside Width - 102"</p>
+        <p>Flatbed Conestoga: Flatbed Length - 47.5 ft. Inside Height - 98". Inside Width - 102"</p>
+    </div>
+    <div class="trailer-type" id="trailer-type-4">
+        <img class="slide" src="{% static 'images/flatbed1.jpg' %}" alt="Flatbed">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 4)">❮</button>
+            <button class="next" onclick="plusSlides(1, 4)">❯</button>
+        </div>
+        <h2>Flatbed Trailers</h2>
+        <p>Trailer Size: Many different sizes, sizes vary</p>
+    </div>
+    <div class="trailer-type" id="trailer-type-5">
+        <img class="slide" src="{% static 'images/storage1.jpg' %}" alt="Storage">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 5)">❮</button>
+            <button class="next" onclick="plusSlides(1, 5)">❯</button>
+        </div>
+        <h2>Storage Trailers</h2>
+        <p>Van Storage Trailer Size: 53' x 102", 48' x 102", 48' x 110"</p>
+        <p>Flatbed Storage Trailer Size: 48' x 102" - 40' x 96"</p>
+    </div>
+</div>
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+    
+    function plusSlides(n, type) {
+        showSlides(slideIndex += n, type);
+    }
+    
+    function currentSlide(n, type) {
+        showSlides(slideIndex = n, type);
+    }
+    
+    function showSlides(n, type) {
+        let i;
+        const slides = document.querySelectorAll(`#trailer-type-${type} .slide`);
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+</script>
+{% endblock %}

@@ -255,6 +255,16 @@ body.sticky-header-padding {
 }
 
 
+.flash-highlight {
+    animation: flash 0.5s forwards;
+}
+
+@keyframes flash {
+    0% { background-color: transparent; }
+    60% { background-color: rgba(0, 0, 0, 0.2); }
+    100% { background-color: transparent; }
+}
+
 /* Media Queries for Responsive Design */
 @media (max-width: 768px) {
     .site-header .container {

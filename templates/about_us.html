@@ -1,9 +1,48 @@
 <!-- templates/about_us.html -->
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}About Us - JMW Transfer, Inc.{% endblock %}
 
 {% block content %}
-<h2>About Us</h2>
-<p>JMW Transfer, Inc. has been a leading provider of transportation services since 1980. Our mission is to deliver reliable and efficient logistics solutions to our clients.</p>
+<div class="about-us-container">
+    <div class="about-us-text">
+        <h2>About Us</h2>
+        <p>Since 1980, JMW Transfer, Inc. has stood for high-quality transportation services to a growing list of satisfied customers. Experience, integrity, and a solid track record have earned JMW Transfer, Inc. a reputable transportation option.</p>
+        <p><strong>JMW Transfer, Inc. Quick Facts:</strong></p>
+        <ul>
+            <li><strong>Founded:</strong> 1980</li>
+            <li><strong>Headquarters:</strong> Appleton, Wisconsin</li>
+            <li><strong>Ownership:</strong> Family-owned</li>
+        </ul>
+        <p>JMW Transfer is dedicated to providing a comprehensive range of transportation solutions to meet the requirements of a rapidly evolving customer base.</p>
+        <p><strong>Our Services</strong></p>
+        <ul>
+            <li><strong>National/International (Canada)</strong> – Long haul truckload service</li>
+            <li><strong>Regional</strong> – Short haul truckload service positioned in the Midwest.</li>
+            <li><strong>Dedicated</strong> – Tailor-made services dedicating trucks and drivers to specific customer needs</li>
+        </ul>
+    </div>
+
+    <div class="about-us-image">
+        <img src="{% static 'images/image10.jpg' %}" alt="Image 1">
+    </div>
+</div>
+<div class="about-us-services">
+    <h3>Business Units</h3>
+    <p>JMW Transfer, Inc. serves its customers through the following business units:</p>
+        <ul>
+            <li><strong>Truckload</strong> – Truckload full services via dry van, flatbed, and refrigerated shipping</li>
+            <li><strong>Less Than Truckload</strong> – Domestic, temperature-controlled, LTL, and value-priced dry LTL freight shipping solutions.</li>
+        </ul>
+    <p>JMW Transfer, Inc. values our professional truck drivers and their safety. We hire qualified individuals with previous driving experience.</p>
+    <p>At JMW Transfer, Inc., customer service is our main focus. We understand the importance of identifying and responding to each customer's unique needs. Our objective is delivering the freight entrusted to us on-time and safely.</p>
+
+    <h3>Active in the Community</h3>
+    <p>Add content about how we are active in the community and give back.</p>
+
+    <img src="{% static 'images/image14.jpeg' %}" alt="Image 2" style="max-width: 100%; height: auto; margin-top: 20px;">
+</div>
+
 {% endblock %}

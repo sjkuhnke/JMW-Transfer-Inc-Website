@@ -5,17 +5,41 @@ main {
     padding: 0 20px;
 }
 
-footer {
-    font-family: Book Antiqua, sans-serif;
-    font-size: 16px;
+/* Footer */
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     max-width: 1000px;
-    text-align: left;
-    padding: 20px 0;
+    margin: 0 auto;
+    padding: 20px 20px;
     background-color: #d8d8d8;
     border-top: 2px inset #000000;
-    margin: 0 auto;
 }
 
+.footer-logo {
+    width: 75px; /* Adjust the size of the logo as needed */
+    height: auto;
+}
+
+.footer-contact p {
+    font-family: Book Antiqua, sans-serif;
+    font-size: 16px;
+}
+
+.social-icons {
+    font-size: 48px;
+}
+
+.facebook-icon {
+    color: #3b5998; /* Facebook brand color */
+}
+
+.facebook-icon:hover {
+    color: #2f66cb; /* Hover color */
+}
+
+/* Body */
 body {
     font-family: Candara, sans-serif;
     margin: 0;
@@ -219,7 +243,8 @@ body.sticky-header-padding {
 }
 
 .trailer-type p {
-    font-size: 0.9rem;
+    font-family: Book Antiqua, sans-serif;
+    font-size: 0.8rem;
     margin: 5px 0;
 }
 
@@ -256,13 +281,45 @@ body.sticky-header-padding {
 
 
 .flash-highlight {
-    animation: flash 0.5s forwards;
+    animation: flash 1.5s forwards;
 }
 
 @keyframes flash {
     0% { background-color: transparent; }
+    40% { background-color: rgba(0, 0, 0, 0.2); }
     60% { background-color: rgba(0, 0, 0, 0.2); }
     100% { background-color: transparent; }
+}
+
+/* About Us */
+.about-us-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.about-us-text {
+    font-family: "Book Antiqua", sans-serif;
+    flex: 1;
+    max-width: 55%;
+}
+
+.about-us-image {
+    margin-left: 20px;
+    flex: 1;
+    max-width: 45%;
+    text-align: right;
+}
+
+.about-us-services {
+    font-family: "Book Antiqua", sans-serif;
+    flex: 1;
+}
+
+.about-us-image img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* Media Queries for Responsive Design */

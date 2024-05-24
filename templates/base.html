@@ -1,5 +1,5 @@
-{% load static %}
 <!-- templates/base.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +16,7 @@
         <div class="top-header">
             <div class="container">
                 <div class="left">
-                    <h1>JMW Transfer, Inc.</h1>
+                    <img src="{% static 'images/favicon4.jpg' %}" alt="Company Logo" class="logo">
                 </div>
                 <div class="right">
                     <p>(920) 731-4628</p>
@@ -30,7 +30,7 @@
                     <ul>
                         <li><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="{% url 'services' %}">Services</a></li>
-                        <li><a href="{% url 'rent_lease' %}">Rent/Lease</a></li>
+                        <li><a href="javascript:void(0);" id="trailers-link">Trailers</a></li>
                         <li><a href="{% url 'contact' %}">Contact Us</a></li>
                         <li><a href="{% url 'jobs' %}">Jobs</a></li>
                         <li><a href="{% url 'about_us' %}">About Us</a></li>
@@ -59,7 +59,27 @@
         </div>
     </footer>
 
-    <!-- Include Font Awesome or other icon library CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const trailersLink = document.getElementById('trailers-link');
+            trailersLink.addEventListener('click', function(e) {
+                if (window.location.pathname === '{% url 'home' %}') {
+                    e.preventDefault();
+                    const trailerContainer = document.getElementById('trailers');
+                    trailerContainer.scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => {
+                        trailerContainer.classList.add('flash-highlight');
+                        setTimeout(() => {
+                           trailerContainer.classList.remove('flash-highlight'); 
+                        }, 1500);
+                    }, 400);
+                    
+                } else {
+                    window.location.href = "{% url 'trailer_types' %}";
+                }
+            });
+        });
+    </script>
 </body>
 </html>

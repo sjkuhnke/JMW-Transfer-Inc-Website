@@ -7,6 +7,10 @@
 {% block title %}Trailer Types - JMW Transfer, Inc.{% endblock %}
 
 {% block content %}
+<div style="text-align: center;">
+    <h1>Trailer Types</h1>
+    <p>We have a bunch of different types of trailers.</p>
+</div>
 <div class="trailer-types-container">
     <div class="trailer-type" id="dry_van">
         <img class="slide" src="{% static 'images/dry_van1.jpg' %}" alt="Dry Van">
@@ -112,13 +116,15 @@
         if (selectedType) {
             const selectedElement = document.getElementById(selectedType);
             if (selectedElement) {
-                selectedElement.classList.add('flash-highlight');
-
                 setTimeout(() => {
-                    selectedElement.classList.remove('flash-highlight');
-                    const newUrl = window.location.href.split('?')[0];
-                    history.replaceState(null, '', newUrl);
-                }, 1500);
+                    selectedElement.classList.add('flash-highlight');
+    
+                    setTimeout(() => {
+                        selectedElement.classList.remove('flash-highlight');
+                        const newUrl = window.location.href.split('?')[0];
+                        history.replaceState(null, '', newUrl);
+                    }, 1500);
+                }, 200);
             }
         }
     }

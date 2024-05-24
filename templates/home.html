@@ -42,8 +42,8 @@
     <div class="featured-image">
         <img src="{% static 'images/website-photo.jpg' %}" alt="Featured" class="featured-image">
     </div>
-    <div class="trailer-container">
-        <h3>Trailer Types</h3>
+    <div class="trailer-container" id="trailers">
+        <h3>Trailer Types for Rent/Lease</h3>
         <ul class="trailer-list">
             <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=dry_van'">
                 <img src="{% static 'images/trailer1.jpg' %}" alt="Dry Van" class="trailer-image">

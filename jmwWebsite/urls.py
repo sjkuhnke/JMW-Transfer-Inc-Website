@@ -23,7 +23,6 @@ urlpatterns = [
     path('about-us/', views.about_us, name='about_us'),
     path('contact/', views.contact, name='contact'),
     path('services/', views.services, name='services'),
-    path('rent-lease/', views.rent_lease, name='rent_lease'),
     path('jobs/', views.jobs, name='jobs'),
     path('trailer-types/', views.trailer_types, name='trailer_types'),
 ]

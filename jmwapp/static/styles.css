@@ -5,6 +5,10 @@ main {
     padding: 0 20px;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* Footer */
 .footer-content {
     display: flex;
@@ -41,6 +45,7 @@ main {
 
 /* Body */
 body {
+    background-color: #e0e0e0; /* Light gray background */
     font-family: Candara, sans-serif;
     margin: 0;
     padding: 0;
@@ -87,10 +92,9 @@ body {
     flex-wrap: wrap;
 }
 
-.left h1 {
-    font-size: 48px;
-    margin: 0;
-    color: #EE6206;
+.logo {
+    width: 100px; /* Adjust the size of the logo as needed */
+    height: auto;
 }
 
 .right p {
@@ -98,7 +102,7 @@ body {
     margin: 0;
     color: white;
     text-align: right;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 nav ul {
@@ -152,6 +156,7 @@ nav ul li a:hover {
     max-width: 600px;
     height: 390px;
     margin-right: 20px;
+    border-radius: 10px;
 }
 
 .mission-container {
@@ -169,6 +174,9 @@ nav ul li a:hover {
 .trailer-container {
     width: 100%;
     max-width: 1200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
 
 .trailer-list {
@@ -186,17 +194,22 @@ nav ul li a:hover {
     align-items: center;
     cursor: pointer;
     font-size: 1.5rem;
-    margin: 10px;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    transition: background-color 0.3s, border-radius 0.3s;
 }
 
 .trailer-item:hover {
-    background-color: #f0f0f0;
+    background-color: #c5c5c5;
+    border-radius: 10px;
 }
 
 .trailer-image {
     width: 150px;
     height: auto;
     margin-bottom: 10px;
+    border-radius: 10px;
 }
 
 .site-header {
@@ -268,7 +281,7 @@ body.sticky-header-padding {
 }
 
 .prev:hover, .next:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .prev {
@@ -282,6 +295,7 @@ body.sticky-header-padding {
 
 .flash-highlight {
     animation: flash 1.5s forwards;
+    border-radius: 10px;
 }
 
 @keyframes flash {

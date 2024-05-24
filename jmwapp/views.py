@@ -19,10 +19,6 @@ def services(request):
     return render(request, 'services.html')
 
 
-def rent_lease(request):
-    return render(request, 'rent_lease.html')
-
-
 def jobs(request):
     return render(request, 'jobs.html')
 

@@ -39,8 +39,36 @@
             <p>We aim to provide top-quality transportation services and exceed our customers' expectations.</p>
         </div>
     </div>
-    <div class="featured-image">
-        <img src="{% static 'images/website-photo.jpg' %}" alt="Featured" class="featured-image">
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="{% static 'images/website-photo1.jpg' %}" alt="Featured 1" class="featured-image">
+        </div>
+        <div class="mySlides fade">
+            <img src="{% static 'images/website-photo2.jpg' %}" alt="Featured 2" class="featured-image">
+        </div>
+        <div class="mySlides fade">
+            <img src="{% static 'images/website-photo3.jpg' %}" alt="Featured 3" class="featured-image">
+        </div>
+        <div class="mySlides fade">
+            <img src="{% static 'images/website-photo4.jpeg' %}" alt="Featured 4" class="featured-image">
+        </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let slideIndex = 0;
+            showSlides();
+        
+            function showSlides() {
+                let slides = document.getElementsByClassName("mySlides");
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";  
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) {slideIndex = 1}    
+                slides[slideIndex-1].style.display = "block";  
+                setTimeout(showSlides, 3000);
+            }
+        });
+        </script>
     </div>
     <div class="trailer-container" id="trailers">
         <h3>Trailer Types for Rent/Lease</h3>

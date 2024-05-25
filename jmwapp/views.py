@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import JobApplicationForm
 
 # Create your views here.
 
@@ -25,3 +26,14 @@ def jobs(request):
 
 def trailer_types(request):
     return render(request, 'trailer_types.html')
+
+
+def job_application_view(request):
+    if request.method == 'POST':
+        form = JobApplicationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('application_success')
+    else:
+        form = JobApplicationForm()
+    return render(request, 'job_application.html', {'form': form})

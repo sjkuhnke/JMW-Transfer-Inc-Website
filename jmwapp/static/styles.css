@@ -165,11 +165,33 @@ nav ul li a:hover {
     max-width: 600px;
 }
 
+/* Home page slideshow */
+.slideshow-container {
+    max-width: 100%;
+    position: relative;
+    margin: auto;
+}
+
+.mySlides {
+    display: none;
+}
+
 .featured-image {
     width: 100%;
     max-width: 1200px;
     margin-bottom: 0;
 }
+
+.fade {
+    animation: fadeEffect 1.5s;
+}
+
+@keyframes fadeEffect {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+/* Main page trailers */
 
 .trailer-container {
     width: 100%;
@@ -334,6 +356,18 @@ body.sticky-header-padding {
 .about-us-image img {
     max-width: 100%;
     height: auto;
+}
+
+/* About Us page slideshow */
+.about-us-slideshow-container {
+    max-width: 100%;
+    position: relative;
+    margin: auto;
+}
+
+.about-us-mySlides {
+    display: none;
+    width: 100%;
 }
 
 /* Media Queries for Responsive Design */

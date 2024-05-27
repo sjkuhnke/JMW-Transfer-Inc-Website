@@ -4,8 +4,10 @@
 {% block title %}Contact Us - JMW Transfer, Inc.{% endblock %}
 
 {% block content %}
-<h2>Contact Us</h2>
-<p>If you have any questions or need more information, please fill out the form below or call us at (920) 731-4628.</p>
+<div class="book-antiqua">
+    <h2>Contact Us</h2>
+    <p>If you have any questions or need more information, please fill out the form below or call us at (920) 731-4628.</p>
+</div>
 <form action="{% url 'contact' %}" method="post">
     {% csrf_token %}
     <label for="name">Name:</label>
@@ -17,6 +19,8 @@
     <label for="message">Message:</label>
     <textarea id="message" name="message" required></textarea>
 
-    <button type="submit">Submit</button>
+    <div class="submit-container">
+        <button type="submit">Submit</button>
+    </div>
 </form>
 {% endblock %}

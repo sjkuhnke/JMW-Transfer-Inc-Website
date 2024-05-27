@@ -5,6 +5,7 @@ class JobApplication(models.Model):
     # Top of application
     applicant_name = models.CharField(max_length=255, verbose_name="Applicant Name")
     date_of_application = models.DateField(verbose_name="Date of Application")
+    email_address = models.CharField(max_length=50, verbose_name="Email Address")
 
     # Applicant to complete
     position_applied_for = models.CharField(max_length=255, verbose_name="Position(s) Applied For")
@@ -14,8 +15,8 @@ class JobApplication(models.Model):
     address = models.CharField(max_length=255, verbose_name="Current Address")
     city = models.CharField(max_length=255, verbose_name="City")
     state = models.CharField(max_length=2, verbose_name="State")
-    zip = models.IntegerField(verbose_name="Zip Code")
-    phone_number = models.CharField(max_length=11, verbose_name="Phone Number")
+    zip = models.CharField(max_length=5, verbose_name="Zip Code")
+    phone_number = models.CharField(max_length=14, verbose_name="Phone Number")
     time_living = models.DurationField(verbose_name="How Long? (yr./mo.)")
 
     legal_right_work = models.BooleanField(verbose_name="Do you have the legal right to work in the United States?")

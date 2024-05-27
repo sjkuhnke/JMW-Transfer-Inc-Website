@@ -453,6 +453,27 @@ form div {
     margin-bottom: 15px;
 }
 
+.monetary-field-container {
+    position: relative;
+    width: 100%;
+}
+
+.monetary-field {
+    width: 100%;
+    padding-left: 1.5em; /* Adjust left padding to make room for the dollar sign */
+    box-sizing: border-box;
+}
+
+.monetary-field-container::before {
+    content: '$';
+    position: absolute;
+    left: 0.6em;
+    top: 50%;
+    transform: translateY(-40%);
+    color: #000; /* Adjust color as needed */
+    pointer-events: none;
+}
+
 form .form-row {
     display: flex;
     align-items: center;
@@ -466,7 +487,7 @@ form .form-row label {
 }
 
 form .form-row input[type="checkbox"] {
-    margin-left: auto; /* Align checkbox to the right */
+    margin: 0; /* Align checkbox to the right */
 }
 
 form label {
@@ -536,6 +557,40 @@ form input, form select, form textarea {
 
 .expanded {
     max-height: 2000px;
+}
+
+.toggle-section.valid {
+    background-color: green;
+    color: white;
+}
+
+.toggle-section.valid:hover {
+    background-color: #165a04;
+}
+
+.toggle-section.invalid {
+    background-color: red;
+    color: white;
+}
+
+.toggle-section.invalid:hover {
+    background-color: #a00e0e;
+}
+
+.submit-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Optional: Add some space above the button */
+}
+
+.submit-container button {
+    padding: 10px 20px; /* Optional: Adjust padding for the button */
+    font-size: 16px; /* Optional: Adjust font size for the button */
+}
+
+/* Contact Us */
+.book-antiqua {
+    font-family: Book Antiqua, sans-serif;
 }
 
 /* Media Queries for Responsive Design */

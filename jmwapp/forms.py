@@ -6,15 +6,18 @@ from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficCo
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = [
-            'applicant_name', 'date_of_application',  # Section 1
-            'position_applied_for', 'social_security_number', 'date_of_birth', 'legal_right_work',
-            'proof_of_age', 'worked_here_before', 'worked_here_from', 'worked_here_to',
-            'rate_of_pay', 'previous_position', 'reason_for_leaving_here', 'currently_employed',
-            'time_since_previously_employed', 'who_referred', 'rate_of_pay_expected', 'ever_been_bonded',
-            'name_of_bonding_company', 'unable_perform', 'reason_unable_perform',  # Section 2
-            'address', 'city', 'state', 'zip'  # Section 2
-        ]
+        fields = '__all__'
+        widgets = {
+            'email_address': forms.TextInput(attrs={'type': 'email'}),
+            'date_of_application': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'worked_here_from': forms.DateInput(attrs={'type': 'date'}),
+            'worked_here_to': forms.DateInput(attrs={'type': 'date'}),
+            'rate_of_pay': forms.NumberInput(attrs={'step': '1.00', 'class': 'monetary-field'}),
+            'rate_of_pay_expected': forms.NumberInput(attrs={'step': '1.00', 'class': 'monetary-field'}),
+            'phone_number': forms.TextInput(attrs={'id': 'id_phone_number'}),
+            'social_security_number': forms.TextInput(attrs={'id': 'id_social_security_number'}),
+        }
 
 
 class EmploymentHistoryForm(forms.ModelForm):

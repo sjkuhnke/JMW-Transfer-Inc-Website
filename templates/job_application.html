@@ -24,7 +24,7 @@
     </div>
     <div id="section2-content" class="collapsible-content collapsed">
         <div>
-        {{ form.position_applied_for.label_tag }} {{ form.position_applied_for }}
+            {{ form.position_applied_for.label_tag }} {{ form.position_applied_for }}
         </div>
         <div>
             {{ form.social_security_number.label_tag }} {{ form.social_security_number }}
@@ -32,10 +32,10 @@
         <div>
             {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
         </div>
-        <div>
+        <div class="form-row">
             {{ form.proof_of_age.label_tag }} {{ form.proof_of_age }}
         </div>
-        <div>
+        <div class="form-row">
             {{ form.worked_here_before.label_tag }} {{ form.worked_here_before }}
         </div>
         <div>
@@ -56,7 +56,7 @@
         <div>
             {{ form.reason_for_leaving_here.label_tag }} {{ form.reason_for_leaving_here }}
         </div>
-        <div>
+        <div class="form-row">
             {{ form.currently_employed.label_tag }} {{ form.currently_employed }}
         </div>
         <div>
@@ -68,13 +68,13 @@
         <div>
             {{ form.rate_of_pay_expected.label_tag }} {{ form.rate_of_pay_expected }}
         </div>
-        <div>
+        <div class="form-row">
             {{ form.ever_been_bonded.label_tag }} {{ form.ever_been_bonded }}
         </div>
         <div>
             {{ form.name_of_bonding_company.label_tag }} {{ form.name_of_bonding_company }}
         </div>
-        <div>
+        <div class="form-row">
             {{ form.unable_perform.label_tag }} {{ form.unable_perform }}
         </div>
         <div>
@@ -160,12 +160,14 @@
             {% endfor %}
             <button type="button" id="add-license">Add Another License</button>
         </div>
-        <div>
+        <div class="form-row">
             {{ form.denied_license.label_tag }} {{ form.denied_license }}
+        </div>
+        <div class="form-row">
             {{ form.suspended_license.label_tag }} {{ form.suspended_license }}
-            <div id="license-details">
-                {{ form.license_details.label_tag }} {{ form.license_details }}
-            </div>
+        </div>
+        <div id="license-details">
+            {{ form.license_details.label_tag }} {{ form.license_details }}
         </div>
     </div>
 
@@ -182,7 +184,7 @@
                 this.textContent = target.classList.contains('expanded') ? '-' : '+';
             });
         });
-        
+
         const addEmploymentHistoryButton = document.getElementById('add-employment-history');
         let employmentHistoryFormset = document.getElementById('employment-history-formset');
         let totalForms = employmentHistoryFormset.querySelector('input[name$="-TOTAL_FORMS"]');

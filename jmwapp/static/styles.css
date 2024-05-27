@@ -453,6 +453,22 @@ form div {
     margin-bottom: 15px;
 }
 
+form .form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+form .form-row label {
+    flex: 1;
+    margin-right: 10px;
+    white-space: nowrap; /* Prevent line breaks within the label */
+}
+
+form .form-row input[type="checkbox"] {
+    margin-left: auto; /* Align checkbox to the right */
+}
+
 form label {
     display: block;
     font-weight: bold;

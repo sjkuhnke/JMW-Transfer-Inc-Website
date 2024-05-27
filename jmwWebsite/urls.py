@@ -19,7 +19,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from jmwapp import views
-from jmwapp.views import job_application_view
+from jmwapp.views import download_application, JobApplicationView
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path('jobs/', views.jobs, name='jobs'),
     path('trailer-types/', views.trailer_types, name='trailer_types'),
-    path('job-application/', job_application_view, name='job_application'),
+    path('job-application/', JobApplicationView.as_view(), name='job_application'),
     path('application-success/', TemplateView.as_view(template_name="application_success.html"), name='application_success'),
+    path('download-application/', download_application, name='download_application'),
 ]

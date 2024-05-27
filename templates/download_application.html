@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+<!-- templates/download_application.html-->
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>Download Application</h1>
+    <p>
+        We encourage applicants to apply online here: 
+        <a href="{% url 'job_application' %}">Online Application</a>.
+    </p>
+    <p>
+        If you prefer to apply on a paper application and email it in, you can download it below and email it to Jake at 
+        <a href="mailto:jake@jmwtransfer.com">jake@jmwtransfer.com</a>.
+    </p>
+    <div class="download-button">
+        <a href="{% static 'pdf/JMW Application.pdf' %}" class="button" download>Download Application PDF</a>
+    </div>
+    <div class="application-image">
+        <img src="{% static 'images/image8.jpg' %}" alt="Application Image">
+    </div>
+</div>
+{% endblock %}

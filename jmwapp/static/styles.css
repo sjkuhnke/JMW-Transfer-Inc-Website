@@ -370,6 +370,158 @@ body.sticky-header-padding {
     width: 100%;
 }
 
+/* Jobs Page */
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin: 0 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.facebook-feed {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.facebook-feed h2 {
+    text-align: center;
+    color: #333;
+}
+
+.fb-page {
+    display: block;
+    margin: 0 auto;
+    max-width: 1000px; /* Set a max-width that fits well within your layout */
+    width: 100%; /* Ensures it adapts to the width of the parent container */
+}
+
+/* download application page */
+.download-button {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.download-button .button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.download-button .button:hover {
+    background-color: #0056b3;
+}
+
+.application-image {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.application-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Job Application styles */
+form {
+    font-family: Book Antiqua, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#add-employment-history, #add-accident-record, #add-traffic-conviction, #add-license {
+    display: block;
+    margin: 10px 0;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-employment-history:hover, #add-accident-record:hover, #add-traffic-conviction:hover, #add-license:hover {
+    background-color: #0056b3;
+}
+
+#license-details {
+    display: none;
+}
+
+.toggle-section {
+    border: black 1px solid;
+    background-color: transparent;
+    color: #000;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-section:hover {
+    background-color: #909090;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #333;
+    margin-bottom: 20px;
+}
+
+.collapsible-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    max-height: 0;
+}
+
+.expanded {
+    max-height: 2000px;
+}
+
 /* Media Queries for Responsive Design */
 @media (max-width: 768px) {
     .site-header .container {
@@ -388,5 +540,11 @@ body.sticky-header-padding {
     nav ul li {
         margin-bottom: 10px; /* Add space between links */
         margin-right: 0; /* Remove right margin */
+    }
+
+    main {
+        max-width: 1000px;
+        margin: 225px auto 20px;
+        padding: 0 20px;
     }
 }

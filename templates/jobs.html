@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+<!-- templates/home.html -->
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>Job Opportunities at JMW Transfer, Inc.</h1>
+    
+    <div class="buttons">
+        <a href="{% url 'job_application' %}" class="button">Apply Online</a>
+        <a href="{% url 'download_application' %}" class="button">Download Application</a>
+    </div>
+
+    <div class="facebook-feed">
+        <h2>Latest Job Posts from Our Facebook Page</h2>
+        <div class="fb-page" 
+             data-href="https://www.facebook.com/profile.php?id=61550969441683" 
+             data-tabs="timeline" 
+             data-width="2000" 
+             data-height="500" 
+             data-small-header="false" 
+             data-adapt-container-width="true" 
+             data-hide-cover="false" 
+             data-show-facepile="true">
+            <blockquote cite="https://www.facebook.com/profile.php?id=61550969441683" 
+                        class="fb-xfbml-parse-ignore">
+                <a href="https://www.facebook.com/profile.php?id=61550969441683">JMW Transfer, Inc.</a>
+            </blockquote>
+        </div>
+    </div>
+</div>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" 
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v11.0"></script>
+{% endblock %}

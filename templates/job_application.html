@@ -1,11 +1,227 @@
-<!-- job_application.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Job Application</h2>
-  <form method="post">
+<h1>Job Application</h1>
+
+<form method="post" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="section-header">
+        <h2>Section 1: Name and Date</h2>
+        <button type="button" class="toggle-section" data-target="#section1-content">-</button>
+    </div>
+    <div id="section1-content" class="collapsible-content expanded">
+        {{ form.non_field_errors }}
+        <div>
+            {{ form.applicant_name.label_tag }} {{ form.applicant_name }}
+        </div>
+        <div>
+            {{ form.date_of_application.label_tag }} {{ form.date_of_application }}
+        </div>
+    </div>
+    <div class="section-header">
+        <h2>Section 2: Applicant Information</h2>
+        <button type="button" class="toggle-section" data-target="#section2-content">+</button>
+    </div>
+    <div id="section2-content" class="collapsible-content collapsed">
+        <div>
+        {{ form.position_applied_for.label_tag }} {{ form.position_applied_for }}
+        </div>
+        <div>
+            {{ form.social_security_number.label_tag }} {{ form.social_security_number }}
+        </div>
+        <div>
+            {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
+        </div>
+        <div>
+            {{ form.proof_of_age.label_tag }} {{ form.proof_of_age }}
+        </div>
+        <div>
+            {{ form.worked_here_before.label_tag }} {{ form.worked_here_before }}
+        </div>
+        <div>
+            {{ form.worked_here_location.label_tag }} {{ form.worked_here_location }}
+        </div>
+        <div>
+            {{ form.worked_here_from.label_tag }} {{ form.worked_here_from }}
+        </div>
+        <div>
+            {{ form.worked_here_to.label_tag }} {{ form.worked_here_to }}
+        </div>
+        <div>
+            {{ form.rate_of_pay.label_tag }} {{ form.rate_of_pay }}
+        </div>
+        <div>
+            {{ form.previous_position.label_tag }} {{ form.previous_position }}
+        </div>
+        <div>
+            {{ form.reason_for_leaving_here.label_tag }} {{ form.reason_for_leaving_here }}
+        </div>
+        <div>
+            {{ form.currently_employed.label_tag }} {{ form.currently_employed }}
+        </div>
+        <div>
+            {{ form.time_since_previously_employed.label_tag }} {{ form.time_since_previously_employed }}
+        </div>
+        <div>
+            {{ form.who_referred.label_tag }} {{ form.who_referred }}
+        </div>
+        <div>
+            {{ form.rate_of_pay_expected.label_tag }} {{ form.rate_of_pay_expected }}
+        </div>
+        <div>
+            {{ form.ever_been_bonded.label_tag }} {{ form.ever_been_bonded }}
+        </div>
+        <div>
+            {{ form.name_of_bonding_company.label_tag }} {{ form.name_of_bonding_company }}
+        </div>
+        <div>
+            {{ form.unable_perform.label_tag }} {{ form.unable_perform }}
+        </div>
+        <div>
+            {{ form.reason_unable_perform.label_tag }} {{ form.reason_unable_perform }}
+        </div>
+        <div>
+            {{ form.address.label_tag }} {{ form.address }}
+        </div>
+        <div>
+            {{ form.city.label_tag }} {{ form.city }}
+        </div>
+        <div>
+            {{ form.state.label_tag }} {{ form.state }}
+        </div>
+        <div>
+            {{ form.zip.label_tag }} {{ form.zip }}
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2>Section 3: Employment History</h2>
+        <button type="button" class="toggle-section" data-target="#section3-content">+</button>
+    </div>
+    <div id="section3-content" class="collapsible-content collapsed">
+        <div id="employment-history-formset">
+            {{ employment_history_formset.management_form }}
+            {% for form in employment_history_formset %}
+            <div class="employment-history-form">
+                {{ form.non_field_errors }}
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+            <button type="button" id="add-employment-history">Add Another Employment History</button>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2>Section 4: Accident Record</h2>
+        <button type="button" class="toggle-section" data-target="#section4-content">+</button>
+    </div>
+    <div id="section4-content" class="collapsible-content collapsed">
+        <div id="accident-record-formset">
+            {{ accident_record_formset.management_form }}
+            {% for form in accident_record_formset %}
+            <div class="accident-record-form">
+                {{ form.non_field_errors }}
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+            <button type="button" id="add-accident-record">Add Another Accident Record</button>
+        </div>
+    </div>
+    
+    <div class="section-header">
+        <h2>Section 5: Traffic Convictions</h2>
+        <button type="button" class="toggle-section" data-target="#section5-content">+</button>
+    </div>
+    <div id="section5-content" class="collapsible-content collapsed">
+        <div id="traffic-conviction-formset">
+            {{ traffic_conviction_formset.management_form }}
+            {% for form in traffic_conviction_formset %}
+            <div class="traffic-conviction-form">
+                {{ form.non_field_errors }}
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+            <button type="button" id="add-traffic-conviction">Add Another Traffic Conviction</button>
+        </div>
+    </div>
+    
+    <div class="section-header">
+        <h2>Section 6: License Information</h2>
+        <button type="button" class="toggle-section" data-target="#section6-content">+</button>
+    </div>
+    <div id="section6-content" class="collapsible-content collapsed">
+        <div id="license-information-formset">
+            {{ license_formset.management_form }}
+            {% for form in license_formset %}
+            <div class="license-information-form">
+                {{ form.non_field_errors }}
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+            <button type="button" id="add-license">Add Another License</button>
+        </div>
+        <div>
+            {{ form.denied_license.label_tag }} {{ form.denied_license }}
+            {{ form.suspended_license.label_tag }} {{ form.suspended_license }}
+            <div id="license-details">
+                {{ form.license_details.label_tag }} {{ form.license_details }}
+            </div>
+        </div>
+    </div>
+
     <button type="submit">Submit Application</button>
-  </form>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButtons = document.querySelectorAll('.toggle-section');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const target = document.querySelector(this.dataset.target);
+                target.classList.toggle('expanded');
+                this.textContent = target.classList.contains('expanded') ? '-' : '+';
+            });
+        });
+        
+        const addEmploymentHistoryButton = document.getElementById('add-employment-history');
+        let employmentHistoryFormset = document.getElementById('employment-history-formset');
+        let totalForms = employmentHistoryFormset.querySelector('input[name$="-TOTAL_FORMS"]');
+        let formCount = parseInt(totalForms.value);
+
+        addEmploymentHistoryButton.addEventListener('click', function() {
+            if (formCount < 5) {
+                const newForm = employmentHistoryFormset.children[1].cloneNode(true);
+                newForm.querySelectorAll('input, select, textarea').forEach(input => {
+                    const name = input.name.replace(/-\d+-/, `-${formCount}-`);
+                    const id = input.id.replace(/-\d+-/, `-${formCount}-`);
+                    input.name = name;
+                    input.id = id;
+                    input.value = '';
+                });
+                employmentHistoryFormset.insertBefore(newForm, addEmploymentHistoryButton);
+                formCount++;
+                totalForms.value = formCount.toString();
+            }
+        });
+
+        // Similar JavaScript for other dynamic sections.
+
+        // Toggle visibility of license details field
+        const deniedLicenseField = document.getElementById('denied_license');
+        const suspendedLicenseField = document.getElementById('suspended_license');
+        const licenseDetailsField = document.getElementById('license_details');
+
+        function toggleLicenseDetails() {
+            if (deniedLicenseField.checked || suspendedLicenseField.checked) {
+                licenseDetailsField.style.display = 'block';
+            } else {
+                licenseDetailsField.style.display = 'none';
+            }
+        }
+
+        deniedLicenseField.addEventListener('change', toggleLicenseDetails);
+        suspendedLicenseField.addEventListener('change', toggleLicenseDetails);
+        toggleLicenseDetails();  // Initialize on page load
+    });
+</script>
 {% endblock %}

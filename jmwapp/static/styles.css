@@ -456,10 +456,12 @@ form div {
 .monetary-field-container {
     position: relative;
     width: 100%;
+    display: flex;
+    align-items: center; /* Ensure items in the container are centered */
 }
 
 .monetary-field {
-    width: 100%;
+    flex: 1; /* Allow the input to grow and take available space */
     padding-left: 1.5em; /* Adjust left padding to make room for the dollar sign */
     box-sizing: border-box;
 }
@@ -469,7 +471,7 @@ form div {
     position: absolute;
     left: 0.6em;
     top: 50%;
-    transform: translateY(-40%);
+    transform: translateY(-40%); /* Center vertically relative to the container */
     color: #000; /* Adjust color as needed */
     pointer-events: none;
 }
@@ -504,8 +506,12 @@ form input, form select, form textarea {
     box-sizing: border-box;
 }
 
+.add-button-container {
+    display: flex;
+    justify-content: center;
+}
+
 #add-employment-history, #add-accident-record, #add-traffic-conviction, #add-license {
-    display: block;
     margin: 10px 0;
     padding: 8px 16px;
     background-color: #007BFF;
@@ -556,25 +562,54 @@ form input, form select, form textarea {
 }
 
 .expanded {
-    max-height: 2000px;
+    max-height: 10000px;
 }
 
 .toggle-section.valid {
-    background-color: green;
+    background-color: #74c874;
     color: white;
 }
 
 .toggle-section.valid:hover {
-    background-color: #165a04;
+    background-color: #33b712;
 }
 
 .toggle-section.invalid {
-    background-color: red;
+    background-color: #f36565;
     color: white;
 }
 
 .toggle-section.invalid:hover {
-    background-color: #a00e0e;
+    background-color: #e12323;
+}
+
+.employment-history-form {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.employment-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.employment-history-form h3 {
+    margin-top: 0;
+}
+
+.delete-employment-history {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.delete-employment-history:hover {
+    background-color: #d32f2f;
 }
 
 .submit-container {
@@ -586,6 +621,16 @@ form input, form select, form textarea {
 .submit-container button {
     padding: 10px 20px; /* Optional: Adjust padding for the button */
     font-size: 16px; /* Optional: Adjust font size for the button */
+}
+
+.invalid-field {
+    border: 1px solid red;
+    background-color: #fdd;
+}
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 0.2em;
 }
 
 /* Contact Us */

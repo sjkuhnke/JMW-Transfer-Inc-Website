@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+<!-- templates/job_application.html -->
+
 {% block content %}
 <div class="book-antiqua">
     <h1>Job Application</h1>
@@ -58,32 +60,36 @@
         <div class="form-row">
             {{ form.worked_here_before.label_tag }} {{ form.worked_here_before }}
         </div>
-        <div>
-            {{ form.worked_here_location.label_tag }} {{ form.worked_here_location }}
-        </div>
-        <div>
-            {{ form.worked_here_from.label_tag }} {{ form.worked_here_from }}
-        </div>
-        <div>
-            {{ form.worked_here_to.label_tag }} {{ form.worked_here_to }}
-        </div>
-        <div>
-            {{ form.rate_of_pay.label_tag }}
-            <div class="monetary-field-container">
-                {{ form.rate_of_pay }}
+        <div id="conditional-fields-1" style="display: none;">
+            <div>
+                {{ form.worked_here_location.label_tag }} {{ form.worked_here_location }}
             </div>
-        </div>
-        <div>
-            {{ form.previous_position.label_tag }} {{ form.previous_position }}
-        </div>
-        <div>
-            {{ form.reason_for_leaving_here.label_tag }} {{ form.reason_for_leaving_here }}
+            <div>
+                {{ form.worked_here_from.label_tag }} {{ form.worked_here_from }}
+            </div>
+            <div>
+                {{ form.worked_here_to.label_tag }} {{ form.worked_here_to }}
+            </div>
+            <div>
+                {{ form.rate_of_pay.label_tag }}
+                <div class="monetary-field-container">
+                    {{ form.rate_of_pay }}
+                </div>
+            </div>
+            <div>
+                {{ form.previous_position.label_tag }} {{ form.previous_position }}
+            </div>
+            <div>
+                {{ form.reason_for_leaving_here.label_tag }} {{ form.reason_for_leaving_here }}
+            </div>
         </div>
         <div class="form-row">
             {{ form.currently_employed.label_tag }} {{ form.currently_employed }}
         </div>
-        <div>
+        <div id="conditional-fields-2" style="display: none;">
+            <div>
             {{ form.time_since_previously_employed.label_tag }} {{ form.time_since_previously_employed }}
+        </div>
         </div>
         <div>
             {{ form.who_referred.label_tag }} {{ form.who_referred }}
@@ -97,8 +103,10 @@
         <div class="form-row">
             {{ form.ever_been_bonded.label_tag }} {{ form.ever_been_bonded }}
         </div>
-        <div>
+        <div id="conditional-fields-3" style="display: none;">
+            <div>
             {{ form.name_of_bonding_company.label_tag }} {{ form.name_of_bonding_company }}
+        </div>
         </div>
         <div>
             {{ form.unable_perform.label_tag }} {{ form.unable_perform }}
@@ -117,11 +125,17 @@
             {{ employment_history_formset.management_form }}
             {% for form in employment_history_formset %}
             <div class="employment-history-form">
+                <div class="employment-history-header">
+                    <h3>Employment History {{ forloop.counter }}</h3>
+                    <button type="button" class="delete-employment-history">Delete</button>
+                </div>
                 {{ form.non_field_errors }}
                 {{ form.as_p }}
             </div>
             {% endfor %}
-            <button type="button" id="add-employment-history">Add Another Employment History</button>
+            <div class="add-button-container">
+                <button type="button" id="add-employment-history">Add Another Employment History</button>
+            </div>
         </div>
     </div>
 
@@ -138,7 +152,9 @@
                 {{ form.as_p }}
             </div>
             {% endfor %}
-            <button type="button" id="add-accident-record">Add Another Accident Record</button>
+            <div class="add-button-container">
+                <button type="button" id="add-accident-record">Add Another Accident Record</button>
+            </div>
         </div>
     </div>
     
@@ -155,7 +171,9 @@
                 {{ form.as_p }}
             </div>
             {% endfor %}
-            <button type="button" id="add-traffic-conviction">Add Another Traffic Conviction</button>
+            <div class="add-button-container">
+                <button type="button" id="add-traffic-conviction">Add Another Traffic Conviction</button>
+            </div>
         </div>
     </div>
     
@@ -172,7 +190,9 @@
                 {{ form.as_p }}
             </div>
             {% endfor %}
-            <button type="button" id="add-license">Add Another License</button>
+            <div class="add-button-container">
+                <button type="button" id="add-license">Add Another License</button>
+            </div>
         </div>
         <div class="form-row">
             {{ form.denied_license.label_tag }} {{ form.denied_license }}
@@ -210,28 +230,52 @@
             let allValid = true;
             
             inputs.forEach(input => {
-                if (!input.checkValidity()) {
+                // Check if the input is mandatory
+                const isMandatory = input.hasAttribute('required') || input.closest('div[data-mandatory="true"]');
+                
+                // Check if the input is empty
+                const isEmpty = input.value.trim() === '';
+                
+                // Remove previous error message and styles
+                input.classList.remove('invalid-field');
+                const errorMessage = input.parentElement.querySelector('.error-message');
+                if (errorMessage) errorMessage.remove();
+                
+                // If the input is mandatory and empty, mark it as invalid
+                if (isMandatory && isEmpty) {
                     allValid = false;
+                    input.classList.add('invalid-field');
+                    const errorSpan = document.createElement('span');
+                    errorSpan.classList.add('error-message');
+                    errorSpan.textContent = 'This field is required';
+                    input.parentElement.appendChild(errorSpan);
+                }
+                
+                if (allValid) {
+                    button.classList.remove('invalid');
+                    button.classList.add('valid');
+                } else {
+                    button.classList.remove('valid');
+                    button.classList.add('invalid');
                 }
             });
-            
-            if (allValid) {
-                button.classList.remove('invalid');
-                button.classList.add('valid');
-            } else {
-                button.classList.remove('valid');
-                button.classList.add('invalid');
-            }
         }
 
         const addEmploymentHistoryButton = document.getElementById('add-employment-history');
         let employmentHistoryFormset = document.getElementById('employment-history-formset');
         let totalForms = employmentHistoryFormset.querySelector('input[name$="-TOTAL_FORMS"]');
         let formCount = parseInt(totalForms.value);
-
+        
+        function updateEmploymentHistoryHeaders() {
+            const headers = employmentHistoryFormset.querySelectorAll('.employment-history-form h3');
+            headers.forEach((header, index) => {
+                header.textContent = `Employment History ${index + 1}`;
+            });
+        }
+    
         addEmploymentHistoryButton.addEventListener('click', function() {
             if (formCount < 5) {
-                const newForm = employmentHistoryFormset.children[1].cloneNode(true);
+                const newForm = employmentHistoryFormset.querySelector('.employment-history-form').cloneNode(true);
                 newForm.querySelectorAll('input, select, textarea').forEach(input => {
                     const name = input.name.replace(/-\d+-/, `-${formCount}-`);
                     const id = input.id.replace(/-\d+-/, `-${formCount}-`);
@@ -239,11 +283,40 @@
                     input.id = id;
                     input.value = '';
                 });
-                employmentHistoryFormset.insertBefore(newForm, addEmploymentHistoryButton);
+                
+                // Update the subheader
+                const subheader = newForm.querySelector('h3');
+                subheader.textContent = `Employment History ${formCount + 1}`;
+                
+                // Add event listener to the delete button
+                const deleteButton = newForm.querySelector('.delete-employment-history');
+                deleteButton.addEventListener('click', function() {
+                    newForm.remove();
+                    formCount--;
+                    totalForms.value = formCount.toString();
+                    updateEmploymentHistoryHeaders();
+                });
+                
+                const container = addEmploymentHistoryButton.parentElement;
+                employmentHistoryFormset.insertBefore(newForm, container);
                 formCount++;
                 totalForms.value = formCount.toString();
             }
         });
+        
+        // Attach delete functionality to initial forms
+        const initialDeleteButtons = employmentHistoryFormset.querySelectorAll('.delete-employment-history');
+        initialDeleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                const form = event.target.closest('.employment-history-form');
+                form.remove();
+                formCount--;
+                totalForms.value = formCount.toString();
+                updateEmploymentHistoryHeaders();
+            });
+        });
+
+        updateEmploymentHistoryHeaders();
 
         // Similar JavaScript for other dynamic sections.
         
@@ -285,19 +358,6 @@
         if (ssnField) {
             ssnField.addEventListener('input', () => formatSSN(ssnField));
         }
-
-        // Toggle visibility of license details field
-        const deniedLicenseField = document.getElementById('denied_license');
-        const suspendedLicenseField = document.getElementById('suspended_license');
-        const licenseDetailsField = document.getElementById('license_details');
-
-        function toggleLicenseDetails() {
-            if (deniedLicenseField.checked || suspendedLicenseField.checked) {
-                licenseDetailsField.style.display = 'block';
-            } else {
-                licenseDetailsField.style.display = 'none';
-            }
-        }
         
         // Monetary fields script
         const monetaryFields = document.querySelectorAll('.monetary-field');
@@ -308,10 +368,53 @@
                 this.value = isNaN(value) ? '' : value;
             });
         });
-
-        deniedLicenseField.addEventListener('change', toggleLicenseDetails);
-        suspendedLicenseField.addEventListener('change', toggleLicenseDetails);
-        toggleLicenseDetails();  // Initialize on page load
+        
+        // Toggle visibility of worked here before fields
+        function toggleWorkedHereBeforeFields() {
+            const workedHereBeforeCheckbox = document.getElementById('id_worked_here_before');
+            const conditionalFields = document.getElementById('conditional-fields-1');
+            
+            if (workedHereBeforeCheckbox.checked) {
+                conditionalFields.style.display = 'block';
+            } else {
+                conditionalFields.style.display = 'none';
+            }
+        }
+        const workedHereBefore = document.getElementById('id_worked_here_before');
+        workedHereBefore.addEventListener('change', toggleWorkedHereBeforeFields);
+        
+        // Toggle visibility of currently employed fields
+        function toggleCurrentlyEmployedFields() {
+            const currentlyEmployedCheckbox = document.getElementById('id_currently_employed');
+            const conditionalFields = document.getElementById('conditional-fields-2');
+            
+            if (currentlyEmployedCheckbox.checked) {
+                conditionalFields.style.display = 'none';
+            } else {
+                conditionalFields.style.display = 'block';
+            }
+        }
+        const currentlyEmployed = document.getElementById('id_currently_employed');
+        currentlyEmployed.addEventListener('change', toggleCurrentlyEmployedFields);
+        
+        // Toggle visibility of bonded fields
+        function toggleBondedFields() {
+            const currentlyEmployedCheckbox = document.getElementById('id_ever_been_bonded');
+            const conditionalFields = document.getElementById('conditional-fields-3');
+            
+            if (currentlyEmployedCheckbox.checked) {
+                conditionalFields.style.display = 'block';
+            } else {
+                conditionalFields.style.display = 'none';
+            }
+        }
+        const bonded = document.getElementById('id_ever_been_bonded');
+        bonded.addEventListener('change', toggleBondedFields);
+    
+        // Initialize the visibility on page load
+        toggleWorkedHereBeforeFields();
+        toggleCurrentlyEmployedFields();
+        toggleBondedFields();
     });
 </script>
 {% endblock %}

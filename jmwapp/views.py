@@ -5,9 +5,6 @@ from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordF
 from .models import TrafficConviction, AccidentRecord, EmploymentHistory, License
 
 
-# Create your views here.
-
-
 def home(request):
     return render(request, 'home.html')
 

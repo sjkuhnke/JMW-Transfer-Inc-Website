@@ -25,8 +25,8 @@ class JobApplication(models.Model):
     worked_here_before = models.BooleanField(verbose_name="Have you worked here before?")
     worked_here_from = models.DateField(blank=True, null=True, verbose_name="Worked here From")
     worked_here_to = models.DateField(blank=True, null=True, verbose_name="Worked here To")
-    rate_of_pay = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Rate of Pay")
-    previous_position = models.CharField(max_length=255, verbose_name="Position")
+    rate_of_pay = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Rate of Pay", blank=True, null=True)
+    previous_position = models.CharField(max_length=255, verbose_name="Position", blank=True, null=True)
     reason_for_leaving_here = models.TextField(blank=True, null=True, verbose_name="Reason for Leaving")
     currently_employed = models.BooleanField(verbose_name="Are you currently employed?")
     time_since_previously_employed = models.CharField(max_length=255, blank=True, null=True, verbose_name="How long since last employment?")  # only if currently_employed is false

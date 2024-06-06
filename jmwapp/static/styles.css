@@ -633,6 +633,13 @@ form input, form select, form textarea {
     margin-top: 0.2em;
 }
 
+.job-border {
+    border-top: 1px double black;
+    border-bottom: 1px double black;
+    margin: 10px 0;
+    height: 2px; /* Ensure there is enough height */
+}
+
 /* Contact Us */
 .book-antiqua {
     font-family: Book Antiqua, sans-serif;

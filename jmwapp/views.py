@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
-    LicenseFormSet
+    LicenseFormSet, License2Form
 from .models import TrafficConviction, AccidentRecord, EmploymentHistory, License
 
 
@@ -36,12 +36,14 @@ class JobApplicationView(View):
         accident_record_formset = AccidentRecordFormSet()
         traffic_conviction_formset = TrafficConvictionFormSet()
         license_formset = LicenseFormSet()
+        license_2_form = License2Form()
         return render(request, 'job_application.html', {
             'form': form,
             'employment_history_formset': employment_history_formset,
             'accident_record_formset': accident_record_formset,
             'traffic_conviction_formset': traffic_conviction_formset,
-            'license_formset': license_formset
+            'license_formset': license_formset,
+            'license_2_form': license_2_form
         })
 
     def post(self, request):
@@ -50,6 +52,7 @@ class JobApplicationView(View):
         accident_record_formset = AccidentRecordFormSet(request.POST)
         traffic_conviction_formset = TrafficConvictionFormSet(request.POST)
         license_formset = LicenseFormSet(request.POST)
+        license_2_form = License2Form(request.POST)
 
         if form.is_valid() and employment_history_formset.is_valid() and accident_record_formset.is_valid() and traffic_conviction_formset.is_valid() and license_formset.is_valid():
             job_application = form.save()
@@ -76,7 +79,8 @@ class JobApplicationView(View):
             'employment_history_formset': employment_history_formset,
             'accident_record_formset': accident_record_formset,
             'traffic_conviction_formset': traffic_conviction_formset,
-            'license_formset': license_formset
+            'license_formset': license_formset,
+            'license_2_form': license_2_form
         })
 
 

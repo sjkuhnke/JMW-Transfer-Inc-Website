@@ -47,16 +47,14 @@ class EmploymentHistory(models.Model):
     employer_zip = models.CharField(max_length=5, verbose_name="Zip")
     employer_contact = models.CharField(max_length=255, verbose_name="Contact Person")
     employer_phone_number = models.CharField(max_length=255, verbose_name="Phone Number")
-    subject_to_fmcsr = models.BooleanField(verbose_name="Were you subject to the FMCSRs while employed?")
+    subject_to_fmcsr = models.BooleanField(verbose_name="Were you subject to the FMCSRs** while employed?")
     drug_alcohol_testing = models.BooleanField(verbose_name="Was your job designated as a safety-sensitive function in any DOT-regulated mode subject to the drug and alcohol testing requirements of 49 CFR part 40?")
     # Date
-    from_month = models.IntegerField(verbose_name="From Mo.")
-    from_year = models.IntegerField(verbose_name="From Yr.")
-    to_month = models.IntegerField(verbose_name="To Mo.")
-    to_year = models.IntegerField(verbose_name="To Yr.")
+    from_employer = models.IntegerField(verbose_name="From")
+    to_employer = models.IntegerField(verbose_name="To")
     position_held = models.CharField(max_length=255, verbose_name="Position Held")
     salary_wage = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Salary/Wage")
-    reason_for_leaving = models.CharField(max_length=255, verbose_name="Reason for Leaving")
+    reason_for_leaving = models.TextField(blank=True, null=True, verbose_name="Reason for Leaving")
 
 
 class AccidentRecord(models.Model):
@@ -84,6 +82,8 @@ class License(models.Model):
     license_endorsements = models.CharField(max_length=255, verbose_name="Endorsement(s)")
     license_expiration_date = models.DateField(verbose_name="Expiration Date")
 
+
+class License2(models.Model):
     denied_license = models.BooleanField(verbose_name="A. Have you ever been denied a license, permit or privilege to operate a motor vehicle?")
     suspended_license = models.BooleanField(verbose_name="B. Has any license, permit or privilege ever been suspended or revoked?")
     license_details = models.TextField(blank=True, null=True, verbose_name="If the answer to either A or B is yes, give details")  # if denied_license or suspended_license are true

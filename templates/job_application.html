@@ -24,6 +24,9 @@
         <div>
             {{ form.email_address.label_tag }} {{ form.email_address }}
         </div>
+        <p>In compliance with Federal and State equal employment opportunity laws, qualified applicants
+            are considered for all positions without regard to race, color, religion, sex, national origin, age,
+            marital status, veteran status, non-job related disability, or any other protected group status.</p>
     </div>
     <div class="section-header">
         <h2>Section 2: Applicant Information</h2>
@@ -108,6 +111,7 @@
             {{ form.name_of_bonding_company.label_tag }} {{ form.name_of_bonding_company }}
         </div>
         </div>
+        <div class="job-border"></div>
         <div>
             {{ form.unable_perform.label_tag }} {{ form.unable_perform }}
         </div>
@@ -121,6 +125,13 @@
         <button type="button" class="toggle-section" data-target="#section3-content">+</button>
     </div>
     <div id="section3-content" class="collapsible-content collapsed">
+        <p>All driver applicants to drive in interstate commerce must provide the following information on all employers
+            during the preceding 3 years. List complete mailing address, street number, city, state and zip code.</p>
+        <p>Applicants to drive a commercial motor vehicle* in intrastate or interstate commerce shall also provide an
+            additional 7 years' information on those employers for whom the applicant operated such vehicle.</p>
+        <p>(NOTE: List employers in reverse order starting with the most recent. Add another sheet as necessary.)</p>
+        <p><i>*Includes vehicles having a GVWR of 26,001 lbs. or more, vehicles designed to transport 16 or more passengers
+            (including the driver), or any size vehicle used to transport hazardous materials in a quantity requiring placarding.</i></p>
         <div id="employment-history-formset">
             {{ employment_history_formset.management_form }}
             {% for form in employment_history_formset %}
@@ -136,6 +147,11 @@
             <div class="add-button-container">
                 <button type="button" id="add-employment-history">Add Another Employment History</button>
             </div>
+            <p><i>**The Federal Motor Carrier Safety Regulations (FMCSRs) apply to anyone operating a motor vehicle on a highway in
+                interstate commerce to transport passengers or property when the vehicle:</i></p>
+            <p><i>(1) weighs or has a GVWR of 10,001 pounds or more,</i></p>
+            <p><i>(2) is designed or used to transport more than 8 passengers (including the driver), OR</i></p>
+            <p><i>(3) is of any size and is used to transport hazardous materials in a quantity requiring placarding.</i></p>
         </div>
     </div>
 
@@ -144,10 +160,15 @@
         <button type="button" class="toggle-section" data-target="#section4-content">+</button>
     </div>
     <div id="section4-content" class="collapsible-content collapsed">
+        <p><strong>ACCIDENT RECORD</strong> for the past 3 years or more</p>
         <div id="accident-record-formset">
             {{ accident_record_formset.management_form }}
             {% for form in accident_record_formset %}
-            <div class="accident-record-form">
+            <div class="employment-history-form">
+                <div class="employment-history-header">
+                    <h3>Accident Record {{ forloop.counter }}</h3>
+                    <button type="button" class="delete-employment-history">Delete</button>
+                </div>
                 {{ form.non_field_errors }}
                 {{ form.as_p }}
             </div>
@@ -194,14 +215,14 @@
                 <button type="button" id="add-license">Add Another License</button>
             </div>
         </div>
-        <div class="form-row">
-            {{ form.denied_license.label_tag }} {{ form.denied_license }}
+        <div>
+            {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }}
         </div>
-        <div class="form-row">
-            {{ form.suspended_license.label_tag }} {{ form.suspended_license }}
+        <div>
+            {{ license_2_form.suspended_license.label_tag }} {{ license_2_form.suspended_license }}
         </div>
-        <div id="license-details">
-            {{ form.license_details.label_tag }} {{ form.license_details }}
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }}
         </div>
     </div>
 
@@ -272,6 +293,24 @@
                 header.textContent = `Employment History ${index + 1}`;
             });
         }
+        
+        function updateAddButtonVisibility() {
+            if (formCount >= 5) {
+                addEmploymentHistoryButton.style.display = 'none';
+            } else {
+                addEmploymentHistoryButton.style.display = 'block';
+            }
+        }
+        
+        function updateFirstDeleteButtonVisibility() {
+            const firstDeleteButton = employmentHistoryFormset.querySelector('.employment-history-form .delete-employment-history');
+            
+            if (formCount === 1) {
+                firstDeleteButton.style.display = 'none';
+            } else {
+                firstDeleteButton.style.display = 'block';
+            }
+        }
     
         addEmploymentHistoryButton.addEventListener('click', function() {
             if (formCount < 5) {
@@ -290,33 +329,42 @@
                 
                 // Add event listener to the delete button
                 const deleteButton = newForm.querySelector('.delete-employment-history');
+                deleteButton.style.display = 'block';
                 deleteButton.addEventListener('click', function() {
                     newForm.remove();
                     formCount--;
                     totalForms.value = formCount.toString();
                     updateEmploymentHistoryHeaders();
+                    updateAddButtonVisibility();
+                    updateFirstDeleteButtonVisibility();
                 });
                 
                 const container = addEmploymentHistoryButton.parentElement;
                 employmentHistoryFormset.insertBefore(newForm, container);
                 formCount++;
                 totalForms.value = formCount.toString();
+                updateAddButtonVisibility();
+                updateFirstDeleteButtonVisibility();
             }
         });
         
         // Attach delete functionality to initial forms
         const initialDeleteButtons = employmentHistoryFormset.querySelectorAll('.delete-employment-history');
-        initialDeleteButtons.forEach(button => {
+        initialDeleteButtons.forEach((button, index) => {
             button.addEventListener('click', function(event) {
                 const form = event.target.closest('.employment-history-form');
                 form.remove();
                 formCount--;
                 totalForms.value = formCount.toString();
                 updateEmploymentHistoryHeaders();
+                updateAddButtonVisibility();
+                updateFirstDeleteButtonVisibility();
             });
         });
 
         updateEmploymentHistoryHeaders();
+        updateAddButtonVisibility();
+        updateFirstDeleteButtonVisibility();
 
         // Similar JavaScript for other dynamic sections.
         

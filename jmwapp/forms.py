@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import formset_factory, modelformset_factory
-from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License
+from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License, License2
 
 
 class JobApplicationForm(forms.ModelForm):
@@ -26,9 +26,13 @@ class EmploymentHistoryForm(forms.ModelForm):
         fields = [
             'employer_name', 'employer_address', 'employer_city', 'employer_state',
             'employer_zip', 'employer_contact', 'employer_phone_number', 'subject_to_fmcsr',
-            'drug_alcohol_testing', 'from_month', 'from_year', 'to_month', 'to_year',
+            'drug_alcohol_testing', 'from_employer', 'to_employer',
             'position_held', 'salary_wage', 'reason_for_leaving'
         ]
+        widgets = {
+            'from_employer': forms.DateInput(attrs={'type': 'date'}),
+            'to_employer': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 EmploymentHistoryFormSet = formset_factory(EmploymentHistoryForm, extra=1, max_num=5)
@@ -41,6 +45,9 @@ class AccidentRecordForm(forms.ModelForm):
             'last_accident_date', 'last_accident_nature', 'last_accident_fatalities', 'last_accident_injuries',
             'last_accident_spill'
         ]
+        widgets = {
+            'last_accident_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 AccidentRecordFormSet = formset_factory(AccidentRecordForm, extra=1, max_num=3)
@@ -52,6 +59,9 @@ class TrafficConvictionForm(forms.ModelForm):
         fields = [
             'conviction_location', 'conviction_date', 'conviction_charge', 'conviction_penalty'
         ]
+        widgets = {
+            'conviction_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 TrafficConvictionFormSet = formset_factory(TrafficConvictionForm, extra=1, max_num=3)
@@ -62,8 +72,18 @@ class LicenseForm(forms.ModelForm):
         model = License
         fields = [
             'license_state', 'license_number', 'license_class', 'license_endorsements', 'license_expiration_date',
-            'denied_license', 'suspended_license', 'license_details'
         ]
+        widgets = {
+            'license_expiration_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 LicenseFormSet = formset_factory(LicenseForm, extra=1, max_num=4)
+
+
+class License2Form(forms.ModelForm):
+    class Meta:
+        model = License2
+        fields = [
+            'denied_license', 'suspended_license', 'license_details'
+        ]

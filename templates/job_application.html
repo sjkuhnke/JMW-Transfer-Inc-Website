@@ -129,7 +129,7 @@
             during the preceding 3 years. List complete mailing address, street number, city, state and zip code.</p>
         <p>Applicants to drive a commercial motor vehicle* in intrastate or interstate commerce shall also provide an
             additional 7 years' information on those employers for whom the applicant operated such vehicle.</p>
-        <p>(NOTE: List employers in reverse order starting with the most recent. Add another sheet as necessary.)</p>
+        <p>(NOTE: List employers in reverse order starting with the most recent.)</p>
         <p><i>*Includes vehicles having a GVWR of 26,001 lbs. or more, vehicles designed to transport 16 or more passengers
             (including the driver), or any size vehicle used to transport hazardous materials in a quantity requiring placarding.</i></p>
         <div id="employment-history-formset">
@@ -160,7 +160,7 @@
         <button type="button" class="toggle-section" data-target="#section4-content">+</button>
     </div>
     <div id="section4-content" class="collapsible-content collapsed">
-        <p><strong>ACCIDENT RECORD</strong> for the past 3 years or more</p>
+        <p>Record any accidents for at least the last 3 years. If none, leave blank.</p>
         <div id="accident-record-formset">
             {{ accident_record_formset.management_form }}
             {% for form in accident_record_formset %}
@@ -187,7 +187,11 @@
         <div id="traffic-conviction-formset">
             {{ traffic_conviction_formset.management_form }}
             {% for form in traffic_conviction_formset %}
-            <div class="traffic-conviction-form">
+            <div class="employment-history-form">
+                <div class="employment-history-header">
+                    <h3>Traffic Conviction {{ forloop.counter }}</h3>
+                    <button type="button" class="delete-employment-history">Delete</button>
+                </div>
                 {{ form.non_field_errors }}
                 {{ form.as_p }}
             </div>
@@ -206,7 +210,11 @@
         <div id="license-information-formset">
             {{ license_formset.management_form }}
             {% for form in license_formset %}
-            <div class="license-information-form">
+            <div class="employment-history-form">
+                <div class="employment-history-header">
+                    <h3>License {{ forloop.counter }}</h3>
+                    <button type="button" class="delete-employment-history">Delete</button>
+                </div>
                 {{ form.non_field_errors }}
                 {{ form.as_p }}
             </div>
@@ -223,6 +231,72 @@
         </div>
         <div>
             {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }}
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2>Section 7: Driving Experience</h2>
+        <button type="button" class="toggle-section" data-target="#section7-content">+</button>
+    </div>
+    <div id="section7-content" class="collapsible-content collapsed">
+        <div id="driving-experience-formset">
+            
+        </div>
+        <div>
+            {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }} <!-- Change to states operated -->
+        </div>
+        <div>
+            {{ license_2_form.suspended_license.label_tag }} {{ license_2_form.suspended_license }} <!-- Change to special courses -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to safe driving awards -->
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2>Section 8: Experience and Qualifications</h2>
+        <button type="button" class="toggle-section" data-target="#section8-content">+</button>
+    </div>
+    <div id="section8-content" class="collapsible-content collapsed">
+        <div>
+            {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }} <!-- Change to trucking experience -->
+        </div>
+        <div>
+            {{ license_2_form.suspended_license.label_tag }} {{ license_2_form.suspended_license }} <!-- Change to courses other -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to special equipment -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to highest grade completed -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to high school -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to college -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to last school attended name -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to last school attended city -->
+        </div>
+        <div>
+            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to last school attended state -->
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2>Section 9: Applicant Signature</h2>
+        <button type="button" class="toggle-section" data-target="#section9-content">+</button>
+    </div>
+    <div id="section9-content" class="collapsible-content collapsed">
+        <div>
+            {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }}
+        </div>
+        <div>
+            {{ license_2_form.suspended_license.label_tag }} {{ license_2_form.suspended_license }}
         </div>
     </div>
 
@@ -281,92 +355,123 @@
                 }
             });
         }
+        
+        const formsetConfigs = [
+            {
+                addButtonId: 'add-employment-history',
+                formsetId: 'employment-history-formset',
+                formClass: 'employment-history-form',
+                headerText: 'Employment History',
+                maxForms: 5,
+            },
+            {
+                addButtonId: 'add-accident-record',
+                formsetId: 'accident-record-formset',
+                formClass: 'employment-history-form',
+                headerText: 'Accident Record',
+                maxForms: 5,
+            },
+            {
+                addButtonId: 'add-traffic-conviction',
+                formsetId: 'traffic-conviction-formset',
+                formClass: 'employment-history-form',
+                headerText: 'Traffic Conviction',
+                maxForms: 5,
+            },
+            {
+                addButtonId: 'add-license',
+                formsetId: 'license-information-formset',
+                formClass: 'employment-history-form',
+                headerText: 'License',
+                maxForms: 5,
+            }
+        ];
+        
+        formsetConfigs.forEach(config => {
+            initializeFormset(config);
+        });
 
-        const addEmploymentHistoryButton = document.getElementById('add-employment-history');
-        let employmentHistoryFormset = document.getElementById('employment-history-formset');
-        let totalForms = employmentHistoryFormset.querySelector('input[name$="-TOTAL_FORMS"]');
-        let formCount = parseInt(totalForms.value);
-        
-        function updateEmploymentHistoryHeaders() {
-            const headers = employmentHistoryFormset.querySelectorAll('.employment-history-form h3');
-            headers.forEach((header, index) => {
-                header.textContent = `Employment History ${index + 1}`;
-            });
-        }
-        
-        function updateAddButtonVisibility() {
-            if (formCount >= 5) {
-                addEmploymentHistoryButton.style.display = 'none';
-            } else {
-                addEmploymentHistoryButton.style.display = 'block';
-            }
-        }
-        
-        function updateFirstDeleteButtonVisibility() {
-            const firstDeleteButton = employmentHistoryFormset.querySelector('.employment-history-form .delete-employment-history');
-            
-            if (formCount === 1) {
-                firstDeleteButton.style.display = 'none';
-            } else {
-                firstDeleteButton.style.display = 'block';
-            }
-        }
+        function initializeFormset(config) {
+            const addButton = document.getElementById(config.addButtonId);
+            const formset = document.getElementById(config.formsetId);
+            let totalForms = formset.querySelector('input[name$="-TOTAL_FORMS"]');
+            let formCount = parseInt(totalForms.value);
     
-        addEmploymentHistoryButton.addEventListener('click', function() {
-            if (formCount < 5) {
-                const newForm = employmentHistoryFormset.querySelector('.employment-history-form').cloneNode(true);
-                newForm.querySelectorAll('input, select, textarea').forEach(input => {
-                    const name = input.name.replace(/-\d+-/, `-${formCount}-`);
-                    const id = input.id.replace(/-\d+-/, `-${formCount}-`);
-                    input.name = name;
-                    input.id = id;
-                    input.value = '';
+            function updateHeaders() {
+                const headers = formset.querySelectorAll(`.${config.formClass} h3`);
+                headers.forEach((header, index) => {
+                    header.textContent = `${config.headerText} ${index + 1}`;
                 });
-                
-                // Update the subheader
-                const subheader = newForm.querySelector('h3');
-                subheader.textContent = `Employment History ${formCount + 1}`;
-                
-                // Add event listener to the delete button
-                const deleteButton = newForm.querySelector('.delete-employment-history');
-                deleteButton.style.display = 'block';
-                deleteButton.addEventListener('click', function() {
-                    newForm.remove();
+            }
+    
+            function updateAddButtonVisibility() {
+                if (formCount >= config.maxForms) {
+                    addButton.style.display = 'none';
+                } else {
+                    addButton.style.display = 'block';
+                }
+            }
+    
+            function updateFirstDeleteButtonVisibility() {
+                const firstDeleteButton = formset.querySelector(`.${config.formClass} .delete-employment-history`);
+                if (formCount === 1) {
+                    firstDeleteButton.style.display = 'none';
+                } else {
+                    firstDeleteButton.style.display = 'block';
+                }
+            }
+    
+            addButton.addEventListener('click', function() {
+                if (formCount < config.maxForms) {
+                    const newForm = formset.querySelector(`.${config.formClass}`).cloneNode(true);
+                    newForm.querySelectorAll('input, select, textarea').forEach(input => {
+                        const name = input.name.replace(/-\d+-/, `-${formCount}-`);
+                        const id = input.id.replace(/-\d+-/, `-${formCount}-`);
+                        input.name = name;
+                        input.id = id;
+                        input.value = '';
+                    });
+    
+                    const subheader = newForm.querySelector('h3');
+                    subheader.textContent = `${config.headerText} ${formCount + 1}`;
+    
+                    const deleteButton = newForm.querySelector('.delete-employment-history');
+                    deleteButton.style.display = 'block';
+                    deleteButton.addEventListener('click', function() {
+                        newForm.remove();
+                        formCount--;
+                        totalForms.value = formCount.toString();
+                        updateHeaders();
+                        updateAddButtonVisibility();
+                        updateFirstDeleteButtonVisibility();
+                    });
+    
+                    const container = addButton.parentElement;
+                    formset.insertBefore(newForm, container);
+                    formCount++;
+                    totalForms.value = formCount.toString();
+                    updateAddButtonVisibility();
+                    updateFirstDeleteButtonVisibility();
+                }
+            });
+    
+            const initialDeleteButtons = formset.querySelectorAll('.delete-employment-history');
+            initialDeleteButtons.forEach((button, index) => {
+                button.addEventListener('click', function(event) {
+                    const form = event.target.closest(`.${config.formClass}`);
+                    form.remove();
                     formCount--;
                     totalForms.value = formCount.toString();
-                    updateEmploymentHistoryHeaders();
+                    updateHeaders();
                     updateAddButtonVisibility();
                     updateFirstDeleteButtonVisibility();
                 });
-                
-                const container = addEmploymentHistoryButton.parentElement;
-                employmentHistoryFormset.insertBefore(newForm, container);
-                formCount++;
-                totalForms.value = formCount.toString();
-                updateAddButtonVisibility();
-                updateFirstDeleteButtonVisibility();
-            }
-        });
-        
-        // Attach delete functionality to initial forms
-        const initialDeleteButtons = employmentHistoryFormset.querySelectorAll('.delete-employment-history');
-        initialDeleteButtons.forEach((button, index) => {
-            button.addEventListener('click', function(event) {
-                const form = event.target.closest('.employment-history-form');
-                form.remove();
-                formCount--;
-                totalForms.value = formCount.toString();
-                updateEmploymentHistoryHeaders();
-                updateAddButtonVisibility();
-                updateFirstDeleteButtonVisibility();
             });
-        });
-
-        updateEmploymentHistoryHeaders();
-        updateAddButtonVisibility();
-        updateFirstDeleteButtonVisibility();
-
-        // Similar JavaScript for other dynamic sections.
+    
+            updateHeaders();
+            updateAddButtonVisibility();
+            updateFirstDeleteButtonVisibility();
+        }
         
         // Format phone number as (123) 456-7890
         const formatPhoneNumber = (input) => {

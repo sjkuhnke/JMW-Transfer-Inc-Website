@@ -149,6 +149,6 @@ class DrivingExperience(models.Model):
     motorcoach_fifteen_to = models.DateField(verbose_name="To")
     motorcoach_fifteen_miles = models.IntegerField(verbose_name="Approximate # of Miles Total")
 
-    states_operated_in = models.TextField(blank=True, null=True, verbose_name="List States Operated In For Last 5 Years")
-    special_courses = models.TextField(blank=True, null=True, verbose_name="Show Special Courses Or Training That Will help You As a Driver")
-    safe_driving_awards = models.TextField(blank=True, null=True, verbose_name="Which Safe Driving Awards Do You Hold And From Whom?")
+    states_operated_in = models.TextField(verbose_name="List States Operated In For Last 5 Years (NONE if none)")
+    special_courses = models.TextField(verbose_name="Show Special Courses Or Training That Will help You As a Driver (NONE if none)")
+    safe_driving_awards = models.TextField(verbose_name="Which Safe Driving Awards Do You Hold And From Whom? (NONE if none)")

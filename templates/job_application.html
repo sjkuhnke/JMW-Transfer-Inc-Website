@@ -2,6 +2,8 @@
 
 <!-- templates/job_application.html -->
 
+{% load custom_filters %}
+
 {% block content %}
 <div class="book-antiqua">
     <h1>Job Application</h1>
@@ -57,11 +59,13 @@
         <div>
             {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
         </div>
-        <div class="form-row">
+        <div>
             {{ form.proof_of_age.label_tag }} {{ form.proof_of_age }}
         </div>
-        <div class="form-row">
-            {{ form.worked_here_before.label_tag }} {{ form.worked_here_before }}
+        <div class="reg-border"></div>
+        <div>
+            {{ form.worked_here_before.label_tag }}
+            {{ form.worked_here_before|attr:"data-target=#conditional-fields-1" }}
         </div>
         <div id="conditional-fields-1" style="display: none;">
             <div>
@@ -86,14 +90,17 @@
                 {{ form.reason_for_leaving_here.label_tag }} {{ form.reason_for_leaving_here }}
             </div>
         </div>
-        <div class="form-row">
-            {{ form.currently_employed.label_tag }} {{ form.currently_employed }}
+        <div class="reg-border"></div>
+        <div>
+            {{ form.currently_employed.label_tag }}
+            {{ form.currently_employed|attr:"data-target=#conditional-fields-2 data-inverse=true" }}
         </div>
-        <div id="conditional-fields-2" style="display: none;">
+        <div id="conditional-fields-2" style="display: block;">
             <div>
                 {{ form.time_since_previously_employed.label_tag }} {{ form.time_since_previously_employed }}
             </div>
         </div>
+        <div class="reg-border"></div>
         <div>
             {{ form.who_referred.label_tag }} {{ form.who_referred }}
         </div>
@@ -103,8 +110,9 @@
                 {{ form.rate_of_pay_expected }}
             </div>
         </div>
-        <div class="form-row">
-            {{ form.ever_been_bonded.label_tag }} {{ form.ever_been_bonded }}
+        <div>
+            {{ form.ever_been_bonded.label_tag }}
+            {{ form.ever_been_bonded|attr:"data-target=#conditional-fields-3" }}
         </div>
         <div id="conditional-fields-3" style="display: none;">
             <div>
@@ -242,7 +250,8 @@
         <p>Check the boxes for any that you have experience with.</p>
         <div id="driving-experience-formset" class="employment-history-form">
             <div>
-                {{ driving_experience_form.straight_truck.label_tag }} {{ driving_experience_form.straight_truck }}
+                {{ driving_experience_form.straight_truck.label_tag }}
+                {{ driving_experience_form.straight_truck|attr:"data-target=#conditional-fields-straight-truck" }}
             </div>
             <div id="conditional-fields-straight-truck" style="display: none;">
                 <div>
@@ -260,7 +269,8 @@
             </div>
             <div class="reg-border"></div>
             <div>
-                {{ driving_experience_form.tractor_semi_trailer.label_tag }} {{ driving_experience_form.tractor_semi_trailer }}
+                {{ driving_experience_form.tractor_semi_trailer.label_tag }}
+                {{ driving_experience_form.tractor_semi_trailer|attr:"data-target=#conditional-fields-tractor-semi-trailer" }}
             </div>
             <div id="conditional-fields-tractor-semi-trailer" style="display: none;">
                 <div>
@@ -278,7 +288,8 @@
             </div>
             <div class="reg-border"></div>
             <div>
-                {{ driving_experience_form.tractor_two_trailers.label_tag }} {{ driving_experience_form.tractor_two_trailers }}
+                {{ driving_experience_form.tractor_two_trailers.label_tag }}
+                {{ driving_experience_form.tractor_two_trailers|attr:"data-target=#conditional-fields-tractor-two-trailers" }}
             </div>
             <div id="conditional-fields-tractor-two-trailers" style="display: none;">
                 <div>
@@ -296,7 +307,8 @@
             </div>
             <div class="reg-border"></div>
             <div>
-                {{ driving_experience_form.tractor_three_trailers.label_tag }} {{ driving_experience_form.tractor_three_trailers }}
+                {{ driving_experience_form.tractor_three_trailers.label_tag }}
+                {{ driving_experience_form.tractor_three_trailers|attr:"data-target=#conditional-fields-tractor-three-trailers" }}
             </div>
             <div id="conditional-fields-tractor-three-trailers" style="display: none;">
                 <div>
@@ -314,7 +326,8 @@
             </div>
             <div class="reg-border"></div>
             <div>
-                {{ driving_experience_form.motorcoach_eight.label_tag }} {{ driving_experience_form.motorcoach_eight }}
+                {{ driving_experience_form.motorcoach_eight.label_tag }}
+                {{ driving_experience_form.motorcoach_eight|attr:"data-target=#conditional-fields-motorcoach-eight" }}
             </div>
             <div id="conditional-fields-motorcoach-eight" style="display: none;">
                 <div>
@@ -332,7 +345,8 @@
             </div>
             <div class="reg-border"></div>
             <div>
-                {{ driving_experience_form.motorcoach_fifteen.label_tag }} {{ driving_experience_form.motorcoach_fifteen }}
+                {{ driving_experience_form.motorcoach_fifteen.label_tag }}
+                {{ driving_experience_form.motorcoach_fifteen|attr:"data-target=#conditional-fields-motorcoach-fifteen" }}
             </div>
             <div id="conditional-fields-motorcoach-fifteen" style="display: none;">
                 <div>
@@ -400,12 +414,12 @@
     </div>
     <div id="section9-content" class="collapsible-content collapsed">
         <p><strong>TO BE READ AND SIGNED BY APPLICANT</strong></p>
-        <p>I authorize you to make such investigations and inquiries of my personal, employment, financial or medical history 
-            and other related matters as may be necessary in arriving at an employment decision. (Generally, inquiries 
-            regarding medical history will be made only if and after a conditional offer of employment has been-extended.) I hereby 
+        <p>I authorize you to make such investigations and inquiries of my personal, employment, financial or medical history
+            and other related matters as may be necessary in arriving at an employment decision. (Generally, inquiries
+            regarding medical history will be made only if and after a conditional offer of employment has been-extended.) I hereby
             release employers, schools, health care providers and other persons from all liability in responding to inquiries and releasing information in connection with my application.<br>
             In the event of employment, I understand that false or misleading information given in my application or interview(s) may result in discharge. I understand, also, that I am required to abide by all rules and regulations of the Company.</p>
-        <p>I understand that information I provide regarding current and/or previous employers may be used, and those employer(s) will be contacted, for the purpose of 
+        <p>I understand that information I provide regarding current and/or previous employers may be used, and those employer(s) will be contacted, for the purpose of
             investigating my safety performance history as required by 49 CFR 391.23(d) and (e). I understand that I have the right to:</p>
         <ul>
             <li>Review information provided by previous employers;</li>
@@ -642,105 +656,35 @@
             });
         });
         
-        // Toggle visibility of worked here before fields
-        function toggleWorkedHereBeforeFields() {
-            const workedHereBeforeCheckbox = document.getElementById('id_worked_here_before');
-            const conditionalFields = document.getElementById('conditional-fields-1');
-            
-            if (workedHereBeforeCheckbox.checked) {
-                conditionalFields.style.display = 'block';
+        function toggleConditionalFields(event) {
+            const checkbox = event.target;
+            const dataset = checkbox.dataset.target.split(' ');
+            const target = document.querySelector(dataset[0]);
+            const isInverse = dataset[1] === 'data-inverse';
+            console.log(isInverse);
+
+            if (isInverse ? !checkbox.checked : checkbox.checked) {
+                target.style.display = 'block';
+                target.querySelectorAll('input, select, textarea').forEach(element => {
+                    element.required = true;
+                });
             } else {
-                conditionalFields.style.display = 'none';
+                target.style.display = 'none';
+                target.querySelectorAll('input, select, textarea').forEach(element => {
+                    element.required = false;
+                });
             }
         }
-        const workedHereBefore = document.getElementById('id_worked_here_before');
-        workedHereBefore.addEventListener('change', toggleWorkedHereBeforeFields);
         
-        // Toggle visibility of currently employed fields
-        function toggleCurrentlyEmployedFields() {
-            const currentlyEmployedCheckbox = document.getElementById('id_currently_employed');
-            const conditionalFields = document.getElementById('conditional-fields-2');
-            
-            if (currentlyEmployedCheckbox.checked) {
-                conditionalFields.style.display = 'none';
-            } else {
-                conditionalFields.style.display = 'block';
-            }
+        function initializeConditionalFields() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][data-target]');
+            checkboxes.forEach(checkbox => {
+                toggleConditionalFields({ target: checkbox });
+                checkbox.addEventListener('change', toggleConditionalFields);
+            });
         }
-        const currentlyEmployed = document.getElementById('id_currently_employed');
-        currentlyEmployed.addEventListener('change', toggleCurrentlyEmployedFields);
         
-        // Toggle visibility of bonded fields
-        function toggleBondedFields() {
-            const currentlyEmployedCheckbox = document.getElementById('id_ever_been_bonded');
-            const conditionalFields = document.getElementById('conditional-fields-3');
-            
-            if (currentlyEmployedCheckbox.checked) {
-                conditionalFields.style.display = 'block';
-            } else {
-                conditionalFields.style.display = 'none';
-            }
-        }
-        const bonded = document.getElementById('id_ever_been_bonded');
-        bonded.addEventListener('change', toggleBondedFields);
-        
-        function toggleDrivingExperienceFields(id, check_id) {
-            const checkbox = document.getElementById(check_id);
-            const conditionalFields = document.getElementById(id);
-    
-            if (checkbox.checked) {
-                conditionalFields.style.display = 'block';
-            } else {
-                conditionalFields.style.display = 'none';
-            }
-        }
-    
-        const straight_truck_id = 'id_straight_truck';
-        const straight_truck = document.getElementById(straight_truck_id);
-        straight_truck.addEventListener('change', function() {
-            toggleDrivingExperienceFields('conditional-fields-straight-truck', straight_truck_id);
-        });
-    
-        const tractor_semi_trailer_id = 'id_tractor_semi_trailer';
-        const tractor_semi_trailer = document.getElementById(tractor_semi_trailer_id);
-        tractor_semi_trailer.addEventListener('change', function() {
-            toggleDrivingExperienceFields('conditional-fields-tractor-semi-trailer', tractor_semi_trailer_id);
-        });
-    
-        const tractor_two_trailers_id = 'id_tractor_two_trailers';
-        const tractor_two_trailers = document.getElementById(tractor_two_trailers_id);
-        tractor_two_trailers.addEventListener('change', function() {
-            toggleDrivingExperienceFields('conditional-fields-tractor-two-trailers', tractor_two_trailers_id);
-        });
-    
-        const tractor_three_trailers_id = 'id_tractor_three_trailers';
-        const tractor_three_trailers = document.getElementById(tractor_three_trailers_id);
-        tractor_three_trailers.addEventListener('change', function() {
-            toggleDrivingExperienceFields('conditional-fields-tractor-three-trailers', tractor_three_trailers_id);
-        });
-    
-        const motorcoach_eight_id = 'id_motorcoach_eight';
-        const motorcoach_eight = document.getElementById(motorcoach_eight_id);
-        motorcoach_eight.addEventListener('change', function() {
-            toggleDrivingExperienceFields('conditional-fields-motorcoach-eight', motorcoach_eight_id);
-        });
-    
-        const motorcoach_fifteen_id = 'id_motorcoach_fifteen';
-        const motorcoach_fifteen = document.getElementById(motorcoach_fifteen_id);
-        motorcoach_fifteen.addEventListener('change', function() {
-            toggleDrivingExperienceFields('conditional-fields-motorcoach-fifteen', motorcoach_fifteen_id);
-        });
-    
-        // Initialize the visibility on page load
-        toggleWorkedHereBeforeFields();
-        toggleCurrentlyEmployedFields();
-        toggleBondedFields();
-        toggleDrivingExperienceFields('conditional-fields-straight-truck', straight_truck_id);
-        toggleDrivingExperienceFields('conditional-fields-tractor-semi-trailer', tractor_semi_trailer_id);
-        toggleDrivingExperienceFields('conditional-fields-tractor-two-trailers', tractor_two_trailers_id);
-        toggleDrivingExperienceFields('conditional-fields-tractor-three-trailers', tractor_three_trailers_id);
-        toggleDrivingExperienceFields('conditional-fields-motorcoach-eight', motorcoach_eight_id);
-        toggleDrivingExperienceFields('conditional-fields-motorcoach-fifteen', motorcoach_fifteen_id);
+        initializeConditionalFields();
     });
 </script>
 {% endblock %}

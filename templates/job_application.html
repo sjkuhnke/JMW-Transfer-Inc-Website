@@ -91,8 +91,8 @@
         </div>
         <div id="conditional-fields-2" style="display: none;">
             <div>
-            {{ form.time_since_previously_employed.label_tag }} {{ form.time_since_previously_employed }}
-        </div>
+                {{ form.time_since_previously_employed.label_tag }} {{ form.time_since_previously_employed }}
+            </div>
         </div>
         <div>
             {{ form.who_referred.label_tag }} {{ form.who_referred }}
@@ -239,17 +239,124 @@
         <button type="button" class="toggle-section" data-target="#section7-content">+</button>
     </div>
     <div id="section7-content" class="collapsible-content collapsed">
-        <div id="driving-experience-formset">
-            
+        <p>Check the boxes for any that you have experience with.</p>
+        <div id="driving-experience-formset" class="employment-history-form">
+            <div>
+                {{ driving_experience_form.straight_truck.label_tag }} {{ driving_experience_form.straight_truck }}
+            </div>
+            <div id="conditional-fields-straight-truck" style="display: none;">
+                <div>
+                    {{ driving_experience_form.straight_truck_type.label_tag }} {{ driving_experience_form.straight_truck_type }}
+                </div>
+                <div>
+                    {{ driving_experience_form.straight_truck_from.label_tag }} {{ driving_experience_form.straight_truck_from }}
+                </div>
+                <div>
+                    {{ driving_experience_form.straight_truck_to.label_tag }} {{ driving_experience_form.straight_truck_to }}
+                </div>
+                <div>
+                    {{ driving_experience_form.straight_truck_miles.label_tag }} {{ driving_experience_form.straight_truck_miles }}
+                </div>
+            </div>
+            <div class="reg-border"></div>
+            <div>
+                {{ driving_experience_form.tractor_semi_trailer.label_tag }} {{ driving_experience_form.tractor_semi_trailer }}
+            </div>
+            <div id="conditional-fields-tractor-semi-trailer" style="display: none;">
+                <div>
+                    {{ driving_experience_form.tractor_semi_trailer_type.label_tag }} {{ driving_experience_form.tractor_semi_trailer_type }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_semi_trailer_from.label_tag }} {{ driving_experience_form.tractor_semi_trailer_from }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_semi_trailer_to.label_tag }} {{ driving_experience_form.tractor_semi_trailer_to }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_semi_trailer_miles.label_tag }} {{ driving_experience_form.tractor_semi_trailer_miles }}
+                </div>
+            </div>
+            <div class="reg-border"></div>
+            <div>
+                {{ driving_experience_form.tractor_two_trailers.label_tag }} {{ driving_experience_form.tractor_two_trailers }}
+            </div>
+            <div id="conditional-fields-tractor-two-trailers" style="display: none;">
+                <div>
+                    {{ driving_experience_form.tractor_two_trailers_type.label_tag }} {{ driving_experience_form.tractor_two_trailers_type }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_two_trailers_from.label_tag }} {{ driving_experience_form.tractor_two_trailers_from }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_two_trailers_to.label_tag }} {{ driving_experience_form.tractor_two_trailers_to }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_two_trailers_miles.label_tag }} {{ driving_experience_form.tractor_two_trailers_miles }}
+                </div>
+            </div>
+            <div class="reg-border"></div>
+            <div>
+                {{ driving_experience_form.tractor_three_trailers.label_tag }} {{ driving_experience_form.tractor_three_trailers }}
+            </div>
+            <div id="conditional-fields-tractor-three-trailers" style="display: none;">
+                <div>
+                    {{ driving_experience_form.tractor_three_trailers_type.label_tag }} {{ driving_experience_form.tractor_three_trailers_type }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_three_trailers_from.label_tag }} {{ driving_experience_form.tractor_three_trailers_from }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_three_trailers_to.label_tag }} {{ driving_experience_form.tractor_three_trailers_to }}
+                </div>
+                <div>
+                    {{ driving_experience_form.tractor_three_trailers_miles.label_tag }} {{ driving_experience_form.tractor_three_trailers_miles }}
+                </div>
+            </div>
+            <div class="reg-border"></div>
+            <div>
+                {{ driving_experience_form.motorcoach_eight.label_tag }} {{ driving_experience_form.motorcoach_eight }}
+            </div>
+            <div id="conditional-fields-motorcoach-eight" style="display: none;">
+                <div>
+                    {{ driving_experience_form.motorcoach_eight_type.label_tag }} {{ driving_experience_form.motorcoach_eight_type }}
+                </div>
+                <div>
+                    {{ driving_experience_form.motorcoach_eight_from.label_tag }} {{ driving_experience_form.motorcoach_eight_from }}
+                </div>
+                <div>
+                    {{ driving_experience_form.motorcoach_eight_to.label_tag }} {{ driving_experience_form.motorcoach_eight_to }}
+                </div>
+                <div>
+                    {{ driving_experience_form.motorcoach_eight_miles.label_tag }} {{ driving_experience_form.motorcoach_eight_miles }}
+                </div>
+            </div>
+            <div class="reg-border"></div>
+            <div>
+                {{ driving_experience_form.motorcoach_fifteen.label_tag }} {{ driving_experience_form.motorcoach_fifteen }}
+            </div>
+            <div id="conditional-fields-motorcoach-fifteen" style="display: none;">
+                <div>
+                    {{ driving_experience_form.motorcoach_fifteen_type.label_tag }} {{ driving_experience_form.motorcoach_fifteen_type }}
+                </div>
+                <div>
+                    {{ driving_experience_form.motorcoach_fifteen_from.label_tag }} {{ driving_experience_form.motorcoach_fifteen_from }}
+                </div>
+                <div>
+                    {{ driving_experience_form.motorcoach_fifteen_to.label_tag }} {{ driving_experience_form.motorcoach_fifteen_to }}
+                </div>
+                <div>
+                    {{ driving_experience_form.motorcoach_fifteen_miles.label_tag }} {{ driving_experience_form.motorcoach_fifteen_miles }}
+                </div>
+            </div>
         </div>
         <div>
-            {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }} <!-- Change to states operated -->
+            {{ driving_experience_form.states_operated_in.label_tag }} {{ driving_experience_form.states_operated_in }} <!-- Change to states operated -->
         </div>
         <div>
-            {{ license_2_form.suspended_license.label_tag }} {{ license_2_form.suspended_license }} <!-- Change to special courses -->
+            {{ driving_experience_form.special_courses.label_tag }} {{ driving_experience_form.special_courses }} <!-- Change to special courses -->
         </div>
         <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to safe driving awards -->
+            {{ driving_experience_form.safe_driving_awards.label_tag }} {{ driving_experience_form.safe_driving_awards }} <!-- Change to safe driving awards -->
         </div>
     </div>
 
@@ -292,6 +399,19 @@
         <button type="button" class="toggle-section" data-target="#section9-content">+</button>
     </div>
     <div id="section9-content" class="collapsible-content collapsed">
+        <p><strong>TO BE READ AND SIGNED BY APPLICANT</strong></p>
+        <p>I authorize you to make such investigations and inquiries of my personal, employment, financial or medical history 
+            and other related matters as may be necessary in arriving at an employment decision. (Generally, inquiries 
+            regarding medical history will be made only if and after a conditional offer of employment has been-extended.) I hereby 
+            release employers, schools, health care providers and other persons from all liability in responding to inquiries and releasing information in connection with my application.<br>
+            In the event of employment, I understand that false or misleading information given in my application or interview(s) may result in discharge. I understand, also, that I am required to abide by all rules and regulations of the Company.</p>
+        <p>I understand that information I provide regarding current and/or previous employers may be used, and those employer(s) will be contacted, for the purpose of 
+            investigating my safety performance history as required by 49 CFR 391.23(d) and (e). I understand that I have the right to:</p>
+        <ul>
+            <li>Review information provided by previous employers;</li>
+            <li>Have errors in the information corrected by previous employers and for those previous employers to re-send the corrected information to the prospective employer; and</li>
+            <li>Have a rebuttal statement attached to the alleged erroneous information, if the previous employer(s) and I cannot agree on the accuracy of the information.</li>
+        </ul>
         <div>
             {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }}
         </div>
@@ -563,11 +683,64 @@
         }
         const bonded = document.getElementById('id_ever_been_bonded');
         bonded.addEventListener('change', toggleBondedFields);
+        
+        function toggleDrivingExperienceFields(id, check_id) {
+            const checkbox = document.getElementById(check_id);
+            const conditionalFields = document.getElementById(id);
+    
+            if (checkbox.checked) {
+                conditionalFields.style.display = 'block';
+            } else {
+                conditionalFields.style.display = 'none';
+            }
+        }
+    
+        const straight_truck_id = 'id_straight_truck';
+        const straight_truck = document.getElementById(straight_truck_id);
+        straight_truck.addEventListener('change', function() {
+            toggleDrivingExperienceFields('conditional-fields-straight-truck', straight_truck_id);
+        });
+    
+        const tractor_semi_trailer_id = 'id_tractor_semi_trailer';
+        const tractor_semi_trailer = document.getElementById(tractor_semi_trailer_id);
+        tractor_semi_trailer.addEventListener('change', function() {
+            toggleDrivingExperienceFields('conditional-fields-tractor-semi-trailer', tractor_semi_trailer_id);
+        });
+    
+        const tractor_two_trailers_id = 'id_tractor_two_trailers';
+        const tractor_two_trailers = document.getElementById(tractor_two_trailers_id);
+        tractor_two_trailers.addEventListener('change', function() {
+            toggleDrivingExperienceFields('conditional-fields-tractor-two-trailers', tractor_two_trailers_id);
+        });
+    
+        const tractor_three_trailers_id = 'id_tractor_three_trailers';
+        const tractor_three_trailers = document.getElementById(tractor_three_trailers_id);
+        tractor_three_trailers.addEventListener('change', function() {
+            toggleDrivingExperienceFields('conditional-fields-tractor-three-trailers', tractor_three_trailers_id);
+        });
+    
+        const motorcoach_eight_id = 'id_motorcoach_eight';
+        const motorcoach_eight = document.getElementById(motorcoach_eight_id);
+        motorcoach_eight.addEventListener('change', function() {
+            toggleDrivingExperienceFields('conditional-fields-motorcoach-eight', motorcoach_eight_id);
+        });
+    
+        const motorcoach_fifteen_id = 'id_motorcoach_fifteen';
+        const motorcoach_fifteen = document.getElementById(motorcoach_fifteen_id);
+        motorcoach_fifteen.addEventListener('change', function() {
+            toggleDrivingExperienceFields('conditional-fields-motorcoach-fifteen', motorcoach_fifteen_id);
+        });
     
         // Initialize the visibility on page load
         toggleWorkedHereBeforeFields();
         toggleCurrentlyEmployedFields();
         toggleBondedFields();
+        toggleDrivingExperienceFields('conditional-fields-straight-truck', straight_truck_id);
+        toggleDrivingExperienceFields('conditional-fields-tractor-semi-trailer', tractor_semi_trailer_id);
+        toggleDrivingExperienceFields('conditional-fields-tractor-two-trailers', tractor_two_trailers_id);
+        toggleDrivingExperienceFields('conditional-fields-tractor-three-trailers', tractor_three_trailers_id);
+        toggleDrivingExperienceFields('conditional-fields-motorcoach-eight', motorcoach_eight_id);
+        toggleDrivingExperienceFields('conditional-fields-motorcoach-fifteen', motorcoach_fifteen_id);
     });
 </script>
 {% endblock %}

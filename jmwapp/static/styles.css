@@ -637,7 +637,12 @@ form input, form select, form textarea {
     border-top: 1px double black;
     border-bottom: 1px double black;
     margin: 10px 0;
-    height: 2px; /* Ensure there is enough height */
+    height: 2px;
+}
+
+.reg-border {
+    border: 1px solid #ccc;
+    margin: 10px 0;
 }
 
 /* Contact Us */

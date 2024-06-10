@@ -38,35 +38,6 @@
     </ul>
     <p>JMW Transfer, Inc. values our professional truck drivers and their safety. We hire qualified individuals with previous driving experience.</p>
     <p>At JMW Transfer, Inc., customer service is our main focus. We understand the importance of identifying and responding to each customer's unique needs. Our objective is delivering the freight entrusted to us on-time and safely.</p>
-
-    <h3>Active in the Community</h3>
-    <p>Add content about how we are active in the community and give back.</p>
-
-    <div class="about-us-slideshow-container">
-        <div class="about-us-mySlides fade">
-            <img src="{% static 'images/about-us1.jpeg' %}" alt="Community Image 1" class="featured-image">
-        </div>
-        <div class="about-us-mySlides fade">
-            <img src="{% static 'images/about-us2.jpeg' %}" alt="Community Image 2" class="featured-image">
-        </div>
-        <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            let slideIndex = 0;
-            showSlides();
-        
-            function showSlides() {
-                let slides = document.getElementsByClassName("about-us-mySlides");
-                for (let i = 0; i < slides.length; i++) {
-                    slides[i].style.display = "none";  
-                }
-                slideIndex++;
-                if (slideIndex > slides.length) {slideIndex = 1}    
-                slides[slideIndex-1].style.display = "block";  
-                setTimeout(showSlides, 3000);
-            }
-        });
-        </script>
-    </div>
 </div>
 
 {% endblock %}

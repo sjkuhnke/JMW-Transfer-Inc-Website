@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import formset_factory, modelformset_factory
-from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License, License2
+from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License, License2, \
+    DrivingExperience
 
 
 class JobApplicationForm(forms.ModelForm):
@@ -87,3 +88,40 @@ class License2Form(forms.ModelForm):
         fields = [
             'denied_license', 'suspended_license', 'license_details'
         ]
+
+
+class DrivingExperienceForm(forms.ModelForm):
+    class Meta:
+        model = DrivingExperience
+        fields = [
+            'straight_truck', 'straight_truck_type', 'straight_truck_to', 'straight_truck_from', 'straight_truck_miles',
+            'tractor_semi_trailer', 'tractor_semi_trailer_type', 'tractor_semi_trailer_from', 'tractor_semi_trailer_to',
+            'tractor_semi_trailer_miles',
+            'tractor_two_trailers', 'tractor_two_trailers_type', 'tractor_two_trailers_from', 'tractor_two_trailers_to',
+            'tractor_two_trailers_miles',
+            'tractor_three_trailers', 'tractor_three_trailers_type', 'tractor_three_trailers_from',
+            'tractor_three_trailers_to', 'tractor_three_trailers_miles',
+            'motorcoach_eight', 'motorcoach_eight_from', 'motorcoach_eight_to', 'motorcoach_eight_miles',
+            'motorcoach_fifteen', 'motorcoach_fifteen_from', 'motorcoach_fifteen_to', 'motorcoach_fifteen_miles',
+            'states_operated_in', 'special_courses', 'safe_driving_awards'
+        ]
+        widgets = {
+            'straight_truck_from': forms.DateInput(attrs={'type': 'date'}),
+            'straight_truck_to': forms.DateInput(attrs={'type': 'date'}),
+            'straight_truck_miles': forms.NumberInput(attrs={'step': '50'}),
+            'tractor_semi_trailer_from': forms.DateInput(attrs={'type': 'date'}),
+            'tractor_semi_trailer_to': forms.DateInput(attrs={'type': 'date'}),
+            'tractor_semi_trailer_miles': forms.NumberInput(attrs={'step': '50'}),
+            'tractor_two_trailers_from': forms.DateInput(attrs={'type': 'date'}),
+            'tractor_two_trailers_to': forms.DateInput(attrs={'type': 'date'}),
+            'tractor_two_trailers_miles': forms.NumberInput(attrs={'step': '50'}),
+            'tractor_three_trailers_from': forms.DateInput(attrs={'type': 'date'}),
+            'tractor_three_trailers_to': forms.DateInput(attrs={'type': 'date'}),
+            'tractor_three_trailers_miles': forms.NumberInput(attrs={'step': '50'}),
+            'motorcoach_eight_from': forms.DateInput(attrs={'type': 'date'}),
+            'motorcoach_eight_to': forms.DateInput(attrs={'type': 'date'}),
+            'motorcoach_eight_miles': forms.NumberInput(attrs={'step': '50'}),
+            'motorcoach_fifteen_from': forms.DateInput(attrs={'type': 'date'}),
+            'motorcoach_fifteen_to': forms.DateInput(attrs={'type': 'date'}),
+            'motorcoach_fifteen_miles': forms.NumberInput(attrs={'step': '50'}),
+        }

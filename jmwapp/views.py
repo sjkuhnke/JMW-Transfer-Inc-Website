@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
-    LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm
+    LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm, \
+    ApplicableCheckboxesForm
 from .models import TrafficConviction, AccidentRecord, EmploymentHistory, License
 
 
@@ -36,6 +37,7 @@ class JobApplicationView(View):
         accident_record_formset = AccidentRecordFormSet()
         traffic_conviction_formset = TrafficConvictionFormSet()
         license_formset = LicenseFormSet()
+        applicable_form = ApplicableCheckboxesForm()
         license_2_form = License2Form()
         driving_experience_form = DrivingExperienceForm()
         experience_qualifications_form = ExperienceQualificationsForm()
@@ -46,6 +48,7 @@ class JobApplicationView(View):
             'accident_record_formset': accident_record_formset,
             'traffic_conviction_formset': traffic_conviction_formset,
             'license_formset': license_formset,
+            'applicable_form': applicable_form,
             'license_2_form': license_2_form,
             'driving_experience_form': driving_experience_form,
             'experience_qualifications_form': experience_qualifications_form,
@@ -58,6 +61,7 @@ class JobApplicationView(View):
         accident_record_formset = AccidentRecordFormSet(request.POST)
         traffic_conviction_formset = TrafficConvictionFormSet(request.POST)
         license_formset = LicenseFormSet(request.POST)
+        applicable_form = ApplicableCheckboxesForm(request.POST)
         license_2_form = License2Form(request.POST)
         driving_experience_form = DrivingExperienceForm(request.POST)
         experience_qualifications_form = ExperienceQualificationsForm(request.POST)
@@ -89,6 +93,7 @@ class JobApplicationView(View):
             'accident_record_formset': accident_record_formset,
             'traffic_conviction_formset': traffic_conviction_formset,
             'license_formset': license_formset,
+            'applicable_form': applicable_form,
             'license_2_form': license_2_form,
             'driving_experience_form': driving_experience_form,
             'experience_qualifications_form': experience_qualifications_form,

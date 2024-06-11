@@ -140,6 +140,10 @@
         <p>(NOTE: List employers in reverse order starting with the most recent.)</p>
         <p><i>*Includes vehicles having a GVWR of 26,001 lbs. or more, vehicles designed to transport 16 or more passengers
             (including the driver), or any size vehicle used to transport hazardous materials in a quantity requiring placarding.</i></p>
+        <div class="form-row">
+            {{ applicable_form.employer_checkbox.label_tag }}
+            {{ applicable_form.employer_checkbox|attr:"data-target=#employment-history-formset data-inverse=true" }}
+        </div>
         <div id="employment-history-formset">
             {{ employment_history_formset.management_form }}
             {% for form in employment_history_formset %}
@@ -149,7 +153,51 @@
                     <button type="button" class="delete-employment-history">Delete</button>
                 </div>
                 {{ form.non_field_errors }}
-                {{ form.as_p }}
+                <div>
+                    {{ form.employer_name.label_tag }} {{ form.employer_name }}
+                </div>
+                <div>
+                    {{ form.employer_address.label_tag }} {{ form.employer_address }}
+                </div>
+                <div>
+                    {{ form.employer_city.label_tag }} {{ form.employer_city }}
+                </div>
+                <div>
+                    {{ form.employer_state.label_tag }} {{ form.employer_state }}
+                </div>
+                <div>
+                    {{ form.employer_zip.label_tag }} {{ form.employer_zip }}
+                </div>
+                <div>
+                    {{ form.employer_contact.label_tag }} {{ form.employer_contact }}
+                </div>
+                <div>
+                    {{ form.employer_phone_number.label_tag }} {{ form.employer_phone_number }}
+                </div>
+                <div>
+                    {{ form.subject_to_fmcsr.label_tag }} {{ form.subject_to_fmcsr }}
+                </div>
+                <div>
+                    {{ form.drug_alcohol_testing.label_tag }} {{ form.drug_alcohol_testing }}
+                </div>
+                <div>
+                    {{ form.from_employer.label_tag }} {{ form.from_employer }}
+                </div>
+                <div>
+                    {{ form.to_employer.label_tag }} {{ form.to_employer }}
+                </div>
+                <div>
+                    {{ form.position_held.label_tag }} {{ form.position_held }}
+                </div>
+                <div>
+                    {{ form.salary_wage.label_tag }}
+                    <div class="monetary-field-container">
+                        {{ form.salary_wage }}
+                    </div>
+                </div>
+                <div>
+                    {{ form.reason_for_leaving.label_tag }} {{ form.reason_for_leaving }}
+                </div>
             </div>
             {% endfor %}
             <div class="add-button-container">
@@ -168,7 +216,11 @@
         <button type="button" class="toggle-section" data-target="#section4-content">+</button>
     </div>
     <div id="section4-content" class="collapsible-content collapsed">
-        <p>Record any accidents for at least the last 3 years. If none, leave blank.</p>
+        <p>Record any accidents for at least the last 3 years. If none, check the checkbox below.</p>
+        <div class="form-row">
+            {{ applicable_form.accident_checkbox.label_tag }}
+            {{ applicable_form.accident_checkbox|attr:"data-target=#accident-record-formset data-inverse=true" }}
+        </div>
         <div id="accident-record-formset">
             {{ accident_record_formset.management_form }}
             {% for form in accident_record_formset %}
@@ -192,6 +244,10 @@
         <button type="button" class="toggle-section" data-target="#section5-content">+</button>
     </div>
     <div id="section5-content" class="collapsible-content collapsed">
+        <div class="form-row">
+            {{ applicable_form.conviction_checkbox.label_tag }}
+            {{ applicable_form.conviction_checkbox|attr:"data-target=#traffic-conviction-formset data-inverse=true" }}
+        </div>
         <div id="traffic-conviction-formset">
             {{ traffic_conviction_formset.management_form }}
             {% for form in traffic_conviction_formset %}
@@ -215,6 +271,10 @@
         <button type="button" class="toggle-section" data-target="#section6-content">+</button>
     </div>
     <div id="section6-content" class="collapsible-content collapsed">
+        <div class="form-row">
+            {{ applicable_form.license_checkbox.label_tag }}
+            {{ applicable_form.license_checkbox|attr:"data-target=#license-information-formset data-inverse=true" }}
+        </div>
         <div id="license-information-formset">
             {{ license_formset.management_form }}
             {% for form in license_formset %}
@@ -564,7 +624,7 @@
                     submitButton.parentElement.appendChild(container);
                 }
             } else {
-                console.log('success');
+                window.location.href = '/application-success';
             }
         });
         
@@ -634,6 +694,15 @@
                         updateAddButtonVisibility();
                         updateFirstDeleteButtonVisibility();
                     });
+                    
+                    newForm.querySelectorAll('input').forEach(input => {
+                       if (input.id === 'id_employer_phone_number') {
+                           input.addEventListener('input', () => formatPhoneNumber(input));
+                       }
+                       if (input.classList.contains('monetary-field')) {
+                           formatMonetaryField(input);
+                       }
+                    });
     
                     const container = addButton.parentElement;
                     formset.insertBefore(newForm, container);
@@ -689,11 +758,49 @@
                 input.value = value;
             }
         };
+        
+        function formatMonetaryField(input) {
+            input.addEventListener('input', function () {
+                let cursorPosition = this.selectionStart;
+                let value = this.value.replace(/[^0-9.]/g, '');
+                
+                const isEmpty = value === '';
+                
+                value = parseFloat(value).toFixed(2);
+                const decimalAdded = value.includes('.') && cursorPosition > value.indexOf('.');
+                
+                if (value.length > 10) {
+                    if (cursorPosition <= value.indexOf('.')) {
+                        const prev = value.substring(0, 7);
+                        const dec1 = value.charAt(7);
+                        const dec2 = value.charAt(9);
+                        console.log(cursorPosition);
+                        if (value.charAt(cursorPosition) === '.') cursorPosition++;
+                        value = prev + '.' + dec1 + dec2;
+                    } else {
+                        value = value.substring(0, 10);
+                    }
+                    cursorPosition = Math.min(cursorPosition, 10);
+                }
+                
+                this.value = isNaN(value) ? '' : value;
+                
+                if (!isEmpty && decimalAdded) {
+                    cursorPosition++;
+                }
+                
+                this.setSelectionRange(cursorPosition, cursorPosition);
+            });
+        }
     
         // Attach event listeners to the input fields
         const phoneNumberField = document.getElementById('id_phone_number');
+        const employerPhoneNumberField = document.getElementById('id_employer_phone_number');
         if (phoneNumberField) {
             phoneNumberField.addEventListener('input', () => formatPhoneNumber(phoneNumberField));
+        }
+        if (employerPhoneNumberField) {
+            employerPhoneNumberField.addEventListener('input', () => formatPhoneNumber(employerPhoneNumberField));
         }
     
         const ssnField = document.getElementById('id_social_security_number');
@@ -705,10 +812,7 @@
         const monetaryFields = document.querySelectorAll('.monetary-field');
         
         monetaryFields.forEach(field => {
-            field.addEventListener('input', function () {
-                let value = parseFloat(this.value.replace(/[^0-9.]/g, '')).toFixed(2);
-                this.value = isNaN(value) ? '' : value;
-            });
+            formatMonetaryField(field);
         });
         
         function toggleConditionalFields(event) {

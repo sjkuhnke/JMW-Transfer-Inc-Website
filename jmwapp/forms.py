@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formset_factory, modelformset_factory
 from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License, License2, \
-    DrivingExperience, ExperienceQualifications, Signature
+    DrivingExperience, ExperienceQualifications, Signature, ApplicableCheckboxes
 
 
 class JobApplicationForm(forms.ModelForm):
@@ -14,8 +14,8 @@ class JobApplicationForm(forms.ModelForm):
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
             'worked_here_from': forms.DateInput(attrs={'type': 'date'}),
             'worked_here_to': forms.DateInput(attrs={'type': 'date'}),
-            'rate_of_pay': forms.NumberInput(attrs={'step': '1.00', 'class': 'monetary-field'}),
-            'rate_of_pay_expected': forms.NumberInput(attrs={'step': '1.00', 'class': 'monetary-field'}),
+            'rate_of_pay': forms.TextInput(attrs={'step': '1.00', 'class': 'monetary-field'}),
+            'rate_of_pay_expected': forms.TextInput(attrs={'step': '1.00', 'class': 'monetary-field'}),
             'phone_number': forms.TextInput(attrs={'id': 'id_phone_number'}),
             'social_security_number': forms.TextInput(attrs={'id': 'id_social_security_number'}),
         }
@@ -33,6 +33,8 @@ class EmploymentHistoryForm(forms.ModelForm):
         widgets = {
             'from_employer': forms.DateInput(attrs={'type': 'date'}),
             'to_employer': forms.DateInput(attrs={'type': 'date'}),
+            'employer_phone_number': forms.TextInput(attrs={'id': 'id_employer_phone_number'}),
+            'salary_wage': forms.TextInput(attrs={'step': '1.00', 'class': 'monetary-field'}),
         }
 
 
@@ -80,6 +82,14 @@ class LicenseForm(forms.ModelForm):
 
 
 LicenseFormSet = formset_factory(LicenseForm, extra=1, max_num=4)
+
+
+class ApplicableCheckboxesForm(forms.ModelForm):
+    class Meta:
+        model = ApplicableCheckboxes
+        fields = [
+            'employer_checkbox', 'accident_checkbox', 'conviction_checkbox', 'license_checkbox'
+        ]
 
 
 class License2Form(forms.ModelForm):

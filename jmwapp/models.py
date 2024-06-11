@@ -113,7 +113,7 @@ class EmploymentHistory(models.Model):
     from_employer = models.IntegerField(verbose_name="From")
     to_employer = models.IntegerField(verbose_name="To")
     position_held = models.CharField(max_length=255, verbose_name="Position Held")
-    salary_wage = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Salary/Wage")
+    salary_wage = models.CharField(max_length=100, verbose_name="Salary/Wage")
     reason_for_leaving = models.TextField(blank=True, null=True, verbose_name="Reason for Leaving")
 
 
@@ -122,9 +122,9 @@ class AccidentRecord(models.Model):
     last_accident_date = models.DateField(verbose_name="Date")
     last_accident_nature = models.CharField(max_length=255,
                                             verbose_name="Nature of Accident (head-on, rear-end, upset, etc.)")
-    last_accident_fatalities = models.BooleanField(verbose_name="Fatalities?")
-    last_accident_injuries = models.BooleanField(verbose_name="Injuries?")
-    last_accident_spill = models.BooleanField(verbose_name="Hazardous material spill?")
+    last_accident_fatalities = models.BooleanField(verbose_name="Any Fatalities?")
+    last_accident_injuries = models.BooleanField(verbose_name="Any Injuries?")
+    last_accident_spill = models.BooleanField(verbose_name="Any hazardous material spill?")
 
 
 class TrafficConviction(models.Model):
@@ -151,6 +151,13 @@ class License2(models.Model):
         verbose_name="B. Has any license, permit or privilege ever been suspended or revoked?")
     license_details = models.TextField(blank=True, null=True,
                                        verbose_name="If the answer to either A or B is yes, give details")  # if denied_license or suspended_license are true
+
+
+class ApplicableCheckboxes(models.Model):
+    employer_checkbox = models.BooleanField(verbose_name="No employment history")
+    accident_checkbox = models.BooleanField(verbose_name="No accident records")
+    conviction_checkbox = models.BooleanField(verbose_name="No traffic convictions")
+    license_checkbox = models.BooleanField(verbose_name="No license information")
 
 
 class DrivingExperience(models.Model):
@@ -235,7 +242,7 @@ class ExperienceQualifications(models.Model):
     highest_grade_completed = models.CharField(max_length=20,
                                                   choices=school,
                                                   verbose_name="Select highest grade completed")
-    last_school_attended_name = models.CharField(max_length=255, verbose_name="Name")
+    last_school_attended_name = models.CharField(max_length=255, verbose_name="Name of School")
     last_school_attended_city = models.CharField(max_length=255, verbose_name="City")
     last_school_attended_state = models.CharField(max_length=100, choices=states, verbose_name="State")
 

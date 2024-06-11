@@ -439,6 +439,33 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        function saveFormData(form) {
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+               const name = input.name;
+               const value = input.value;
+               if (name) {
+                   localStorage.setItem(name, value);
+               }
+            });
+        }
+        
+        function loadFormData(form) {
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                const name = input.name;
+                if (name && localStorage.getItem(name) !== null) {
+                    input.value = localStorage.getItem(name);
+                }
+            });
+        }
+        
+        document.querySelectorAll('form').forEach(form => {
+           form.addEventListener('input', () => saveFormData(form));
+           loadFormData(form);
+        });
+        
+        
         const toggleButtons = document.querySelectorAll('.toggle-section');
     
         toggleButtons.forEach(button => {
@@ -504,25 +531,38 @@
                 const valid = validateSection(target, button);
                 target.classList.remove('expanded');
                 target.classList.add('collapsed');
+                button.textContent = '+';
                 if (!valid) {
                     allSectionsValid = false;
                     if (!firstInvalidSection) {
                         firstInvalidSection = target;
                         firstInvalidField = target.querySelector('.invalid-field');
+                        button.textContent = '-';
                     }
                 }
             });
             
             if (!allSectionsValid) {
                 firstInvalidSection.classList.add('expanded');
-            
+                
                 if (firstInvalidField) {
-                    firstInvalidField.scrollIntoView({block: 'end'});
+                    setTimeout(() => {
+                        firstInvalidField.scrollIntoView({block: 'center'});
+                    }, 200);
                 }
                 
-                const errorMessage = document.createElement('div');
-                errorMessage.textContent = 'Please fill out all required fields.';
-                submitButton.parentElement.appendChild(errorMessage);
+                const existingErrorMessage = document.querySelector('.error-container');
+                if (!existingErrorMessage) {
+                    const container = document.createElement('div');
+                    container.classList.add('error-container');
+                    
+                    const errorMessage = document.createElement('div');
+                    errorMessage.textContent = 'Please fill out all required fields.';
+                    errorMessage.classList.add('submit-error-message');
+                    container.appendChild(errorMessage);
+                    
+                    submitButton.parentElement.appendChild(container);
+                }
             } else {
                 console.log('success');
             }

@@ -450,7 +450,7 @@ form {
 }
 
 form div {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .monetary-field-container {
@@ -614,13 +614,14 @@ form input, form select, form textarea {
 
 .submit-container {
     display: flex;
-    justify-content: center;
-    margin-top: 20px; /* Optional: Add some space above the button */
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
 .submit-container button {
-    padding: 10px 20px; /* Optional: Adjust padding for the button */
-    font-size: 16px; /* Optional: Adjust font size for the button */
+    padding: 10px 20px;
+    font-size: 16px;
 }
 
 .invalid-field {
@@ -631,6 +632,16 @@ form input, form select, form textarea {
     color: red;
     font-size: 0.9em;
     margin-top: 0.2em;
+}
+
+.submit-error-message {
+    color: red;
+    font-size: 1.4em;
+}
+
+.error-container {
+    text-align: center;
+    margin-top: 10px;
 }
 
 .job-border {

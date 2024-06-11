@@ -1,6 +1,61 @@
 from django.db import models
 
 
+states = [
+    ('AK', 'Alaska'),
+    ('AL', 'Alabama'),
+    ('AZ', 'Arizona'),
+    ('AR', 'Arkansas'),
+    ('CA', 'California'),
+    ('CO', 'Colorado'),
+    ('CT', 'Connecticut'),
+    ('DE', 'Delaware'),
+    ('DC', 'District of Columbia'),
+    ('FL', 'Florida'),
+    ('GA', 'Georgia'),
+    ('HI', 'Hawaii'),
+    ('ID', 'Idaho'),
+    ('IL', 'Illinois'),
+    ('IN', 'Indiana'),
+    ('IA', 'Iowa'),
+    ('KS', 'Kansas'),
+    ('KY', 'Kentucky'),
+    ('LA', 'Louisiana'),
+    ('ME', 'Maine'),
+    ('MD', 'Maryland'),
+    ('MA', 'Massachusetts'),
+    ('MI', 'Michigan'),
+    ('MN', 'Minnesota'),
+    ('MS', 'Mississippi'),
+    ('MO', 'Missouri'),
+    ('MT', 'Montana'),
+    ('NE', 'Nebraska'),
+    ('NV', 'Nevada'),
+    ('NH', 'New Hampshire'),
+    ('NJ', 'New Jersey'),
+    ('NM', 'New Mexico'),
+    ('NY', 'New York'),
+    ('NC', 'North Carolina'),
+    ('ND', 'North Dakota'),
+    ('OH', 'Ohio'),
+    ('OK', 'Oklahoma'),
+    ('OR', 'Oregon'),
+    ('PA', 'Pennsylvania'),
+    ('RI', 'Rhode Island'),
+    ('SC', 'South Carolina'),
+    ('SD', 'South Dakota'),
+    ('TN', 'Tennessee'),
+    ('TX', 'Texas'),
+    ('UT', 'Utah'),
+    ('VT', 'Vermont'),
+    ('VA', 'Virginia'),
+    ('WA', 'Washington'),
+    ('WV', 'West Virginia'),
+    ('WI', 'Wisconsin'),
+    ('WY', 'Wyoming')
+]
+
+
 class JobApplication(models.Model):
     # Top of application
     applicant_name = models.CharField(max_length=255, verbose_name="Applicant Name")
@@ -14,7 +69,7 @@ class JobApplication(models.Model):
     # Current address
     address = models.CharField(max_length=255, verbose_name="Current Address")
     city = models.CharField(max_length=255, verbose_name="City")
-    state = models.CharField(max_length=2, verbose_name="State")
+    state = models.CharField(max_length=100, choices=states, verbose_name="State")
     zip = models.CharField(max_length=5, verbose_name="Zip Code")
     phone_number = models.CharField(max_length=14, verbose_name="Phone Number")
     time_living = models.DurationField(verbose_name="How Long? (yr./mo.)")
@@ -47,7 +102,7 @@ class EmploymentHistory(models.Model):
     employer_name = models.CharField(max_length=255, verbose_name="Employer Name")
     employer_address = models.CharField(max_length=255, verbose_name="Address")
     employer_city = models.CharField(max_length=255, verbose_name="City")
-    employer_state = models.CharField(max_length=2, verbose_name="State")
+    employer_state = models.CharField(max_length=100, choices=states, verbose_name="State")
     employer_zip = models.CharField(max_length=5, verbose_name="Zip")
     employer_contact = models.CharField(max_length=255, verbose_name="Contact Person")
     employer_phone_number = models.CharField(max_length=255, verbose_name="Phone Number")
@@ -82,7 +137,7 @@ class TrafficConviction(models.Model):
 
 class License(models.Model):
     # Experience and Qualifications
-    license_state = models.CharField(max_length=2, verbose_name="State")
+    license_state = models.CharField(max_length=100, choices=states, verbose_name="State")
     license_number = models.CharField(max_length=15, verbose_name="License No.")
     license_class = models.CharField(max_length=10, verbose_name="Class")
     license_endorsements = models.CharField(max_length=255, verbose_name="Endorsement(s)")
@@ -152,3 +207,39 @@ class DrivingExperience(models.Model):
     states_operated_in = models.TextField(verbose_name="List States Operated In For Last 5 Years (NONE if none)")
     special_courses = models.TextField(verbose_name="Show Special Courses Or Training That Will help You As a Driver (NONE if none)")
     safe_driving_awards = models.TextField(verbose_name="Which Safe Driving Awards Do You Hold And From Whom? (NONE if none)")
+
+
+class ExperienceQualifications(models.Model):
+    school = [
+        (1, 'Grade 1'),
+        (2, 'Grade 2'),
+        (3, 'Grade 3'),
+        (4, 'Grade 4'),
+        (5, 'Grade 5'),
+        (6, 'Grade 6'),
+        (7, 'Grade 7'),
+        (8, 'Grade 8'),
+        (9, '1st Year High School'),
+        (10, '2nd Year High School'),
+        (11, '3rd Year High School'),
+        (12, '4th Year High School'),
+        (13, '1st Year College'),
+        (14, '2nd Year College'),
+        (15, '3rd Year College'),
+        (16, '4th Year College'),
+    ]
+
+    trucking_experience = models.TextField(verbose_name="Show any trucking, transportation, or other experience that may help in your work for this company")
+    courses_other = models.TextField(verbose_name="List courses and training other than shown elsewhere in this application")
+    special_equipment = models.TextField(verbose_name="List special equipment or technical materials you can work with (other than those already shown)")
+    highest_grade_completed = models.CharField(max_length=20,
+                                                  choices=school,
+                                                  verbose_name="Select highest grade completed")
+    last_school_attended_name = models.CharField(max_length=255, verbose_name="Name")
+    last_school_attended_city = models.CharField(max_length=255, verbose_name="City")
+    last_school_attended_state = models.CharField(max_length=100, choices=states, verbose_name="State")
+
+
+class Signature(models.Model):
+    signature = models.CharField(max_length=255, verbose_name="Signature")
+    date = models.DateField(verbose_name="Date")

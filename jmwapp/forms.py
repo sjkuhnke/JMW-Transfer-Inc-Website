@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formset_factory, modelformset_factory
 from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License, License2, \
-    DrivingExperience
+    DrivingExperience, ExperienceQualifications, Signature
 
 
 class JobApplicationForm(forms.ModelForm):
@@ -124,4 +124,24 @@ class DrivingExperienceForm(forms.ModelForm):
             'motorcoach_fifteen_from': forms.DateInput(attrs={'type': 'date'}),
             'motorcoach_fifteen_to': forms.DateInput(attrs={'type': 'date'}),
             'motorcoach_fifteen_miles': forms.NumberInput(attrs={'step': '50'}),
+        }
+
+
+class ExperienceQualificationsForm(forms.ModelForm):
+    class Meta:
+        model = ExperienceQualifications
+        fields = [
+            'trucking_experience', 'courses_other', 'special_equipment', 'highest_grade_completed',
+            'last_school_attended_name', 'last_school_attended_city', 'last_school_attended_state'
+        ]
+
+
+class SignatureForm(forms.ModelForm):
+    class Meta:
+        model = Signature
+        fields = [
+            'signature', 'date'
+        ]
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'})
         }

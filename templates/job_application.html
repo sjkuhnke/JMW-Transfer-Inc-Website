@@ -364,13 +364,13 @@
             </div>
         </div>
         <div>
-            {{ driving_experience_form.states_operated_in.label_tag }} {{ driving_experience_form.states_operated_in }} <!-- Change to states operated -->
+            {{ driving_experience_form.states_operated_in.label_tag }} {{ driving_experience_form.states_operated_in }}
         </div>
         <div>
-            {{ driving_experience_form.special_courses.label_tag }} {{ driving_experience_form.special_courses }} <!-- Change to special courses -->
+            {{ driving_experience_form.special_courses.label_tag }} {{ driving_experience_form.special_courses }}
         </div>
         <div>
-            {{ driving_experience_form.safe_driving_awards.label_tag }} {{ driving_experience_form.safe_driving_awards }} <!-- Change to safe driving awards -->
+            {{ driving_experience_form.safe_driving_awards.label_tag }} {{ driving_experience_form.safe_driving_awards }}
         </div>
     </div>
 
@@ -380,31 +380,27 @@
     </div>
     <div id="section8-content" class="collapsible-content collapsed">
         <div>
-            {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }} <!-- Change to trucking experience -->
+            {{ experience_qualifications_form.trucking_experience.label_tag }} {{ experience_qualifications_form.trucking_experience }} <!-- Change to trucking experience -->
         </div>
         <div>
-            {{ license_2_form.suspended_license.label_tag }} {{ license_2_form.suspended_license }} <!-- Change to courses other -->
+            {{ experience_qualifications_form.courses_other.label_tag }} {{ experience_qualifications_form.courses_other }}
         </div>
         <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to special equipment -->
+            {{ experience_qualifications_form.special_equipment.label_tag }} {{ experience_qualifications_form.special_equipment }}
         </div>
         <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to highest grade completed -->
+            {{ experience_qualifications_form.highest_grade_completed.label_tag }} {{ experience_qualifications_form.highest_grade_completed }}
+        </div>
+        <div class="reg-border"></div>
+        <p>Last School Attended:</p>
+        <div>
+            {{ experience_qualifications_form.last_school_attended_name.label_tag }} {{ experience_qualifications_form.last_school_attended_name }}
         </div>
         <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to high school -->
+            {{ experience_qualifications_form.last_school_attended_city.label_tag }} {{ experience_qualifications_form.last_school_attended_city }}
         </div>
         <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to college -->
-        </div>
-        <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to last school attended name -->
-        </div>
-        <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to last school attended city -->
-        </div>
-        <div>
-            {{ license_2_form.license_details.label_tag }} {{ license_2_form.license_details }} <!-- Change to last school attended state -->
+            {{ experience_qualifications_form.last_school_attended_state.label_tag }} {{ experience_qualifications_form.last_school_attended_state }}
         </div>
     </div>
 
@@ -426,11 +422,13 @@
             <li>Have errors in the information corrected by previous employers and for those previous employers to re-send the corrected information to the prospective employer; and</li>
             <li>Have a rebuttal statement attached to the alleged erroneous information, if the previous employer(s) and I cannot agree on the accuracy of the information.</li>
         </ul>
+        <div class="reg-border"></div>
+        <p>This certifies that this application was completed by me, and that all entries on it and information in it are true and complete to the best of my knowledge.</p>
         <div>
-            {{ license_2_form.denied_license.label_tag }} {{ license_2_form.denied_license }}
+            {{ signature_form.signature.label_tag }} {{ signature_form.signature }}
         </div>
         <div>
-            {{ license_2_form.suspended_license.label_tag }} {{ license_2_form.suspended_license }}
+            {{ signature_form.date.label_tag }} {{ signature_form.date }}
         </div>
     </div>
 
@@ -490,35 +488,12 @@
             });
         }
         
+        // Formset management
         const formsetConfigs = [
-            {
-                addButtonId: 'add-employment-history',
-                formsetId: 'employment-history-formset',
-                formClass: 'employment-history-form',
-                headerText: 'Employment History',
-                maxForms: 5,
-            },
-            {
-                addButtonId: 'add-accident-record',
-                formsetId: 'accident-record-formset',
-                formClass: 'employment-history-form',
-                headerText: 'Accident Record',
-                maxForms: 5,
-            },
-            {
-                addButtonId: 'add-traffic-conviction',
-                formsetId: 'traffic-conviction-formset',
-                formClass: 'employment-history-form',
-                headerText: 'Traffic Conviction',
-                maxForms: 5,
-            },
-            {
-                addButtonId: 'add-license',
-                formsetId: 'license-information-formset',
-                formClass: 'employment-history-form',
-                headerText: 'License',
-                maxForms: 5,
-            }
+            { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', formClass: 'employment-history-form', headerText: 'Employment History', maxForms: 5 },
+            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', formClass: 'employment-history-form', headerText: 'Accident Record', maxForms: 5 },
+            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', formClass: 'employment-history-form', headerText: 'Traffic Conviction', maxForms: 5 },
+            { addButtonId: 'add-license', formsetId: 'license-information-formset', formClass: 'employment-history-form', headerText: 'License', maxForms: 5 }
         ];
         
         formsetConfigs.forEach(config => {

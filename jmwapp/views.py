@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
-    LicenseFormSet, License2Form, DrivingExperienceForm
+    LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm
 from .models import TrafficConviction, AccidentRecord, EmploymentHistory, License
 
 
@@ -38,6 +38,8 @@ class JobApplicationView(View):
         license_formset = LicenseFormSet()
         license_2_form = License2Form()
         driving_experience_form = DrivingExperienceForm()
+        experience_qualifications_form = ExperienceQualificationsForm()
+        signature_form = SignatureForm()
         return render(request, 'job_application.html', {
             'form': form,
             'employment_history_formset': employment_history_formset,
@@ -45,7 +47,9 @@ class JobApplicationView(View):
             'traffic_conviction_formset': traffic_conviction_formset,
             'license_formset': license_formset,
             'license_2_form': license_2_form,
-            'driving_experience_form': driving_experience_form
+            'driving_experience_form': driving_experience_form,
+            'experience_qualifications_form': experience_qualifications_form,
+            'signature_form': signature_form
         })
 
     def post(self, request):
@@ -56,6 +60,8 @@ class JobApplicationView(View):
         license_formset = LicenseFormSet(request.POST)
         license_2_form = License2Form(request.POST)
         driving_experience_form = DrivingExperienceForm(request.POST)
+        experience_qualifications_form = ExperienceQualificationsForm(request.POST)
+        signature_form = SignatureForm(request.POST)
 
         if form.is_valid() and employment_history_formset.is_valid() and accident_record_formset.is_valid() and traffic_conviction_formset.is_valid() and license_formset.is_valid():
             job_application = form.save()
@@ -84,7 +90,9 @@ class JobApplicationView(View):
             'traffic_conviction_formset': traffic_conviction_formset,
             'license_formset': license_formset,
             'license_2_form': license_2_form,
-            'driving_experience_form': driving_experience_form
+            'driving_experience_form': driving_experience_form,
+            'experience_qualifications_form': experience_qualifications_form,
+            'signature_form': signature_form
         })
 
 

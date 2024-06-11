@@ -486,7 +486,47 @@
                     button.classList.add('invalid');
                 }
             });
+            return allValid;
         }
+        
+        const submitButton = document.querySelector('button[type="submit"]');
+        
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const buttons = document.querySelectorAll('.toggle-section');
+            let firstInvalidSection = null;
+            let firstInvalidField = null;
+            let allSectionsValid = true;
+            
+            buttons.forEach(button => {
+                const target = document.querySelector(button.dataset.target);
+                const valid = validateSection(target, button);
+                target.classList.remove('expanded');
+                target.classList.add('collapsed');
+                if (!valid) {
+                    allSectionsValid = false;
+                    if (!firstInvalidSection) {
+                        firstInvalidSection = target;
+                        firstInvalidField = target.querySelector('.invalid-field');
+                    }
+                }
+            });
+            
+            if (!allSectionsValid) {
+                firstInvalidSection.classList.add('expanded');
+            
+                if (firstInvalidField) {
+                    firstInvalidField.scrollIntoView({block: 'end'});
+                }
+                
+                const errorMessage = document.createElement('div');
+                errorMessage.textContent = 'Please fill out all required fields.';
+                submitButton.parentElement.appendChild(errorMessage);
+            } else {
+                console.log('success');
+            }
+        });
         
         // Formset management
         const formsetConfigs = [
@@ -636,7 +676,6 @@
             const dataset = checkbox.dataset.target.split(' ');
             const target = document.querySelector(dataset[0]);
             const isInverse = dataset[1] === 'data-inverse';
-            console.log(isInverse);
 
             if (isInverse ? !checkbox.checked : checkbox.checked) {
                 target.style.display = 'block';

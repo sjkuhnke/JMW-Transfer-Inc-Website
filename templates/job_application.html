@@ -39,16 +39,31 @@
             {{ form.position_applied_for.label_tag }} {{ form.position_applied_for }}
         </div>
         <div>
-            {{ form.address.label_tag }} {{ form.address }}
+            {{ form.middle_initial.label_tag }} {{ form.middle_initial }}
         </div>
-        <div>
-            {{ form.city.label_tag }} {{ form.city }}
+        <div class="reg-border"></div>
+        <p>List your addresses of residency for the past 3 years.</p>
+        <p>Current Address:</p>
+        <div id="address-formset">
+            {{ address_formset.management_form }}
+            {% for form in address_formset %}
+            <div class="employment-history-form">
+                <div class="employment-history-header">
+                    <h3>Current Address</h3>
+                    <button type="button" class="delete-employment-history">Delete</button>
+                </div>
+                {{ form.non_field_errors }}
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+            <p>Previous Addresses:</p>
+            <div class="add-button-container">
+                <button type="button" id="add-address">Add a Previous Address</button>
+            </div>
         </div>
+        <div class="reg-border"></div>
         <div>
-            {{ form.state.label_tag }} {{ form.state }}
-        </div>
-        <div>
-            {{ form.zip.label_tag }} {{ form.zip }}
+            {{ form.legal_right_work.label_tag }} {{ form.legal_right_work }}
         </div>
         <div>
             {{ form.phone_number.label_tag }} {{ form.phone_number }}
@@ -520,6 +535,22 @@
             });
         }
         
+        function addRequiredAsterisks() {
+            const requiredFields = document.querySelectorAll('input, select, textarea');
+            requiredFields.forEach(field => {
+                const id = field.id;
+                const parent = field.closest('div[id]');
+                const parentID = parent == null ? 'id' : parent.id;
+                const isMandatory = field.hasAttribute('required') || field.closest('div[data-mandatory="true"]') || parentID.includes('conditional');
+                const label = document.querySelector(`label[for='${id}']`);
+                if (label && isMandatory) {
+                    label.classList.add('required-asterisk');
+                }
+            });
+        }
+        
+        addRequiredAsterisks();
+        
         document.querySelectorAll('form').forEach(form => {
            form.addEventListener('input', () => saveFormData(form));
            loadFormData(form);
@@ -630,10 +661,11 @@
         
         // Formset management
         const formsetConfigs = [
-            { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', formClass: 'employment-history-form', headerText: 'Employment History', maxForms: 5 },
-            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', formClass: 'employment-history-form', headerText: 'Accident Record', maxForms: 5 },
-            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', formClass: 'employment-history-form', headerText: 'Traffic Conviction', maxForms: 5 },
-            { addButtonId: 'add-license', formsetId: 'license-information-formset', formClass: 'employment-history-form', headerText: 'License', maxForms: 5 }
+            { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', headerText: 'Employment History', maxForms: 5 },
+            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', headerText: 'Accident Record', maxForms: 5 },
+            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', headerText: 'Traffic Conviction', maxForms: 5 },
+            { addButtonId: 'add-license', formsetId: 'license-information-formset', headerText: 'License', maxForms: 5 },
+            { addButtonId: 'add-address', formsetId: 'address-formset', headerText: 'Previous Address', maxForms: 4 }
         ];
         
         formsetConfigs.forEach(config => {
@@ -647,10 +679,23 @@
             let formCount = parseInt(totalForms.value);
     
             function updateHeaders() {
-                const headers = formset.querySelectorAll(`.${config.formClass} h3`);
+                const headers = formset.querySelectorAll(`.employment-history-form h3`);
                 headers.forEach((header, index) => {
-                    header.textContent = `${config.headerText} ${index + 1}`;
+                    updateHeader(header, index);
                 });
+            }
+            
+            function updateHeader(header, index) {
+                const headerText = config.headerText;
+                if (headerText.includes('Address')) {
+                    if (index === 0) {
+                        header.textContent = `Current Address`;
+                    } else {
+                        header.textContent = `${headerText} ${index}`;
+                    }
+                } else {
+                    header.textContent = `${headerText} ${index + 1}`;
+                }
             }
     
             function updateAddButtonVisibility() {
@@ -662,8 +707,9 @@
             }
     
             function updateFirstDeleteButtonVisibility() {
-                const firstDeleteButton = formset.querySelector(`.${config.formClass} .delete-employment-history`);
-                if (formCount === 1) {
+                const firstDeleteButton = formset.querySelector(`.employment-history-form .delete-employment-history`);
+                const firstHeader = formset.querySelector('.employment-history-form h3');
+                if (formCount === 1 || firstHeader.textContent.includes('Current Address')) {
                     firstDeleteButton.style.display = 'none';
                 } else {
                     firstDeleteButton.style.display = 'block';
@@ -672,17 +718,21 @@
     
             addButton.addEventListener('click', function() {
                 if (formCount < config.maxForms) {
-                    const newForm = formset.querySelector(`.${config.formClass}`).cloneNode(true);
+                    const newForm = formset.querySelector(`.employment-history-form`).cloneNode(true);
                     newForm.querySelectorAll('input, select, textarea').forEach(input => {
+                        {#const id2 = input.id;#}
                         const name = input.name.replace(/-\d+-/, `-${formCount}-`);
                         const id = input.id.replace(/-\d+-/, `-${formCount}-`);
                         input.name = name;
                         input.id = id;
                         input.value = '';
+                        {#const label = document.querySelector(`label[for='${id2}']`);#}
+                        {#console.log(label);#}
+                        {#label.classList.add('required-asterisk');#}
                     });
     
                     const subheader = newForm.querySelector('h3');
-                    subheader.textContent = `${config.headerText} ${formCount + 1}`;
+                    updateHeader(subheader, formCount);
     
                     const deleteButton = newForm.querySelector('.delete-employment-history');
                     deleteButton.style.display = 'block';
@@ -714,9 +764,9 @@
             });
     
             const initialDeleteButtons = formset.querySelectorAll('.delete-employment-history');
-            initialDeleteButtons.forEach((button, index) => {
+            initialDeleteButtons.forEach((button) => {
                 button.addEventListener('click', function(event) {
-                    const form = event.target.closest(`.${config.formClass}`);
+                    const form = event.target.closest(`.employment-history-form`);
                     form.remove();
                     formCount--;
                     totalForms.value = formCount.toString();
@@ -824,7 +874,11 @@
             if (isInverse ? !checkbox.checked : checkbox.checked) {
                 target.style.display = 'block';
                 target.querySelectorAll('input, select, textarea').forEach(element => {
-                    element.required = true;
+                    if (element.type !== 'checkbox') {
+                        element.required = true;
+                        const label = document.querySelector(`label[for='${element.id}']`);
+                        if (label) label.classList.add('required-asterisk');
+                    }
                 });
             } else {
                 target.style.display = 'none';

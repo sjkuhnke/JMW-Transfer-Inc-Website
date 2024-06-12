@@ -511,7 +511,7 @@ form input, form select, form textarea {
     justify-content: center;
 }
 
-#add-employment-history, #add-accident-record, #add-traffic-conviction, #add-license {
+#add-employment-history, #add-accident-record, #add-traffic-conviction, #add-license, #add-address {
     margin: 10px 0;
     padding: 8px 16px;
     background-color: #007BFF;
@@ -521,7 +521,7 @@ form input, form select, form textarea {
     cursor: pointer;
 }
 
-#add-employment-history:hover, #add-accident-record:hover, #add-traffic-conviction:hover, #add-license:hover {
+#add-employment-history:hover, #add-accident-record:hover, #add-traffic-conviction:hover, #add-license:hover #add-address:hover {
     background-color: #0056b3;
 }
 
@@ -628,6 +628,7 @@ form input, form select, form textarea {
     border: 1px solid red;
     background-color: #fdd;
 }
+
 .error-message {
     color: red;
     font-size: 0.9em;
@@ -642,6 +643,12 @@ form input, form select, form textarea {
 .error-container {
     text-align: center;
     margin-top: 10px;
+}
+
+.required-asterisk::after {
+    content: '*';
+    color: red;
+    margin-left: 5px;
 }
 
 .job-border {

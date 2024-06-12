@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
     LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm, \
-    ApplicableCheckboxesForm
-from .models import TrafficConviction, AccidentRecord, EmploymentHistory, License
+    ApplicableCheckboxesForm, AddressFormset
 
 
 def home(request):
@@ -33,6 +32,7 @@ def trailer_types(request):
 class JobApplicationView(View):
     def get(self, request):
         form = JobApplicationForm()
+        address_formset = AddressFormset()
         employment_history_formset = EmploymentHistoryFormSet()
         accident_record_formset = AccidentRecordFormSet()
         traffic_conviction_formset = TrafficConvictionFormSet()
@@ -44,6 +44,7 @@ class JobApplicationView(View):
         signature_form = SignatureForm()
         return render(request, 'job_application.html', {
             'form': form,
+            'address_formset': address_formset,
             'employment_history_formset': employment_history_formset,
             'accident_record_formset': accident_record_formset,
             'traffic_conviction_formset': traffic_conviction_formset,
@@ -57,6 +58,7 @@ class JobApplicationView(View):
 
     def post(self, request):
         form = JobApplicationForm(request.POST)
+        address_formset = AddressFormset(request.POST)
         employment_history_formset = EmploymentHistoryFormSet(request.POST)
         accident_record_formset = AccidentRecordFormSet(request.POST)
         traffic_conviction_formset = TrafficConvictionFormSet(request.POST)
@@ -89,6 +91,7 @@ class JobApplicationView(View):
 
         return render(request, 'job_application.html', {
             'form': form,
+            'address_formset': address_formset,
             'employment_history_formset': employment_history_formset,
             'accident_record_formset': accident_record_formset,
             'traffic_conviction_formset': traffic_conviction_formset,

@@ -64,15 +64,9 @@ class JobApplication(models.Model):
 
     # Applicant to complete
     position_applied_for = models.CharField(max_length=255, verbose_name="Position(s) Applied For")
-    social_security_number = models.CharField(max_length=11, verbose_name="Social Security No.")
-
-    # Current address
-    address = models.CharField(max_length=255, verbose_name="Current Address")
-    city = models.CharField(max_length=255, verbose_name="City")
-    state = models.CharField(max_length=100, choices=states, verbose_name="State")
-    zip = models.CharField(max_length=5, verbose_name="Zip Code")
+    middle_initial = models.CharField(max_length=1, verbose_name="Middle Initial", blank=True, null=True)
     phone_number = models.CharField(max_length=14, verbose_name="Phone Number")
-    time_living = models.DurationField(verbose_name="How Long? (yr./mo.)")
+    social_security_number = models.CharField(max_length=11, verbose_name="Social Security No.")
 
     legal_right_work = models.BooleanField(verbose_name="Do you have the legal right to work in the United States?")
     date_of_birth = models.DateField(verbose_name="Date of Birth")
@@ -95,6 +89,14 @@ class JobApplication(models.Model):
         verbose_name="Is there any reason you might be unable to perform the functions of the job for which you have applied [as described in the attached job description]?")
     reason_unable_perform = models.TextField(blank=True, null=True,
                                              verbose_name="If yes, explain if you wish.")  # only if unable_perform
+
+
+class Address(models.Model):
+    address = models.CharField(max_length=255, verbose_name="Address")
+    city = models.CharField(max_length=255, verbose_name="City")
+    state = models.CharField(max_length=100, choices=states, verbose_name="State")
+    zip = models.CharField(max_length=5, verbose_name="Zip Code")
+    time_living = models.DurationField(verbose_name="How Long? (yr./mo.)")
 
 
 class EmploymentHistory(models.Model):

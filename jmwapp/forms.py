@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formset_factory, modelformset_factory
 from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License, License2, \
-    DrivingExperience, ExperienceQualifications, Signature, ApplicableCheckboxes
+    DrivingExperience, ExperienceQualifications, Signature, ApplicableCheckboxes, Address
 
 
 class JobApplicationForm(forms.ModelForm):
@@ -19,6 +19,15 @@ class JobApplicationForm(forms.ModelForm):
             'phone_number': forms.TextInput(attrs={'id': 'id_phone_number'}),
             'social_security_number': forms.TextInput(attrs={'id': 'id_social_security_number'}),
         }
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+
+AddressFormset = formset_factory(AddressForm, extra=1, max_num=4)
 
 
 class EmploymentHistoryForm(forms.ModelForm):

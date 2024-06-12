@@ -1,6 +1,6 @@
-from django.core.mail import EmailMessage
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.core.mail import EmailMessage, send_mail
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
 from django.views import View
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
     LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm, \
@@ -64,7 +64,6 @@ class JobApplicationView(View):
         files_data = request.FILES
 
         filled_pdf = fill_pdf(form_data)
-        print(filled_pdf)
         email = EmailMessage(
             'New Job Application',
             'A new job application has been submitted.',

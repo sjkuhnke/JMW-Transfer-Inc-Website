@@ -1,9 +1,14 @@
+import os.path
+
+from PyPDF2 import PdfReader, PdfWriter
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
 
 
 def fill_pdf(form_data):
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    existing_pdf_path = os.path.join(base_dir, 'jmwapp', 'static', 'pdf', 'JMW Application.PDF')
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=letter)
 
@@ -27,6 +32,25 @@ def fill_pdf(form_data):
     c.showPage()
     c.save()
 
-    pdf = buffer.getvalue()
+    buffer.seek(0)
+
+    existing_pdf = PdfReader(existing_pdf_path)
+    output_pdf = PdfWriter()
+
+    new_pdf = PdfReader(buffer)
+
+    for i in range(len(existing_pdf.pages)):
+        page = existing_pdf.pages[i]
+        if i < len(new_pdf.pages):
+            new_page = new_pdf.pages[i]
+            page.merge_page(new_page)
+        output_pdf.add_page(page)
+
+    output_buffer = BytesIO()
+    output_pdf.write(output_buffer)
+
+    pdf = output_buffer.getvalue()
+    output_buffer.close()
     buffer.close()
+
     return pdf

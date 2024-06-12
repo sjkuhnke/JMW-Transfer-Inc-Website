@@ -47,7 +47,7 @@
         <div id="address-formset">
             {{ address_formset.management_form }}
             {% for form in address_formset %}
-            <div class="employment-history-form">
+            <div class="employment-history-form" data-mandatory="true">
                 <div class="employment-history-header">
                     <h3>Current Address</h3>
                     <button type="button" class="delete-employment-history">Delete</button>
@@ -655,7 +655,21 @@
                     submitButton.parentElement.appendChild(container);
                 }
             } else {
-                window.location.href = '/application-success';
+                const formData = new FormData(document.querySelector('form'));
+                fetch('/job-application/', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    console.log(response);
+                    if (response.ok) {
+                        window.location.href = '/application-success';
+                    } else {
+                        alert('There was an error submitting your application.');
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error submitting your application.');
+                })
             }
         });
         
@@ -720,15 +734,11 @@
                 if (formCount < config.maxForms) {
                     const newForm = formset.querySelector(`.employment-history-form`).cloneNode(true);
                     newForm.querySelectorAll('input, select, textarea').forEach(input => {
-                        {#const id2 = input.id;#}
                         const name = input.name.replace(/-\d+-/, `-${formCount}-`);
                         const id = input.id.replace(/-\d+-/, `-${formCount}-`);
                         input.name = name;
                         input.id = id;
                         input.value = '';
-                        {#const label = document.querySelector(`label[for='${id2}']`);#}
-                        {#console.log(label);#}
-                        {#label.classList.add('required-asterisk');#}
                     });
     
                     const subheader = newForm.querySelector('h3');

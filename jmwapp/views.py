@@ -1,8 +1,11 @@
+from django.core.mail import EmailMessage
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
     LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm, \
     ApplicableCheckboxesForm, AddressFormset
+from .pdf_utils import fill_pdf
 
 
 def home(request):
@@ -57,51 +60,21 @@ class JobApplicationView(View):
         })
 
     def post(self, request):
-        form = JobApplicationForm(request.POST)
-        address_formset = AddressFormset(request.POST)
-        employment_history_formset = EmploymentHistoryFormSet(request.POST)
-        accident_record_formset = AccidentRecordFormSet(request.POST)
-        traffic_conviction_formset = TrafficConvictionFormSet(request.POST)
-        license_formset = LicenseFormSet(request.POST)
-        applicable_form = ApplicableCheckboxesForm(request.POST)
-        license_2_form = License2Form(request.POST)
-        driving_experience_form = DrivingExperienceForm(request.POST)
-        experience_qualifications_form = ExperienceQualificationsForm(request.POST)
-        signature_form = SignatureForm(request.POST)
+        form_data = request.POST
+        files_data = request.FILES
 
-        if form.is_valid() and employment_history_formset.is_valid() and accident_record_formset.is_valid() and traffic_conviction_formset.is_valid() and license_formset.is_valid():
-            job_application = form.save()
-            for form in employment_history_formset:
-                employment_history = form.save(commit=False)
-                employment_history.job_application = job_application
-                employment_history.save()
-            for form in accident_record_formset:
-                accident_record = form.save(commit=False)
-                accident_record.job_application = job_application
-                accident_record.save()
-            for form in traffic_conviction_formset:
-                traffic_conviction = form.save(commit=False)
-                traffic_conviction.job_application = job_application
-                traffic_conviction.save()
-            for form in license_formset:
-                license_experience = form.save(commit=False)
-                license_experience.job_application = job_application
-                license_experience.save()
-            return redirect('application_success')
+        filled_pdf = fill_pdf(form_data)
+        print(filled_pdf)
+        email = EmailMessage(
+            'New Job Application',
+            'A new job application has been submitted.',
+            'fromtest@test.com',
+            ['shaejk29@gmail.com'],
+        )
+        email.attach('application.pdf', filled_pdf, 'application/pdf')
+        email.send()
 
-        return render(request, 'job_application.html', {
-            'form': form,
-            'address_formset': address_formset,
-            'employment_history_formset': employment_history_formset,
-            'accident_record_formset': accident_record_formset,
-            'traffic_conviction_formset': traffic_conviction_formset,
-            'license_formset': license_formset,
-            'applicable_form': applicable_form,
-            'license_2_form': license_2_form,
-            'driving_experience_form': driving_experience_form,
-            'experience_qualifications_form': experience_qualifications_form,
-            'signature_form': signature_form
-        })
+        return JsonResponse({'success': True})
 
 
 def download_application(request):

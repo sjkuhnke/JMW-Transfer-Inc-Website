@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import formset_factory, modelformset_factory
+from django.forms import formset_factory
 from .models import JobApplication, EmploymentHistory, AccidentRecord, TrafficConviction, License, License2, \
     DrivingExperience, ExperienceQualifications, Signature, ApplicableCheckboxes, Address
 

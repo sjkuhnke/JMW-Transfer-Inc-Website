@@ -1,8 +1,8 @@
+from datetime import datetime
 import os.path
 
 from PyPDF2 import PdfReader, PdfWriter
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 from io import BytesIO
 
 
@@ -10,24 +10,44 @@ def fill_pdf(form_data):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     existing_pdf_path = os.path.join(base_dir, 'jmwapp', 'static', 'pdf', 'JMW Application.PDF')
     buffer = BytesIO()
-    c = canvas.Canvas(buffer, pagesize=letter)
+    pagesize = (816.0, 1056.0)
+    c = canvas.Canvas(buffer, pagesize=pagesize)
 
-    x = 100
-    y = 750
+    # draw_grid(c, pagesize)
 
-    for key in form_data:
-        value = form_data[key]
-        print(f"{key}: {value}")
+    c.setFont("Helvetica", 12)
 
-        # Draw the key-value pair onto the PDF
-        c.drawString(x, y, f"{key}: {value}")
+    # Section 1
+    first_last = form_data['applicant_name']
+    draw_string(c, 110, 690, first_last)
+    draw_string(c, 475, 688, format_date(form_data['date_of_application']))
+    draw_string(c, 162, 666, 'JMW Transfer, Inc.')
+    draw_string(c, 155, 645, 'N2833 Hwy 47')
+    draw_string(c, 138, 624, 'Appleton')
+    draw_string(c, 342, 622, 'WI')
+    draw_string(c, 423, 622, '54913')
 
-        # Move down the page for the next key-value pair
-        y -= 20
-        # If y position is too low, start a new page
-        if y < 50:
-            c.showPage()
-            y = 750
+    # Section 9
+
+    c.showPage()
+
+    # draw_grid(c, pagesize)
+    # c.setFont("Helvetica", 12)
+
+    draw_string(c, 133, 731, form_data['position_applied_for'])
+    first_name, last_name = first_last.split(' ')
+    middle_initial = form_data['middle_initial']
+    draw_string(c, 69, 712, last_name)
+    draw_string(c, 240, 712, first_name)
+    draw_string(c, 345, 712, middle_initial)
+    draw_string(c, 468, 712, form_data['social_security_number'])
+    draw_string(c, 111, 668, form_data['form-0-address'])
+    draw_string(c, 385, 668, form_data['form-0-city'])
+    draw_string(c, 118, 642, form_data['form-0-state'])
+    draw_string(c, 266, 642, form_data['form-0-zip'])
+    draw_string(c, 379, 641, form_data['phone_number'])
+    draw_string(c, 530, 640, form_data['form-0-time_living'])
+    # draw_string(c, 0, 0, handle_boolean(form_data['legal_right_work']))
 
     c.showPage()
     c.save()
@@ -54,3 +74,33 @@ def fill_pdf(form_data):
     buffer.close()
 
     return pdf
+
+
+def draw_string(c, x, y, string):
+    c.drawString(x, y, string)
+
+
+def draw_grid(c, pagesize):
+    width, height = pagesize
+    c.setFont("Helvetica", 6)
+
+    # Draw horizontal lines
+    for y in range(0, int(height), 10):
+        c.drawString(0, y, str(y))
+        c.line(0, y, width, y)
+
+    # Draw vertical lines
+    for x in range(0, int(width), 10):
+        c.drawString(x, 0, str(x))
+        c.line(x, 0, x, height)
+
+
+def format_date(date_str):
+    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+    formatted_date = date_obj.strftime('%m/%d/%Y')
+    return formatted_date
+
+
+def handle_boolean(param):
+    print(param)
+    return param

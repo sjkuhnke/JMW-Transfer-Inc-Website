@@ -1,5 +1,5 @@
-from django.core.mail import EmailMessage, send_mail
-from django.http import JsonResponse, HttpResponse
+from django.core.mail import EmailMessage
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
@@ -61,7 +61,6 @@ class JobApplicationView(View):
 
     def post(self, request):
         form_data = request.POST
-        files_data = request.FILES
 
         filled_pdf = fill_pdf(form_data)
         email = EmailMessage(
@@ -70,7 +69,24 @@ class JobApplicationView(View):
             'fromtest@test.com',
             ['shaejk29@gmail.com'],
         )
-        email.attach('application.pdf', filled_pdf, 'application/pdf')
+        applicant_name = form_data['applicant_name']
+
+        name_parts = applicant_name.split()
+        first_name = ''
+        last_name = ''
+        if len(name_parts) == 1:
+            first_name = name_parts[0]
+            last_name = ''
+        elif len(name_parts) >= 2:
+            first_name = name_parts[0]
+            last_name = name_parts[1]
+
+        if last_name:
+            file_name = f"{last_name},{first_name}_Application.pdf"
+        else:
+            file_name = f"{first_name}_Application.pdf"
+
+        email.attach(file_name, filled_pdf, 'application/pdf')
         email.send()
 
         return JsonResponse({'success': True})

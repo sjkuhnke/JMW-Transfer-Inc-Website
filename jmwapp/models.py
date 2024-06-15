@@ -55,6 +55,10 @@ states = [
     ('WY', 'Wyoming')
 ]
 
+boolean = [
+    ('true', 'Yes'),
+    ('false', 'No')
+]
 
 class JobApplication(models.Model):
     # Top of application
@@ -68,9 +72,13 @@ class JobApplication(models.Model):
     phone_number = models.CharField(max_length=14, verbose_name="Phone Number")
     social_security_number = models.CharField(max_length=11, verbose_name="Social Security No.")
 
-    legal_right_work = models.BooleanField(verbose_name="Do you have the legal right to work in the United States?")
+    legal_right_work = models.CharField(max_length=100,
+                                        choices=boolean,
+                                        verbose_name="Do you have the legal right to work in the United States?")
     date_of_birth = models.DateField(verbose_name="Date of Birth")
-    proof_of_age = models.BooleanField(verbose_name="Can you provide proof of age?")
+    proof_of_age = models.CharField(max_length=100,
+                                    choices=boolean,
+                                    verbose_name="Can you provide proof of age?")
     worked_here_before = models.BooleanField(verbose_name="Have you worked here before?")
     worked_here_from = models.DateField(blank=True, null=True, verbose_name="Worked here From")
     worked_here_to = models.DateField(blank=True, null=True, verbose_name="Worked here To")
@@ -85,8 +93,9 @@ class JobApplication(models.Model):
     ever_been_bonded = models.BooleanField(verbose_name="Have you ever been bonded?")
     name_of_bonding_company = models.CharField(max_length=255, blank=True, null=True,
                                                verbose_name="Name of bonding company")  # only if ever_been_bonded is true
-    unable_perform = models.BooleanField(
-        verbose_name="Is there any reason you might be unable to perform the functions of the job for which you have applied [as described in the attached job description]?")
+    unable_perform = models.CharField(max_length=100,
+                                      choices=boolean,
+                                      verbose_name="Is there any reason you might be unable to perform the functions of the job for which you have applied [as described in the attached job description]?")
     reason_unable_perform = models.TextField(blank=True, null=True,
                                              verbose_name="If yes, explain if you wish.")  # only if unable_perform
 
@@ -108,9 +117,12 @@ class EmploymentHistory(models.Model):
     employer_zip = models.CharField(max_length=5, verbose_name="Zip")
     employer_contact = models.CharField(max_length=255, verbose_name="Contact Person")
     employer_phone_number = models.CharField(max_length=255, verbose_name="Phone Number")
-    subject_to_fmcsr = models.BooleanField(verbose_name="Were you subject to the FMCSRs** while employed?")
-    drug_alcohol_testing = models.BooleanField(
-        verbose_name="Was your job designated as a safety-sensitive function in any DOT-regulated mode subject to the drug and alcohol testing requirements of 49 CFR part 40?")
+    subject_to_fmcsr = models.CharField(max_length=100,
+                                        choices=boolean,
+                                        verbose_name="Were you subject to the FMCSRs** while employed?")
+    drug_alcohol_testing = models.CharField(max_length=100,
+                                            choices=boolean,
+                                            verbose_name="Was your job designated as a safety-sensitive function in any DOT-regulated mode subject to the drug and alcohol testing requirements of 49 CFR part 40?")
     # Date
     from_employer = models.IntegerField(verbose_name="From")
     to_employer = models.IntegerField(verbose_name="To")
@@ -124,9 +136,15 @@ class AccidentRecord(models.Model):
     last_accident_date = models.DateField(verbose_name="Date")
     last_accident_nature = models.CharField(max_length=255,
                                             verbose_name="Nature of Accident (head-on, rear-end, upset, etc.)")
-    last_accident_fatalities = models.BooleanField(verbose_name="Any Fatalities?")
-    last_accident_injuries = models.BooleanField(verbose_name="Any Injuries?")
-    last_accident_spill = models.BooleanField(verbose_name="Any hazardous material spill?")
+    last_accident_fatalities = models.CharField(max_length=100,
+                                                choices=boolean,
+                                                verbose_name="Any Fatalities?")
+    last_accident_injuries = models.CharField(max_length=100,
+                                              choices=boolean,
+                                              verbose_name="Any Injuries?")
+    last_accident_spill = models.CharField(max_length=100,
+                                           choices=boolean,
+                                           verbose_name="Any hazardous material spill?")
 
 
 class TrafficConviction(models.Model):
@@ -147,10 +165,12 @@ class License(models.Model):
 
 
 class License2(models.Model):
-    denied_license = models.BooleanField(
-        verbose_name="A. Have you ever been denied a license, permit or privilege to operate a motor vehicle?")
-    suspended_license = models.BooleanField(
-        verbose_name="B. Has any license, permit or privilege ever been suspended or revoked?")
+    denied_license = models.CharField(max_length=100,
+                                      choices=boolean,
+                                      verbose_name="A. Have you ever been denied a license, permit or privilege to operate a motor vehicle?")
+    suspended_license = models.BooleanField(max_length=100,
+                                            choices=boolean,
+                                            verbose_name="B. Has any license, permit or privilege ever been suspended or revoked?")
     license_details = models.TextField(blank=True, null=True,
                                        verbose_name="If the answer to either A or B is yes, give details")  # if denied_license or suspended_license are true
 

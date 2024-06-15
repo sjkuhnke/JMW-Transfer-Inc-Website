@@ -663,6 +663,36 @@ form input, form select, form textarea {
     margin: 10px 0;
 }
 
+.application-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    border-bottom: 1px solid #ddd;
+}
+
+.application-header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-family: 'Book Antiqua', serif;
+}
+
+.application-header .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.application-header .button:hover {
+    background-color: #0056b3;
+}
+
 /* Contact Us */
 .book-antiqua {
     font-family: Book Antiqua, sans-serif;
@@ -692,5 +722,10 @@ form input, form select, form textarea {
         max-width: 1000px;
         margin: 225px auto 20px;
         padding: 0 20px;
+    }
+
+    .application-header {
+        margin-left: 0;
+        margin-right: 0;
     }
 }

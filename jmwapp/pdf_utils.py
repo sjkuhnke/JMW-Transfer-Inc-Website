@@ -2,6 +2,7 @@ from datetime import datetime
 import os.path
 
 from PyPDF2 import PdfReader, PdfWriter
+from django.utils.datastructures import MultiValueDictKeyError
 from reportlab.pdfgen import canvas
 from io import BytesIO
 
@@ -47,6 +48,23 @@ def fill_pdf(form_data):
     draw_string(c, 266, 642, form_data['form-0-zip'])
     draw_string(c, 379, 641, form_data['phone_number'])
     draw_string(c, 530, 640, form_data['form-0-time_living'])
+
+    # Previous addresses
+    for i in range(3):
+        address = form_data.get(f'form-{i + 1}-address', '')
+        city = form_data.get(f'form-{i + 1}-city', '')
+        state = form_data.get(f'form-{i + 1}-state', '')
+        zip_code = form_data.get(f'form-{i + 1}-zip', '')
+        time_living = form_data.get(f'form-{i + 1}-time_living', '')
+
+        y_base = 615 - (i * 27)
+
+        draw_string(c, 111, y_base, address)
+        draw_string(c, 280, y_base, city)
+        draw_string(c, 375, y_base, state)
+        draw_string(c, 412, y_base, zip_code)
+        draw_string(c, 531, y_base - 1, time_living)
+
     # draw_string(c, 0, 0, handle_boolean(form_data['legal_right_work']))
 
     c.showPage()

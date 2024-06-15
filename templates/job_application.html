@@ -67,10 +67,16 @@
             {{ form.legal_right_work.label_tag }} {{ form.legal_right_work }}
         </div>
         <div>
-            {{ form.phone_number.label_tag }} {{ form.phone_number }}
+            {{ form.phone_number.label_tag }}
+            <div class="phone-number-field">
+                {{ form.phone_number }}
+            </div>
         </div>
         <div>
-            {{ form.social_security_number.label_tag }} {{ form.social_security_number }}
+            {{ form.social_security_number.label_tag }}
+            <div class="ssn-field">
+                {{ form.social_security_number }}
+            </div>
         </div>
         <div>
             {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
@@ -188,7 +194,10 @@
                     {{ form.employer_contact.label_tag }} {{ form.employer_contact }}
                 </div>
                 <div>
-                    {{ form.employer_phone_number.label_tag }} {{ form.employer_phone_number }}
+                    {{ form.employer_phone_number.label_tag }}
+                    <div class="phone-number-field">
+                        {{ form.employer_phone_number }}
+                    </div>
                 </div>
                 <div>
                     {{ form.subject_to_fmcsr.label_tag }} {{ form.subject_to_fmcsr }}
@@ -515,6 +524,55 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        function addRequiredAsterisks() {
+            const requiredFields = document.querySelectorAll('input, select, textarea');
+            requiredFields.forEach(field => {
+                const id = field.id;
+                const parent = field.closest('div[id]');
+                const parentID = parent == null ? 'id' : parent.id;
+                const isMandatory = field.hasAttribute('required') || field.closest('div[data-mandatory="true"]') || parentID.includes('conditional');
+                const label = document.querySelector(`label[for='${id}']`);
+                if (label && isMandatory) {
+                    label.classList.add('required-asterisk');
+                }
+            });
+        }
+        
+        addRequiredAsterisks();
+        
+        function toggleConditionalFields(event) {
+            const checkbox = event.target;
+            const dataset = checkbox.dataset.target.split(' ');
+            const target = document.querySelector(dataset[0]);
+            const isInverse = dataset[1] === 'data-inverse';
+
+            if (isInverse ? !checkbox.checked : checkbox.checked) {
+                target.style.display = 'block';
+                target.querySelectorAll('input, select, textarea').forEach(element => {
+                    if (element.type !== 'checkbox') {
+                        element.required = true;
+                        const label = document.querySelector(`label[for='${element.id}']`);
+                        if (label) label.classList.add('required-asterisk');
+                    }
+                });
+            } else {
+                target.style.display = 'none';
+                target.querySelectorAll('input, select, textarea').forEach(element => {
+                    element.required = false;
+                });
+            }
+        }
+        
+        function initializeConditionalFields() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][data-target]');
+            checkboxes.forEach(checkbox => {
+                toggleConditionalFields({ target: checkbox });
+                checkbox.addEventListener('change', toggleConditionalFields);
+            });
+        }
+        
+        initializeConditionalFields();
+        
         function saveFormData(form) {
             const inputs = form.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
@@ -537,7 +595,7 @@
             });
         }
         
-        function loadFormData(form) {
+        function loadFieldValues(form) {
             const inputs = form.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
                 const name = input.name;
@@ -549,38 +607,27 @@
                     }
                 }
             });
-            
-            const formsets = document.querySelectorAll('.formset');
-            formsets.forEach(formset => {
-                const formsetId = formset.id;
-                const savedCount = localStorage.getItem(`${formsetId}-TOTAL_FORMS`);
-                if (savedCount !== null) {
-                    formset.querySelector('input[name$="-TOTAL_FORMS"]').value = savedCount;
-                    console.log(`Loaded formset count: ${formsetId} = ${savedCount}`);
-                }
-            });
         }
         
-        document.querySelectorAll('form').forEach(form => {
-           form.addEventListener('input', () => saveFormData(form));
-           loadFormData(form);
+        // Formset management
+        const formsetConfigs = [
+            { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', headerText: 'Employment History', maxForms: 5 },
+            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', headerText: 'Accident Record', maxForms: 5 },
+            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', headerText: 'Traffic Conviction', maxForms: 5 },
+            { addButtonId: 'add-license', formsetId: 'license-information-formset', headerText: 'License', maxForms: 5 },
+            { addButtonId: 'add-address', formsetId: 'address-formset', headerText: 'Previous Address', maxForms: 4 }
+        ];
+        
+        loadFormsetCounts(formsetConfigs);
+        
+        formsetConfigs.forEach(config => {
+            initializeFormset(config);
         });
         
-        function addRequiredAsterisks() {
-            const requiredFields = document.querySelectorAll('input, select, textarea');
-            requiredFields.forEach(field => {
-                const id = field.id;
-                const parent = field.closest('div[id]');
-                const parentID = parent == null ? 'id' : parent.id;
-                const isMandatory = field.hasAttribute('required') || field.closest('div[data-mandatory="true"]') || parentID.includes('conditional');
-                const label = document.querySelector(`label[for='${id}']`);
-                if (label && isMandatory) {
-                    label.classList.add('required-asterisk');
-                }
-            });
-        }
-        
-        addRequiredAsterisks();
+        document.querySelectorAll('form').forEach(form => {
+            loadFieldValues(form);
+            form.addEventListener('input', () => saveFormData(form));
+        });
         
         document.getElementById('clear-application').addEventListener('click', function() {
             localStorage.clear();
@@ -701,19 +748,6 @@
                 })
             }
         });
-        
-        // Formset management
-        const formsetConfigs = [
-            { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', headerText: 'Employment History', maxForms: 5 },
-            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', headerText: 'Accident Record', maxForms: 5 },
-            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', headerText: 'Traffic Conviction', maxForms: 5 },
-            { addButtonId: 'add-license', formsetId: 'license-information-formset', headerText: 'License', maxForms: 5 },
-            { addButtonId: 'add-address', formsetId: 'address-formset', headerText: 'Previous Address', maxForms: 4 }
-        ];
-        
-        formsetConfigs.forEach(config => {
-            initializeFormset(config);
-        });
 
         function initializeFormset(config) {
             const addButton = document.getElementById(config.addButtonId);
@@ -730,90 +764,9 @@
                 console.log(`No saved form count for ${config.formsetId}, using initial: ${formCount}`);
             }
     
-            function updateHeaders() {
-                const headers = formset.querySelectorAll(`.employment-history-form h3`);
-                headers.forEach((header, index) => {
-                    updateHeader(header, index);
-                });
-            }
-            
-            function updateHeader(header, index) {
-                const headerText = config.headerText;
-                if (headerText.includes('Address')) {
-                    if (index === 0) {
-                        header.textContent = `Current Address`;
-                    } else {
-                        header.textContent = `${headerText} ${index}`;
-                    }
-                } else {
-                    header.textContent = `${headerText} ${index + 1}`;
-                }
-            }
-    
-            function updateAddButtonVisibility() {
-                if (formCount >= config.maxForms) {
-                    addButton.style.display = 'none';
-                } else {
-                    addButton.style.display = 'block';
-                }
-            }
-    
-            function updateFirstDeleteButtonVisibility() {
-                const firstDeleteButton = formset.querySelector(`.employment-history-form .delete-employment-history`);
-                const firstHeader = formset.querySelector('.employment-history-form h3');
-                if (formCount === 1 || firstHeader.textContent.includes('Current Address')) {
-                    firstDeleteButton.style.display = 'none';
-                } else {
-                    firstDeleteButton.style.display = 'block';
-                }
-            }
-            
-            function addForm() {
-                const newForm = formset.querySelector(`.employment-history-form`).cloneNode(true);
-                    newForm.querySelectorAll('input, select, textarea').forEach(input => {
-                        const name = input.name.replace(/-\d+-/, `-${formCount}-`);
-                        const id = input.id.replace(/-\d+-/, `-${formCount}-`);
-                        input.name = name;
-                        input.id = id;
-                        input.value = '';
-                    });
-    
-                    const subheader = newForm.querySelector('h3');
-                    updateHeader(subheader, formCount);
-    
-                    const deleteButton = newForm.querySelector('.delete-employment-history');
-                    deleteButton.style.display = 'block';
-                    deleteButton.addEventListener('click', function() {
-                        newForm.remove();
-                        formCount--;
-                        totalForms.value = formCount.toString();
-                        updateHeaders();
-                        updateAddButtonVisibility();
-                        updateFirstDeleteButtonVisibility();
-                        console.log(`Form removed. Current form count: ${formCount}`);
-                    });
-                    
-                    newForm.querySelectorAll('input').forEach(input => {
-                       if (input.id === 'id_employer_phone_number') {
-                           input.addEventListener('input', () => formatPhoneNumber(input));
-                       }
-                       if (input.classList.contains('monetary-field')) {
-                           formatMonetaryField(input);
-                       }
-                    });
-    
-                    const container = addButton.parentElement;
-                    formset.insertBefore(newForm, container);
-                    formCount++;
-                    totalForms.value = formCount.toString();
-                    updateAddButtonVisibility();
-                    updateFirstDeleteButtonVisibility();
-                    console.log(`Form added. Current form count: ${formCount}`);
-            }
-    
             addButton.addEventListener('click', function() {
                 if (formCount < config.maxForms) {
-                    addForm();
+                    addFormToFormset(config);
                 }
             });
     
@@ -824,21 +777,115 @@
                     form.remove();
                     formCount--;
                     totalForms.value = formCount.toString();
-                    updateHeaders();
-                    updateAddButtonVisibility();
-                    updateFirstDeleteButtonVisibility();
+                    updateHeaders(formset, config.headerText);
+                    updateAddButtonVisibility(formCount, config.maxForms, addButton);
+                    updateFirstDeleteButtonVisibility(formset, formCount);
                     console.log(`Form removed via initial button. Current form count: ${formCount}`);
                 });
             });
-            
-            for (let i = 1; i < savedCount; i++) {
-                formCount--;
-                addForm();
-            }
     
-            updateHeaders();
-            updateAddButtonVisibility();
-            updateFirstDeleteButtonVisibility();
+            updateHeaders(formset, config.headerText);
+            updateAddButtonVisibility(formCount, config.maxForms, addButton);
+            updateFirstDeleteButtonVisibility(formset, formCount);
+        }
+        
+        function updateHeaders(formset, headerText) {
+            const headers = formset.querySelectorAll(`.employment-history-form h3`);
+            headers.forEach((header, index) => {
+                updateHeader(header, index, headerText);
+            });
+        }
+        
+        function updateHeader(header, index, headerText) {
+            if (headerText.includes('Address')) {
+                if (index === 0) {
+                    header.textContent = `Current Address`;
+                } else {
+                    header.textContent = `${headerText} ${index}`;
+                }
+            } else {
+                header.textContent = `${headerText} ${index + 1}`;
+            }
+        }
+        
+        function updateAddButtonVisibility(formCount, maxForms, addButton) {
+            if (formCount >= maxForms) {
+                addButton.style.display = 'none';
+            } else {
+                addButton.style.display = 'block';
+            }
+        }
+    
+        function updateFirstDeleteButtonVisibility(formset, formCount) {
+            const firstDeleteButton = formset.querySelector(`.employment-history-form .delete-employment-history`);
+            const firstHeader = formset.querySelector('.employment-history-form h3');
+            if (formCount === 1 || firstHeader.textContent.includes('Current Address')) {
+                firstDeleteButton.style.display = 'none';
+            } else {
+                firstDeleteButton.style.display = 'block';
+            }
+        }
+        
+        function addFormToFormset(config) {
+            const formset = document.getElementById(config.formsetId);
+            const addButton = document.getElementById(config.addButtonId);
+            let totalForms = formset.querySelector('input[name$="-TOTAL_FORMS"]');
+            let formCount = parseInt(totalForms.value);
+        
+            const newForm = formset.querySelector(`.employment-history-form`).cloneNode(true);
+            newForm.querySelectorAll('input, select, textarea').forEach(input => {
+                const name = input.name.replace(/-\d+-/, `-${formCount}-`);
+                const id = input.id.replace(/-\d+-/, `-${formCount}-`);
+                input.name = name;
+                input.id = id;
+                input.value = '';
+            });
+        
+            const subheader = newForm.querySelector('h3');
+            updateHeader(subheader, formCount, config.headerText);
+        
+            const deleteButton = newForm.querySelector('.delete-employment-history');
+            deleteButton.style.display = 'block';
+            deleteButton.addEventListener('click', function() {
+                newForm.remove();
+                formCount--;
+                totalForms.value = formCount.toString();
+                updateHeaders(formset, config.headerText);
+                updateAddButtonVisibility(formCount, config.maxForms, addButton);
+                updateFirstDeleteButtonVisibility(formset, formCount);
+                console.log(`Form removed. Current form count: ${formCount}`);
+            });
+        
+            const container = addButton.parentElement;
+            formset.insertBefore(newForm, container);
+            formCount++;
+            totalForms.value = formCount.toString();
+            updateAddButtonVisibility(formCount, config.maxForms, addButton);
+            updateFirstDeleteButtonVisibility(formset, formCount);
+            console.log(`Form added. Current form count: ${formCount}`);
+            
+            applyFieldEventListeners(newForm);
+        }
+        
+        function loadFormsetCounts(formsetsConfig) {
+            formsetsConfig.forEach(config => {
+                const formset = document.getElementById(config.formsetId);
+                let formCount;
+                const savedCount = localStorage.getItem(`${config.formsetId}-TOTAL_FORMS`);
+                
+                if (savedCount !== null) {
+                    formCount = parseInt(savedCount);
+                    formset.querySelector('input[name$="-TOTAL_FORMS"]').value = savedCount;
+                    console.log(`Loaded formset count: ${config.formsetId} = ${formCount}`);
+                } else {
+                    formCount = parseInt(formset.querySelector('input[name$="-TOTAL_FORMS"]').value);
+                    console.log(`No saved form count for ${config.formsetId}, using initial: ${formCount}`);
+                }
+        
+                for (let i = 1; i < formCount; i++) {
+                    addFormToFormset(config);
+                }
+            });
         }
         
         // Format phone number as (123) 456-7890
@@ -902,60 +949,29 @@
             });
         }
     
-        // Attach event listeners to the input fields
-        const phoneNumberField = document.getElementById('id_phone_number');
-        const employerPhoneNumberField = document.getElementById('id_employer_phone_number');
-        if (phoneNumberField) {
-            phoneNumberField.addEventListener('input', () => formatPhoneNumber(phoneNumberField));
-        }
-        if (employerPhoneNumberField) {
-            employerPhoneNumberField.addEventListener('input', () => formatPhoneNumber(employerPhoneNumberField));
-        }
-    
-        const ssnField = document.getElementById('id_social_security_number');
-        if (ssnField) {
-            ssnField.addEventListener('input', () => formatSSN(ssnField));
-        }
-        
-        // Monetary fields script
-        const monetaryFields = document.querySelectorAll('.monetary-field');
-        
-        monetaryFields.forEach(field => {
-            formatMonetaryField(field);
-        });
-        
-        function toggleConditionalFields(event) {
-            const checkbox = event.target;
-            const dataset = checkbox.dataset.target.split(' ');
-            const target = document.querySelector(dataset[0]);
-            const isInverse = dataset[1] === 'data-inverse';
+        function applyFieldEventListeners(form) {
+            // Attach event listeners to the input fields
+            const phoneNumberFields = form.querySelectorAll('.phone-number-field input');
+            
+            phoneNumberFields.forEach(field => {
+                field.addEventListener('input', () => formatPhoneNumber(field));
+            });
+            
+            const ssnFields = form.querySelectorAll('.ssn-field input');
 
-            if (isInverse ? !checkbox.checked : checkbox.checked) {
-                target.style.display = 'block';
-                target.querySelectorAll('input, select, textarea').forEach(element => {
-                    if (element.type !== 'checkbox') {
-                        element.required = true;
-                        const label = document.querySelector(`label[for='${element.id}']`);
-                        if (label) label.classList.add('required-asterisk');
-                    }
-                });
-            } else {
-                target.style.display = 'none';
-                target.querySelectorAll('input, select, textarea').forEach(element => {
-                    element.required = false;
-                });
-            }
-        }
-        
-        function initializeConditionalFields() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"][data-target]');
-            checkboxes.forEach(checkbox => {
-                toggleConditionalFields({ target: checkbox });
-                checkbox.addEventListener('change', toggleConditionalFields);
+            ssnFields.forEach(field => {
+                field.addEventListener('input', () => formatSSN(field));
+            });
+            
+            // Monetary fields script
+            const monetaryFields = form.querySelectorAll('.monetary-field');
+            
+            monetaryFields.forEach(field => {
+                formatMonetaryField(field);
             });
         }
         
-        initializeConditionalFields();
+        applyFieldEventListeners(document);
     });
 </script>
 {% endblock %}

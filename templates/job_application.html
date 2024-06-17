@@ -540,6 +540,63 @@
         
         addRequiredAsterisks();
         
+        function saveFormData(form) {
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                const name = input.name;
+                // Skip management fields
+                if (name && !name.endsWith('-TOTAL_FORMS') && !name.endsWith('-INITIAL_FORMS') && !name.endsWith('-MIN_NUM_FORMS') && !name.endsWith('-MAX_NUM_FORMS')) {
+                    if (input.type === 'checkbox') {
+                        localStorage.setItem(name, input.checked);
+                    } else {
+                        localStorage.setItem(name, input.value);
+                    }
+                }
+            });
+        
+            const formsets = document.querySelectorAll('.formset');
+            formsets.forEach(formset => {
+                const formsetId = formset.id;
+                const totalForms = formset.querySelector('input[name$="-TOTAL_FORMS"]').value;
+                localStorage.setItem(`${formsetId}-TOTAL_FORMS`, totalForms);
+            });
+        }
+        
+        function loadFieldValues(form) {
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                const name = input.name;
+                // Skip management fields
+                if (name && !name.endsWith('-TOTAL_FORMS') && !name.endsWith('-INITIAL_FORMS') && !name.endsWith('-MIN_NUM_FORMS') && !name.endsWith('-MAX_NUM_FORMS') && localStorage.getItem(name) !== null) {
+                    if (input.type === 'checkbox') {
+                        input.checked = localStorage.getItem(name) === 'true';
+                    } else {
+                        input.value = localStorage.getItem(name);
+                    }
+                }
+            });
+        }
+        
+        // Formset management
+        const formsetConfigs = [
+            { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', headerText: 'Employment History', maxForms: 6 },
+            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', headerText: 'Accident Record', maxForms: 5 },
+            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', headerText: 'Traffic Conviction', maxForms: 5 },
+            { addButtonId: 'add-license', formsetId: 'license-information-formset', headerText: 'License', maxForms: 5 },
+            { addButtonId: 'add-address', formsetId: 'address-formset', headerText: 'Previous Address', maxForms: 4 }
+        ];
+        
+        loadFormsetCounts(formsetConfigs);
+        
+        formsetConfigs.forEach(config => {
+            initializeFormset(config);
+        });
+        
+        document.querySelectorAll('form').forEach(form => {
+            loadFieldValues(form);
+            form.addEventListener('input', () => saveFormData(form));
+        });
+        
         function toggleConditionalFields(event) {
             const checkbox = event.target;
             const dataset = checkbox.dataset.target.split(' ');
@@ -572,62 +629,6 @@
         }
         
         initializeConditionalFields();
-        
-        function saveFormData(form) {
-            const inputs = form.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-               const name = input.name;
-               if (name) {
-                   if (input.type === 'checkbox') {
-                       localStorage.setItem(name, input.checked);
-                   } else {
-                       localStorage.setItem(name, input.value);
-                   }
-               }
-            });
-            
-            const formsets = document.querySelectorAll('.formset');
-            formsets.forEach(formset => {
-                const formsetId = formset.id;
-                const totalForms = formset.querySelector('input[name$="-TOTAL_FORMS"]').value;
-                localStorage.setItem(`${formsetId}-TOTAL_FORMS`, totalForms);
-                console.log(`Saved formset count: ${formsetId} = ${totalForms}`);
-            });
-        }
-        
-        function loadFieldValues(form) {
-            const inputs = form.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-                const name = input.name;
-                if (name && localStorage.getItem(name) !== null) {
-                    if (input.type === 'checkbox') {
-                        input.checked = localStorage.getItem(name) === 'true';
-                    } else {
-                        input.value = localStorage.getItem(name);
-                    }
-                }
-            });
-        }
-        
-        // Formset management
-        const formsetConfigs = [
-            { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', headerText: 'Employment History', maxForms: 5 },
-            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', headerText: 'Accident Record', maxForms: 5 },
-            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', headerText: 'Traffic Conviction', maxForms: 5 },
-            { addButtonId: 'add-license', formsetId: 'license-information-formset', headerText: 'License', maxForms: 5 },
-            { addButtonId: 'add-address', formsetId: 'address-formset', headerText: 'Previous Address', maxForms: 4 }
-        ];
-        
-        loadFormsetCounts(formsetConfigs);
-        
-        formsetConfigs.forEach(config => {
-            initializeFormset(config);
-        });
-        
-        document.querySelectorAll('form').forEach(form => {
-            loadFieldValues(form);
-            form.addEventListener('input', () => saveFormData(form));
-        });
         
         document.getElementById('clear-application').addEventListener('click', function() {
             localStorage.clear();
@@ -759,14 +760,11 @@
             if (savedCount !== null) {
                 formCount = parseInt(savedCount);
                 totalForms.value = savedCount;
-                console.log(`Using saved form count for ${config.formsetId}: ${formCount}`);
-            } else {
-                console.log(`No saved form count for ${config.formsetId}, using initial: ${formCount}`);
             }
     
             addButton.addEventListener('click', function() {
                 if (formCount < config.maxForms) {
-                    addFormToFormset(config);
+                    addFormToFormset(config, true, formCount);
                 }
             });
     
@@ -780,7 +778,6 @@
                     updateHeaders(formset, config.headerText);
                     updateAddButtonVisibility(formCount, config.maxForms, addButton);
                     updateFirstDeleteButtonVisibility(formset, formCount);
-                    console.log(`Form removed via initial button. Current form count: ${formCount}`);
                 });
             });
     
@@ -826,16 +823,17 @@
             }
         }
         
-        function addFormToFormset(config) {
+        function addFormToFormset(config, increment, i) {
             const formset = document.getElementById(config.formsetId);
             const addButton = document.getElementById(config.addButtonId);
             let totalForms = formset.querySelector('input[name$="-TOTAL_FORMS"]');
             let formCount = parseInt(totalForms.value);
+            let idNum = increment ? formCount : i;
         
             const newForm = formset.querySelector(`.employment-history-form`).cloneNode(true);
             newForm.querySelectorAll('input, select, textarea').forEach(input => {
-                const name = input.name.replace(/-\d+-/, `-${formCount}-`);
-                const id = input.id.replace(/-\d+-/, `-${formCount}-`);
+                const name = input.name.replace(/-\d+-/, `-${idNum}-`);
+                const id = input.id.replace(/-\d+-/, `-${idNum}-`);
                 input.name = name;
                 input.id = id;
                 input.value = '';
@@ -853,16 +851,14 @@
                 updateHeaders(formset, config.headerText);
                 updateAddButtonVisibility(formCount, config.maxForms, addButton);
                 updateFirstDeleteButtonVisibility(formset, formCount);
-                console.log(`Form removed. Current form count: ${formCount}`);
             });
         
             const container = addButton.parentElement;
             formset.insertBefore(newForm, container);
-            formCount++;
+            if (increment) formCount++;
             totalForms.value = formCount.toString();
             updateAddButtonVisibility(formCount, config.maxForms, addButton);
             updateFirstDeleteButtonVisibility(formset, formCount);
-            console.log(`Form added. Current form count: ${formCount}`);
             
             applyFieldEventListeners(newForm);
         }
@@ -876,14 +872,12 @@
                 if (savedCount !== null) {
                     formCount = parseInt(savedCount);
                     formset.querySelector('input[name$="-TOTAL_FORMS"]').value = savedCount;
-                    console.log(`Loaded formset count: ${config.formsetId} = ${formCount}`);
                 } else {
                     formCount = parseInt(formset.querySelector('input[name$="-TOTAL_FORMS"]').value);
-                    console.log(`No saved form count for ${config.formsetId}, using initial: ${formCount}`);
                 }
         
                 for (let i = 1; i < formCount; i++) {
-                    addFormToFormset(config);
+                    addFormToFormset(config, false, i);
                 }
             });
         }

@@ -32,8 +32,8 @@ def fill_pdf(form_data):
 
     c.showPage()
 
-    # draw_grid(c, pagesize)
-    # c.setFont("Helvetica", 12)
+    draw_grid(c, pagesize)
+    c.setFont("Helvetica", 12)
 
     draw_string(c, 133, 731, form_data['position_applied_for'])
     first_name, last_name = first_last.split(' ')
@@ -47,7 +47,8 @@ def fill_pdf(form_data):
     draw_string(c, 118, 642, form_data['form-0-state'])
     draw_string(c, 266, 642, form_data['form-0-zip'])
     draw_string(c, 379, 641, form_data['phone_number'])
-    draw_string(c, 530, 640, form_data['form-0-time_living'])
+    time_living = form_data['form-0-time_living'] + ' ' + form_data['form-0-units']
+    draw_string(c, 530, 640, time_living)
 
     # Previous addresses
     for i in range(3):
@@ -55,7 +56,7 @@ def fill_pdf(form_data):
         city = form_data.get(f'form-{i + 1}-city', '')
         state = form_data.get(f'form-{i + 1}-state', '')
         zip_code = form_data.get(f'form-{i + 1}-zip', '')
-        time_living = form_data.get(f'form-{i + 1}-time_living', '')
+        time_living = form_data.get(f'form-{i + 1}-time_living', '') + ' ' + form_data.get(f'form-{i + 1}-units', '')
 
         y_base = 615 - (i * 27)
 
@@ -65,7 +66,7 @@ def fill_pdf(form_data):
         draw_string(c, 412, y_base, zip_code)
         draw_string(c, 531, y_base - 1, time_living)
 
-    # draw_string(c, 0, 0, handle_boolean(form_data['legal_right_work']))
+    draw_string(c, 270, 535, handle_yes_no(form_data['legal_right_work']))
 
     c.showPage()
     c.save()
@@ -122,3 +123,7 @@ def format_date(date_str):
 def handle_boolean(param):
     print(param)
     return param
+
+
+def handle_yes_no(param):
+    return param.capitalize()

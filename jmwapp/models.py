@@ -60,6 +60,7 @@ boolean = [
     ('false', 'No')
 ]
 
+
 class JobApplication(models.Model):
     # Top of application
     applicant_name = models.CharField(max_length=255, verbose_name="Applicant Name")
@@ -101,11 +102,16 @@ class JobApplication(models.Model):
 
 
 class Address(models.Model):
+    duration = [
+        ('mos', 'Months'),
+        ('yrs', 'Years'),
+    ]
     address = models.CharField(max_length=255, verbose_name="Address")
     city = models.CharField(max_length=255, verbose_name="City")
     state = models.CharField(max_length=100, choices=states, verbose_name="State")
     zip = models.CharField(max_length=5, verbose_name="Zip Code")
-    time_living = models.DurationField(verbose_name="How Long? (yr./mo.)")
+    time_living = models.IntegerField(verbose_name="How Long? (yr./mo.)")
+    units = models.CharField(max_length=255, verbose_name="Select", choices=duration)
 
 
 class EmploymentHistory(models.Model):

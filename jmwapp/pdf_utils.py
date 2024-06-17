@@ -18,7 +18,7 @@ def fill_pdf(form_data):
 
     c.setFont("Helvetica", 12)
 
-    # Section 1
+    # -- Section 1 -- #
     first_last = form_data['applicant_name']
     draw_string(c, 110, 690, first_last)
     draw_string(c, 475, 688, format_date(form_data['date_of_application']))
@@ -28,13 +28,14 @@ def fill_pdf(form_data):
     draw_string(c, 342, 622, 'WI')
     draw_string(c, 423, 622, '54913')
 
-    # Section 9
+    # -- Section 9 -- #
 
     c.showPage()
 
-    draw_grid(c, pagesize)
-    c.setFont("Helvetica", 12)
+    # draw_grid(c, pagesize)
+    # c.setFont("Helvetica", 12)
 
+    # -- Section 2 -- #
     draw_string(c, 133, 731, form_data['position_applied_for'])
     first_name, last_name = first_last.split(' ')
     middle_initial = form_data['middle_initial']
@@ -47,7 +48,7 @@ def fill_pdf(form_data):
     draw_string(c, 118, 642, form_data['form-0-state'])
     draw_string(c, 266, 642, form_data['form-0-zip'])
     draw_string(c, 379, 641, form_data['phone_number'])
-    time_living = form_data['form-0-time_living'] + ' ' + form_data['form-0-units']
+    time_living = f'{form_data['form-0-time_living']} {form_data['form-0-units']}'
     draw_string(c, 530, 640, time_living)
 
     # Previous addresses
@@ -56,7 +57,7 @@ def fill_pdf(form_data):
         city = form_data.get(f'form-{i + 1}-city', '')
         state = form_data.get(f'form-{i + 1}-state', '')
         zip_code = form_data.get(f'form-{i + 1}-zip', '')
-        time_living = form_data.get(f'form-{i + 1}-time_living', '') + ' ' + form_data.get(f'form-{i + 1}-units', '')
+        time_living = f'{form_data.get(f'form-{i + 1}-time_living', '')} {form_data.get(f'form-{i + 1}-units', '')}'
 
         y_base = 615 - (i * 27)
 
@@ -67,6 +68,143 @@ def fill_pdf(form_data):
         draw_string(c, 531, y_base - 1, time_living)
 
     draw_string(c, 270, 535, handle_yes_no(form_data['legal_right_work']))
+
+    mm, dd, yyyy = split_date(form_data['date_of_birth'])
+    draw_string(c, 112, 517, mm)
+    draw_string(c, 181, 517, dd)
+    draw_string(c, 240, 517, yyyy)
+    draw_string(c, 418, 517, handle_yes_no(form_data['proof_of_age']))
+
+    # Worked here before
+    worked_here_before = form_data.get('worked_here_before', '')
+    draw_string(c, 219, 490, handle_boolean(worked_here_before))
+    if worked_here_before == 'on':
+        draw_string(c, 100, 473, format_date(form_data.get('worked_here_from', '')))
+        draw_string(c, 209, 473, format_date(form_data.get('worked_here_to', '')))
+        draw_string(c, 356, 473, f'${form_data.get('rate_of_pay', '')}')
+        draw_string(c, 472, 473, form_data.get('previous_position', ''))
+        draw_string(c, 127, 455, form_data.get('reason_for_leaving_here', ''))
+
+    currently_employed = form_data.get('currently_employed', '')
+    draw_string(c, 140, 436, handle_boolean(currently_employed))
+    if currently_employed != 'on':
+        draw_string(c, 383, 436, form_data.get('time_since_previously_employed', ''))
+
+    draw_string(c, 123, 418, form_data['who_referred'])
+    draw_string(c, 478, 418, f'${form_data['rate_of_pay_expected']}')
+    ever_been_bonded = form_data.get('ever_been_bonded', '')
+    draw_string(c, 162, 399, handle_boolean(ever_been_bonded))
+    if ever_been_bonded == 'on':
+        draw_string(c, 499, 399, form_data['name_of_bonding_company'])
+
+    draw_string(c, 49, 340, handle_yes_no(form_data['unable_perform']))
+    draw_string(c, 49, 303, form_data.get('reason_unable_perform', ''))
+
+    # -- Section 3 -- #
+    employment_checkbox = form_data.get('employer_checkbox', '')
+    if employment_checkbox != 'on':
+        for i in range(6):
+            employer_name = form_data.get(f'form-{i}-employer_name', '')
+            employer_address = form_data.get(f'form-{i}-employer_address', '')
+            employer_city = form_data.get(f'form-{i}-employer_city', '')
+            employer_state = form_data.get(f'form-{i}-employer_state', '')
+            employer_zip = form_data.get(f'form-{i}-employer_zip', '')
+            employer_contact = form_data.get(f'form-{i}-employer_contact', '')
+            employer_phone_number = form_data.get(f'form-{i}-employer_phone_number', '')
+            subject_to_fmcsr = handle_yes_no(form_data.get(f'form-{i}-subject_to_fmcsr', ''))
+            drug_alcohol_testing = handle_yes_no(form_data.get(f'form-{i}-drug_alcohol_testing', ''))
+            from_mm, from_dd, from_yyyy = split_date(form_data.get(f'form-{i}-from_employer', ''))
+            to_mm, to_dd, to_yyyy = split_date(form_data.get(f'form-{i}-to_employer', ''))
+            position_held = form_data.get(f'form-{i}-position_held', '')
+            salary_wage = f'${form_data.get(f'form-{i}-salary_wage', '')}'
+            reason_for_leaving = form_data.get(f'form-{i}-reason_for_leaving', '')
+
+            if i == 0:
+                y_base = 129
+                x_offset = 0
+            else:
+                if i == 1:
+                    c.showPage()
+                y_base = 733 - ((i - 1) * 130)
+                x_offset = 7
+                if i > 3:
+                    y_base += 2
+
+            c.setFont("Helvetica", 12)
+            draw_string(c, 73 - x_offset, y_base, employer_name)
+            draw_string(c, 90 - x_offset, y_base - 16, employer_address)
+            draw_string(c, 75 - x_offset, y_base - 31, employer_city)
+            draw_string(c, 279 - x_offset, y_base - 32, employer_state)
+            draw_string(c, 335 - x_offset, y_base - 32, employer_zip)
+            draw_string(c, 128 - x_offset, y_base - 48, employer_contact)
+            draw_string(c, 365 - x_offset, y_base - 48, employer_phone_number)
+            if 0 < i < 3:
+                y_base -= 2
+            if subject_to_fmcsr == 'Yes':
+                draw_string(c, 281 - x_offset, y_base - 62, "\u2713")
+            else:
+                draw_string(c, 313 - x_offset, y_base - 62, "\u2713")
+            if drug_alcohol_testing == 'Yes':
+                draw_string(c, 236 - x_offset, y_base - 87, "\u2713")
+            else:
+                draw_string(c, 268 - x_offset, y_base - 87, "\u2713")
+            c.setFont("Helvetica", 9)
+            if 0 < i < 3:
+                y_base += 2
+            if 0 < i < 4:
+                y_base -= 2
+            elif i >= 4:
+                y_base = -1
+            draw_string(c, 468 - x_offset, y_base - 2, from_mm)
+            draw_string(c, 500 - x_offset, y_base - 2, from_yyyy[2:])
+            draw_string(c, 533 - x_offset, y_base - 2, to_mm)
+            draw_string(c, 566 - x_offset, y_base - 2, to_yyyy[2:])
+            draw_string(c, 503 - x_offset, y_base - 18, position_held)
+            draw_string(c, 502 - x_offset, y_base - 33, salary_wage)
+            draw_string(c, 454 - x_offset, y_base - 49, reason_for_leaving)
+    else:
+        c.showPage()
+
+    c.showPage()
+    draw_grid(c, pagesize)
+    c.setFont("Helvetica", 12)
+
+    # -- Section 4 -- #
+    accident_checkbox = form_data.get('accident_checkbox', '')
+    if accident_checkbox == 'on':
+        pass
+
+    # -- Section 5 -- #
+    conviction_checkbox = form_data.get('conviction_checkbox', '')
+    if conviction_checkbox == 'on':
+        pass
+
+    # -- Section 6 -- #
+    license_checkbox = form_data.get('license_checkbox', '')
+    if license_checkbox == 'on':
+        pass
+
+    # -- Section 7 -- #
+    straight_truck = form_data.get('straight_truck', '')
+    if straight_truck == 'on':
+        pass
+    tractor_semi_trailer = form_data.get('tractor_semi_trailer', '')
+    if tractor_semi_trailer == 'on':
+        pass
+    tractor_two_trailers = form_data.get('tractor_two_trailers', '')
+    if tractor_two_trailers == 'on':
+        pass
+    tractor_three_trailers = form_data.get('tractor_three_trailers', '')
+    if tractor_three_trailers == 'on':
+        pass
+    motorcoach_eight = form_data.get('motorcoach_eight', '')
+    if motorcoach_eight == 'on':
+        pass
+    motorcoach_fifteen = form_data.get('motorcoach_fifteen', '')
+    if motorcoach_fifteen == 'on':
+        pass
+
+    # -- Section 8 -- #
 
     c.showPage()
     c.save()
@@ -121,9 +259,20 @@ def format_date(date_str):
 
 
 def handle_boolean(param):
-    print(param)
-    return param
+    if param == 'on':
+        return 'Yes'
+    else:
+        return 'No'
 
 
 def handle_yes_no(param):
     return param.capitalize()
+
+
+def split_date(date_str):
+    if date_str:
+        date_obj = format_date(date_str)
+        mm, dd, yyyy = date_obj.split('/')
+        return mm, dd, yyyy
+    else:
+        return '', '', ''

@@ -56,8 +56,8 @@ states = [
 ]
 
 boolean = [
-    ('true', 'Yes'),
-    ('false', 'No')
+    ('yes', 'Yes'),
+    ('no', 'No')
 ]
 
 
@@ -115,7 +115,6 @@ class Address(models.Model):
 
 
 class EmploymentHistory(models.Model):
-    # Employment history 1
     employer_name = models.CharField(max_length=255, verbose_name="Employer Name")
     employer_address = models.CharField(max_length=255, verbose_name="Address")
     employer_city = models.CharField(max_length=255, verbose_name="City")

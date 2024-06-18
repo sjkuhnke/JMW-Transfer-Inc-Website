@@ -65,11 +65,12 @@ class JobApplicationView(View):
         form_data = request.POST
 
         filled_pdf = fill_pdf(form_data)
+        applicant_email = form_data['email_address']
         email = EmailMessage(
             'New Job Application',
-            'A new job application has been submitted.',
-            'fromtest@test.com',
-            ['shaejk29@gmail.com'],
+            f'A new job application has been submitted.\n\nFrom: {applicant_email}',
+            'itsrainyjupiter@gmail.com',  # change to app@jmwtransfer.com or no-reply@jmwtransfer.com
+            ['shaejk29@gmail.com'],  # change to jake@jmwtransfer.com, andy@jmwtransfer.com, and shaejk29@gmail.com
         )
         applicant_name = form_data['applicant_name']
 

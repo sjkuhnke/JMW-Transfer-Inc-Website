@@ -54,11 +54,11 @@ class AccidentRecordForm(forms.ModelForm):
     class Meta:
         model = AccidentRecord
         fields = [
-            'last_accident_date', 'last_accident_nature', 'last_accident_fatalities', 'last_accident_injuries',
-            'last_accident_spill'
+            'accident_date', 'accident_nature', 'accident_fatalities', 'accident_injuries',
+            'accident_spill'
         ]
         widgets = {
-            'last_accident_date': forms.DateInput(attrs={'type': 'date'}),
+            'accident_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
 

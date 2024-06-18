@@ -269,6 +269,7 @@
         <button type="button" class="toggle-section" data-target="#section5-content">+</button>
     </div>
     <div id="section5-content" class="collapsible-content collapsed">
+        <p>List traffic convictions and forfeitures for the past 3 years (other than parking violations). If none, check the checkbox below.</p>
         <div class="form-row">
             {{ applicable_form.conviction_checkbox.label_tag }}
             {{ applicable_form.conviction_checkbox|attr:"data-target=#traffic-conviction-formset data-inverse=true" }}
@@ -296,6 +297,7 @@
         <button type="button" class="toggle-section" data-target="#section6-content">+</button>
     </div>
     <div id="section6-content" class="collapsible-content collapsed">
+        <p>List driver licenses or permits held in the past 3 years. If none, check the checkbox below.</p>
         <div class="form-row">
             {{ applicable_form.license_checkbox.label_tag }}
             {{ applicable_form.license_checkbox|attr:"data-target=#license-information-formset data-inverse=true" }}
@@ -510,7 +512,10 @@
         <div class="reg-border"></div>
         <p>This certifies that this application was completed by me, and that all entries on it and information in it are true and complete to the best of my knowledge.</p>
         <div>
-            {{ signature_form.signature.label_tag }} {{ signature_form.signature }}
+            {{ signature_form.signature.label_tag }}
+            <div class="cursive-field-container">
+                {{ signature_form.signature }}
+            </div>
         </div>
         <div>
             {{ signature_form.date.label_tag }} {{ signature_form.date }}
@@ -580,9 +585,9 @@
         // Formset management
         const formsetConfigs = [
             { addButtonId: 'add-employment-history', formsetId: 'employment-history-formset', headerText: 'Employment History', maxForms: 6 },
-            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', headerText: 'Accident Record', maxForms: 5 },
-            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', headerText: 'Traffic Conviction', maxForms: 5 },
-            { addButtonId: 'add-license', formsetId: 'license-information-formset', headerText: 'License', maxForms: 5 },
+            { addButtonId: 'add-accident-record', formsetId: 'accident-record-formset', headerText: 'Accident Record', maxForms: 3 },
+            { addButtonId: 'add-traffic-conviction', formsetId: 'traffic-conviction-formset', headerText: 'Traffic Conviction', maxForms: 3 },
+            { addButtonId: 'add-license', formsetId: 'license-information-formset', headerText: 'License', maxForms: 4 },
             { addButtonId: 'add-address', formsetId: 'address-formset', headerText: 'Previous Address', maxForms: 4 }
         ];
         

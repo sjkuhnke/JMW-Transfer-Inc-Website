@@ -138,16 +138,16 @@ class EmploymentHistory(models.Model):
 
 class AccidentRecord(models.Model):
     # Accident record
-    last_accident_date = models.DateField(verbose_name="Date")
-    last_accident_nature = models.CharField(max_length=255,
+    accident_date = models.DateField(verbose_name="Date")
+    accident_nature = models.CharField(max_length=255,
                                             verbose_name="Nature of Accident (head-on, rear-end, upset, etc.)")
-    last_accident_fatalities = models.CharField(max_length=100,
+    accident_fatalities = models.CharField(max_length=100,
                                                 choices=boolean,
                                                 verbose_name="Any Fatalities?")
-    last_accident_injuries = models.CharField(max_length=100,
+    accident_injuries = models.CharField(max_length=100,
                                               choices=boolean,
                                               verbose_name="Any Injuries?")
-    last_accident_spill = models.CharField(max_length=100,
+    accident_spill = models.CharField(max_length=100,
                                            choices=boolean,
                                            verbose_name="Any hazardous material spill?")
 
@@ -163,7 +163,7 @@ class TrafficConviction(models.Model):
 class License(models.Model):
     # Experience and Qualifications
     license_state = models.CharField(max_length=100, choices=states, verbose_name="State")
-    license_number = models.CharField(max_length=15, verbose_name="License No.")
+    license_number = models.CharField(max_length=20, verbose_name="License No. (include dashes)")
     license_class = models.CharField(max_length=10, verbose_name="Class")
     license_endorsements = models.CharField(max_length=255, verbose_name="Endorsement(s)")
     license_expiration_date = models.DateField(verbose_name="Expiration Date")
@@ -275,5 +275,5 @@ class ExperienceQualifications(models.Model):
 
 
 class Signature(models.Model):
-    signature = models.CharField(max_length=255, verbose_name="Signature")
+    signature = models.CharField(max_length=255, verbose_name="Electronic Signature")
     date = models.DateField(verbose_name="Date")

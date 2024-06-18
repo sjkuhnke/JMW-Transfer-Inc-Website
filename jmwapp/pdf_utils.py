@@ -2,7 +2,7 @@ from datetime import datetime
 import os.path
 
 from PyPDF2 import PdfReader, PdfWriter
-from django.utils.datastructures import MultiValueDictKeyError
+from reportlab.lib.utils import simpleSplit
 from reportlab.pdfgen import canvas
 from io import BytesIO
 
@@ -98,7 +98,7 @@ def fill_pdf(form_data):
         draw_string(c, 499, 399, form_data['name_of_bonding_company'])
 
     draw_string(c, 49, 340, handle_yes_no(form_data['unable_perform']))
-    draw_string(c, 49, 303, form_data.get('reason_unable_perform', ''))
+    wrap_text(c, form_data.get('reason_unable_perform'), 552, 47, 303, 18)
 
     # -- Section 3 -- #
     employment_checkbox = form_data.get('employer_checkbox', '')
@@ -154,11 +154,11 @@ def fill_pdf(form_data):
             if 0 < i < 4:
                 y_base -= 2
             elif i >= 4:
-                y_base = -1
+                y_base -= 1
             draw_string(c, 468 - x_offset, y_base - 2, from_mm)
-            draw_string(c, 500 - x_offset, y_base - 2, from_yyyy[2:])
+            draw_string(c, 500 - x_offset, y_base - 2, f'\'{from_yyyy[2:]}')
             draw_string(c, 533 - x_offset, y_base - 2, to_mm)
-            draw_string(c, 566 - x_offset, y_base - 2, to_yyyy[2:])
+            draw_string(c, 566 - x_offset, y_base - 2, f'\'{to_yyyy[2:]}')
             draw_string(c, 503 - x_offset, y_base - 18, position_held)
             draw_string(c, 502 - x_offset, y_base - 33, salary_wage)
             draw_string(c, 454 - x_offset, y_base - 49, reason_for_leaving)
@@ -166,27 +166,86 @@ def fill_pdf(form_data):
         c.showPage()
 
     c.showPage()
-    draw_grid(c, pagesize)
+    # draw_grid(c, pagesize)
     c.setFont("Helvetica", 12)
 
     # -- Section 4 -- #
     accident_checkbox = form_data.get('accident_checkbox', '')
-    if accident_checkbox == 'on':
-        pass
+    if accident_checkbox != 'on':
+        for i in range(3):
+            accident_date = format_date(form_data.get(f'form-{i}-accident_date', ''))
+            accident_nature = form_data.get(f'form-{i}-accident_nature', '')
+            accident_fatalities = handle_yes_no(form_data.get(f'form-{i}-accident_fatalities', ''))
+            accident_injuries = handle_yes_no(form_data.get(f'form-{i}-accident_injuries', ''))
+            accident_spill = handle_yes_no(form_data.get(f'form-{i}-accident_spill', ''))
+
+            y_base = 731 - i * 16
+
+            c.setFont("Helvetica", 10)
+            draw_string(c, 120, y_base, accident_date)
+            c.setFont("Helvetica", 12)
+            draw_string(c, 200, y_base, accident_nature)
+            draw_string(c, 359, y_base, accident_fatalities)
+            draw_string(c, 441, y_base, accident_injuries)
+            draw_string(c, 520, y_base, accident_spill)
+    else:
+        c.setFont("Helvetica", 20)
+        draw_string(c, 295, 717, 'NONE')
+        c.setFont("Helvetica", 12)
 
     # -- Section 5 -- #
     conviction_checkbox = form_data.get('conviction_checkbox', '')
-    if conviction_checkbox == 'on':
-        pass
+    if conviction_checkbox != 'on':
+        for i in range(3):
+            conviction_location = form_data.get(f'form-{i}-conviction_location', '')
+            conviction_date = format_date(form_data.get(f'form-{i}-conviction_date', ''))
+            conviction_charge = form_data.get(f'form-{i}-conviction_charge', '')
+            conviction_penalty = form_data.get(f'form-{i}-conviction_penalty', '')
+
+            y_base = 652 - i * 14
+
+            draw_string(c, 51, y_base, conviction_location)
+            draw_string(c, 260, y_base, conviction_date)
+            draw_string(c, 330, y_base, conviction_charge)
+            draw_string(c, 436, y_base, conviction_penalty)
+    else:
+        c.setFont("Helvetica", 20)
+        draw_string(c, 295, 640, 'NONE')
+        c.setFont("Helvetica", 12)
 
     # -- Section 6 -- #
     license_checkbox = form_data.get('license_checkbox', '')
-    if license_checkbox == 'on':
-        pass
+    if license_checkbox != 'on':
+        for i in range(4):
+            license_state = form_data.get(f'form-{i}-license_state', '')
+            license_number = form_data.get(f'form-{i}-license_number', '')
+            license_class = form_data.get(f'form-{i}-license_class', '')
+            license_endorsements = form_data.get(f'form-{i}-license_endorsements', '')
+            license_expiration_date = format_date(form_data.get(f'form-{i}-license_expiration_date', ''))
+
+            y_base = 563 - i * 16
+
+            draw_string(c, 120, y_base, license_state)
+            draw_string(c, 166, y_base, license_number)
+            draw_string(c, 285, y_base, license_class)
+            draw_string(c, 325, y_base, license_endorsements)
+            draw_string(c, 494, y_base, license_expiration_date)
+
+    denied_license = handle_yes_no(form_data.get('denied_license', ''))
+    suspended_license = handle_yes_no(form_data.get('suspended_license', ''))
+    if denied_license == 'Yes':
+        draw_string(c, 481, 502, "\u2713")
+    else:
+        draw_string(c, 553, 502, "\u2713")
+    if suspended_license == 'Yes':
+        draw_string(c, 481, 490, "\u2713")
+    else:
+        draw_string(c, 553, 490, "\u2713")
+    wrap_text(c, form_data.get('license_details', ''), 300, 291, 477, 13, 62)
 
     # -- Section 7 -- #
     straight_truck = form_data.get('straight_truck', '')
-    if straight_truck == 'on':
+    if straight_truck != 'on':
         pass
     tractor_semi_trailer = form_data.get('tractor_semi_trailer', '')
     if tractor_semi_trailer == 'on':
@@ -276,3 +335,29 @@ def split_date(date_str):
         return mm, dd, yyyy
     else:
         return '', '', ''
+
+
+def wrap_text(c, text, max_px, x, y, dy, base_x=None):
+    lines = []
+    if base_x is not None:
+        first_line = simpleSplit(text, c._fontname, c._fontsize, max_px)[0]
+        lines.append(first_line)
+
+        remaining_text = text[len(first_line):].strip()
+
+        new_max_px = max_px - (base_x - x)
+
+        remaining_lines = simpleSplit(remaining_text, c._fontname, c._fontsize, new_max_px)
+        lines.extend(remaining_lines)
+    else:
+        lines = simpleSplit(text, c._fontname, c._fontsize, max_px)
+
+    first_line = True
+    for line in lines:
+        if base_x is not None:
+            current_x = x if first_line else base_x
+        else:
+            current_x = x
+        c.drawString(current_x, y, line)
+        y -= dy
+        first_line = False

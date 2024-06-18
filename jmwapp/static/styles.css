@@ -457,12 +457,12 @@ form div {
     position: relative;
     width: 100%;
     display: flex;
-    align-items: center; /* Ensure items in the container are centered */
+    align-items: center;
 }
 
 .monetary-field {
-    flex: 1; /* Allow the input to grow and take available space */
-    padding-left: 1.5em; /* Adjust left padding to make room for the dollar sign */
+    flex: 1;
+    padding-left: 1.5em;
     box-sizing: border-box;
 }
 
@@ -471,9 +471,24 @@ form div {
     position: absolute;
     left: 0.6em;
     top: 50%;
-    transform: translateY(-40%); /* Center vertically relative to the container */
-    color: #000; /* Adjust color as needed */
+    transform: translateY(-40%);
+    color: #000;
     pointer-events: none;
+}
+
+.cursive-field-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.cursive-field {
+    flex: 1;
+    font-family: 'Pacifico', cursive; /* Use a cursive font, e.g., 'Pacifico' */
+    font-size: 1.2em; /* Adjust the font size as needed */
+    padding-left: 0.5em; /* Optional: Add padding if needed */
+    box-sizing: border-box;
 }
 
 form .form-row {
@@ -485,11 +500,11 @@ form .form-row {
 form .form-row label {
     flex: 1;
     margin-right: 10px;
-    white-space: nowrap; /* Prevent line breaks within the label */
+    white-space: nowrap;
 }
 
 form .form-row input[type="checkbox"] {
-    margin: 0; /* Align checkbox to the right */
+    margin: 0;
 }
 
 form label {

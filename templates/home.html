@@ -35,8 +35,18 @@
             </script>
         </div>
         <div class="mission-container">
+            <button id="directions-button" onclick="openDirections()">Get Directions</button>
             <h3>Our Mission</h3>
-            <p>We aim to provide top-quality transportation services and exceed our customers' expectations.</p>
+            <p>Since 1980, JMW Transfer, Inc. has strived for high quality transportation services to local customers. Delivering products with timeliness, care and safety is our companies' goal. JMW Transfer, Inc. has a solid reputation for 35+ years of doing so.</p>
+            <p>JMW Transfer, Inc. will deliver goods regionally as well as deliveries throughout the country.  Drivers and management take great pride in being a reputable part of your shipping needs.</p>
+            <script>
+                function openDirections() {
+                    const lat = 44.3418;
+                    const lng = -88.4171;
+                    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                    window.open(url, '_blank');
+                }
+            </script>
         </div>
     </div>
     <div class="slideshow-container">

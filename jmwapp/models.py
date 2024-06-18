@@ -238,6 +238,12 @@ class DrivingExperience(models.Model):
     motorcoach_fifteen_to = models.DateField(verbose_name="To")
     motorcoach_fifteen_miles = models.IntegerField(verbose_name="Approximate # of Miles Total")
 
+    other_name = models.CharField(max_length=40, verbose_name="Class", blank=True, null=True)
+    other_type = models.CharField(max_length=20, verbose_name="Type", blank=True, null=True)
+    other_from = models.DateField(verbose_name="From", blank=True, null=True)
+    other_to = models.DateField(verbose_name="To", blank=True, null=True)
+    other_miles = models.IntegerField(verbose_name="Approximate # of Miles Total", blank=True, null=True)
+
     states_operated_in = models.TextField(verbose_name="List States Operated In For Last 5 Years (NONE if none)")
     special_courses = models.TextField(verbose_name="Show Special Courses Or Training That Will help You As a Driver (NONE if none)")
     safe_driving_awards = models.TextField(verbose_name="Which Safe Driving Awards Do You Hold And From Whom? (NONE if none)")

@@ -168,6 +168,23 @@ nav ul li a:hover {
     max-width: 600px;
 }
 
+#directions-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #1672E9;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#directions-button:hover {
+    background-color: #125BBA;
+}
+
 /* Home page slideshow */
 .slideshow-container {
     max-width: 100%;
@@ -381,7 +398,7 @@ body.sticky-header-padding {
 }
 
 .button {
-    background-color: #007BFF;
+    background-color: #1672E9;
     color: #fff;
     padding: 10px 20px;
     text-decoration: none;
@@ -391,7 +408,7 @@ body.sticky-header-padding {
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: #125BBA;
 }
 
 .facebook-feed {
@@ -419,7 +436,7 @@ body.sticky-header-padding {
 }
 
 .download-button .button {
-    background-color: #007BFF;
+    background-color: #1672E9;
     color: #fff;
     padding: 10px 20px;
     text-decoration: none;
@@ -428,7 +445,7 @@ body.sticky-header-padding {
 }
 
 .download-button .button:hover {
-    background-color: #0056b3;
+    background-color: #125BBA;
 }
 
 .application-image {
@@ -532,7 +549,7 @@ form input, form select, form textarea {
 #add-employment-history, #add-accident-record, #add-traffic-conviction, #add-license, #add-address {
     margin: 10px 0;
     padding: 8px 16px;
-    background-color: #007BFF;
+    background-color: #1672E9;
     color: white;
     border: none;
     border-radius: 4px;
@@ -540,7 +557,7 @@ form input, form select, form textarea {
 }
 
 #add-employment-history:hover, #add-accident-record:hover, #add-traffic-conviction:hover, #add-license:hover #add-address:hover {
-    background-color: #0056b3;
+    background-color: #125BBA;
 }
 
 #license-details {
@@ -700,7 +717,7 @@ form input, form select, form textarea {
 .application-header .button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: #1672E9;
     color: white;
     border: none;
     border-radius: 4px;
@@ -708,7 +725,7 @@ form input, form select, form textarea {
 }
 
 .application-header .button:hover {
-    background-color: #0056b3;
+    background-color: #125BBA;
 }
 
 /* Contact Us */

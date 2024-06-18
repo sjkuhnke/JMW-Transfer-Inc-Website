@@ -87,7 +87,6 @@ class JobApplicationView(View):
             f.write(filled_pdf)
 
         file_url = f'/media/applications/{file_name}'
-
         return JsonResponse({'success': True, 'file_url': file_url})
 
 

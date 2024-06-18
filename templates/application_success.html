@@ -6,10 +6,12 @@
     <p>Thank you for your application. We will review it and get back to you soon.</p>
     
     {% if request.GET.file_url %}
-    <h3>View Your Application</h3>
-    <iframe src="{{ request.GET.file_url }}" width="600" height="500"></iframe>
-    <p>
-      <a href="{{ request.GET.file_url }}" download>Download Your Application</a>
-    </p>
+        <h3>View Your Application</h3>
+        <p>
+            <a href="{{ request.GET.file_url }}">View Your Application (PDF)</a>
+        </p>
+        <p>
+            <a href="{{ request.GET.file_url }}" download>Download Your Application (PDF)</a>
+        </p>
     {% endif %}
 {% endblock %}

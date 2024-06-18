@@ -122,6 +122,7 @@ class DrivingExperienceForm(forms.ModelForm):
             'tractor_three_trailers_to', 'tractor_three_trailers_miles',
             'motorcoach_eight', 'motorcoach_eight_from', 'motorcoach_eight_to', 'motorcoach_eight_miles',
             'motorcoach_fifteen', 'motorcoach_fifteen_from', 'motorcoach_fifteen_to', 'motorcoach_fifteen_miles',
+            'other_name', 'other_type', 'other_to', 'other_from', 'other_miles',
             'states_operated_in', 'special_courses', 'safe_driving_awards'
         ]
         widgets = {
@@ -143,6 +144,9 @@ class DrivingExperienceForm(forms.ModelForm):
             'motorcoach_fifteen_from': forms.DateInput(attrs={'type': 'date'}),
             'motorcoach_fifteen_to': forms.DateInput(attrs={'type': 'date'}),
             'motorcoach_fifteen_miles': forms.NumberInput(attrs={'step': '50'}),
+            'other_from': forms.DateInput(attrs={'type': 'date'}),
+            'other_to': forms.DateInput(attrs={'type': 'date'}),
+            'other_miles': forms.NumberInput(attrs={'step': '50'}),
         }
 
 

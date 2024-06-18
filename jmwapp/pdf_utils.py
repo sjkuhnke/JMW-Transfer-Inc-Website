@@ -3,8 +3,12 @@ import os.path
 
 from PyPDF2 import PdfReader, PdfWriter
 from reportlab.lib.utils import simpleSplit
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from io import BytesIO
+
+from jmwWebsite import settings
 
 
 def fill_pdf(form_data):
@@ -13,8 +17,8 @@ def fill_pdf(form_data):
     buffer = BytesIO()
     pagesize = (816.0, 1056.0)
     c = canvas.Canvas(buffer, pagesize=pagesize)
-
-    # draw_grid(c, pagesize)
+    font_path = os.path.join(base_dir, 'jmwapp', 'static', 'fonts', 'Pacifico-Regular.ttf')
+    pdfmetrics.registerFont(TTFont('Pacifico', font_path))
 
     c.setFont("Helvetica", 12)
 
@@ -29,11 +33,12 @@ def fill_pdf(form_data):
     draw_string(c, 423, 622, '54913')
 
     # -- Section 9 -- #
+    c.setFont("Pacifico", 14)
+    draw_string(c, 100, 289, form_data['signature'])
+    draw_string(c, 438, 288, format_date(form_data['date']))
 
     c.showPage()
-
-    # draw_grid(c, pagesize)
-    # c.setFont("Helvetica", 12)
+    c.setFont("Helvetica", 12)
 
     # -- Section 2 -- #
     draw_string(c, 133, 731, form_data['position_applied_for'])
@@ -166,7 +171,6 @@ def fill_pdf(form_data):
         c.showPage()
 
     c.showPage()
-    # draw_grid(c, pagesize)
     c.setFont("Helvetica", 12)
 
     # -- Section 4 -- #
@@ -244,26 +248,78 @@ def fill_pdf(form_data):
     wrap_text(c, form_data.get('license_details', ''), 300, 291, 477, 13, 62)
 
     # -- Section 7 -- #
-    straight_truck = form_data.get('straight_truck', '')
-    if straight_truck != 'on':
-        pass
-    tractor_semi_trailer = form_data.get('tractor_semi_trailer', '')
-    if tractor_semi_trailer == 'on':
-        pass
-    tractor_two_trailers = form_data.get('tractor_two_trailers', '')
-    if tractor_two_trailers == 'on':
-        pass
-    tractor_three_trailers = form_data.get('tractor_three_trailers', '')
-    if tractor_three_trailers == 'on':
-        pass
-    motorcoach_eight = form_data.get('motorcoach_eight', '')
-    if motorcoach_eight == 'on':
-        pass
-    motorcoach_fifteen = form_data.get('motorcoach_fifteen', '')
-    if motorcoach_fifteen == 'on':
-        pass
+    equipment = [
+        'straight_truck',
+        'tractor_semi_trailer',
+        'tractor_two_trailers',
+        'tractor_three_trailers',
+        'motorcoach_eight',
+        'motorcoach_fifteen'
+    ]
+    choices = [
+        ('van', 287, 10),
+        ('tank', 306, 12),
+        ('flat', 327, 11),
+        ('dump', 349, 13),
+        ('refer', 373, 14)
+    ]
+    y_base = 401
+    for i in range(6):
+        y = y_base - i * 14
+        e = handle_boolean(form_data.get(equipment[i], ''))
+        if e == 'Yes':
+            draw_string(c, 176, y, "\u2713")
+            c.setFont("Helvetica", 9)
+            draw_string(c, 393, y, format_date(form_data.get(f'{equipment[i]}_from', '')))
+            draw_string(c, 442, y, format_date(form_data.get(f'{equipment[i]}_to', '')))
+            c.setFont("Helvetica", 12)
+            draw_string(c, 491, y, form_data.get(f'{equipment[i]}_miles', ''))
+            if i < 4:
+                selection = form_data.get(f'{equipment[i]}_type', '')
+                for choice, x, r in choices:
+                    if choice == selection:
+                        h = r / 2
+                        x1 = x - r
+                        y1 = y + h + 2
+                        x2 = x + r
+                        y2 = y - h + 2
+                        c.ellipse(x1, y1, x2, y2)
+                        break
+        else:
+            draw_string(c, 206, y, "\u2713")
+
+    draw_string(c, 85, 316, form_data.get('other_name', ''))
+    draw_string(c, 279, 316, form_data.get('other_type', ''))
+    c.setFont("Helvetica", 9)
+    draw_string(c, 393, 316, format_date(form_data.get('other_from', '')))
+    draw_string(c, 442, 316, format_date(form_data.get('other_to', '')))
+    c.setFont("Helvetica", 12)
+    draw_string(c, 491, 316, form_data.get('other_miles', ''))
+
+    wrap_text(c, form_data.get('states_operated_in', ''), 332, 248, 297, 13, 49)
+    draw_string(c, 348, 271, form_data.get('special_courses', ''))
+    draw_string(c, 308, 258, form_data.get('safe_driving_awards', ''))
 
     # -- Section 8 -- #
+    wrap_text(c, form_data.get('trucking_experience', ''), 530, 50, 212, 13)
+    wrap_text(c, form_data.get('courses_other', ''), 530, 50, 173, 13)
+    draw_string(c, 50, 134, form_data.get('special_equipment', ''))
+    grade = int(form_data['highest_grade_completed'])
+    xs = [206, 218, 228, 240, 251, 263, 276, 288,
+          389, 401, 413, 425,
+          502, 515, 528, 541]
+    for i in range(16):
+        if i + 1 == grade:
+            c.circle(xs[i], 105, 6)
+            break
+
+    draw_string(c, 179, 91, form_data['last_school_attended_name'])
+    draw_string(c, 435, 91, form_data['last_school_attended_city'])
+    draw_string(c, 549, 91, form_data['last_school_attended_state'])
+
+    c.setFont("Pacifico", 14)
+    draw_string(c, 100, 31, form_data['signature'])
+    draw_string(c, 436, 31, format_date(form_data['date']))
 
     c.showPage()
     c.save()

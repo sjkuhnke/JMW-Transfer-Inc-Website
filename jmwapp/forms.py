@@ -162,5 +162,6 @@ class SignatureForm(forms.ModelForm):
             'signature', 'date'
         ]
         widgets = {
+            'signature': forms.TextInput(attrs={'class': 'cursive-field'}),
             'date': forms.DateInput(attrs={'type': 'date'})
         }

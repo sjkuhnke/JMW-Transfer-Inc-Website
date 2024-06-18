@@ -2,6 +2,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Application Submitted Successfully!</h2>
-  <p>Thank you for your application. We will review it and get back to you soon.</p>
+    <h2>Application Submitted Successfully!</h2>
+    <p>Thank you for your application. We will review it and get back to you soon.</p>
+    
+    {% if request.GET.file_url %}
+    <h3>View Your Application</h3>
+    <iframe src="{{ request.GET.file_url }}" width="600" height="500"></iframe>
+    <p>
+      <a href="{{ request.GET.file_url }}" download>Download Your Application</a>
+    </p>
+    {% endif %}
 {% endblock %}

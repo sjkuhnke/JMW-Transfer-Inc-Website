@@ -1,3 +1,5 @@
+import os
+
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -72,24 +74,21 @@ class JobApplicationView(View):
         applicant_name = form_data['applicant_name']
 
         name_parts = applicant_name.split()
-        first_name = ''
-        last_name = ''
-        if len(name_parts) == 1:
-            first_name = name_parts[0]
-            last_name = ''
-        elif len(name_parts) >= 2:
-            first_name = name_parts[0]
-            last_name = name_parts[1]
-
-        if last_name:
-            file_name = f"{last_name},{first_name}_Application.pdf"
-        else:
-            file_name = f"{first_name}_Application.pdf"
+        first_name = name_parts[0] if name_parts else ''
+        last_name = name_parts[1] if len(name_parts) > 1 else ''
+        file_name = f"{last_name},{first_name}_Application.pdf" if last_name else f"{first_name}_Application.pdf"
 
         email.attach(file_name, filled_pdf, 'application/pdf')
         email.send()
 
-        return JsonResponse({'success': True})
+        file_path = os.path.join('media', 'applications', file_name)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, 'wb') as f:
+            f.write(filled_pdf)
+
+        file_url = f'/media/applications/{file_name}'
+
+        return JsonResponse({'success': True, 'file_url': file_url})
 
 
 def download_application(request):

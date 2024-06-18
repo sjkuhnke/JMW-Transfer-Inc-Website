@@ -716,6 +716,7 @@
                 }
             });
             
+            const existingErrorMessage = document.querySelector('.error-container');
             if (!allSectionsValid) {
                 firstInvalidSection.classList.add('expanded');
                 
@@ -725,7 +726,6 @@
                     }, 200);
                 }
                 
-                const existingErrorMessage = document.querySelector('.error-container');
                 if (!existingErrorMessage) {
                     const container = document.createElement('div');
                     container.classList.add('error-container');
@@ -738,20 +738,23 @@
                     submitButton.parentElement.appendChild(container);
                 }
             } else {
+                if (existingErrorMessage) {
+                    existingErrorMessage.remove();
+                }
                 const formData = new FormData(document.querySelector('form'));
                 fetch('/job-application/', {
                     method: 'POST',
                     body: formData
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.href = '/application-success';
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        window.location.href = `/application-success?file_url=${encodeURIComponent(data.file_url)}`;
                     } else {
                         alert('There was an error submitting your application.');
                     }
                 }).catch(error => {
                     console.error('Error:', error);
                     alert('There was an error submitting your application.');
-                })
+                });
             }
         });
 

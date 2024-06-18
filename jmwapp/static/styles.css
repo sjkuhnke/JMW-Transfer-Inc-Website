@@ -1,4 +1,7 @@
 /* static/styles.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 main {
     max-width: 1000px;
     margin: 150px auto 20px;
@@ -485,9 +488,9 @@ form div {
 
 .cursive-field {
     flex: 1;
-    font-family: 'Pacifico', cursive; /* Use a cursive font, e.g., 'Pacifico' */
-    font-size: 1.2em; /* Adjust the font size as needed */
-    padding-left: 0.5em; /* Optional: Add padding if needed */
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2em;
+    padding-left: 0.5em;
     box-sizing: border-box;
 }
 

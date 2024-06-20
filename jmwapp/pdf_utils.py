@@ -368,6 +368,8 @@ def draw_grid(c, pagesize):
 
 
 def format_date(date_str):
+    if date_str == '':
+        return date_str
     date_obj = datetime.strptime(date_str, '%Y-%m-%d')
     formatted_date = date_obj.strftime('%m/%d/%Y')
     return formatted_date
@@ -394,6 +396,8 @@ def split_date(date_str):
 
 
 def wrap_text(c, text, max_px, x, y, dy, base_x=None):
+    if text == '':
+        return
     lines = []
     if base_x is not None:
         first_line = simpleSplit(text, c._fontname, c._fontsize, max_px)[0]

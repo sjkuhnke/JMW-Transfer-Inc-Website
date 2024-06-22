@@ -1,1 +1,1 @@
-web: gunicorn jmwapp.wsgi --log-file -
+web: gunicorn jmwWebsite.wsgi --log-file -

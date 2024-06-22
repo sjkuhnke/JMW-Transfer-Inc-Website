@@ -1,0 +1,1 @@
+web: gunicorn jmwapp.wsgi --log-file -

@@ -13,7 +13,7 @@ from jmwWebsite import settings
 
 def fill_pdf(form_data):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    existing_pdf_path = os.path.join(base_dir, 'jmwapp', 'static', 'pdf', 'JMW_Application.PDF')
+    existing_pdf_path = os.path.join(base_dir, 'jmwapp', 'static', 'pdf', 'JMW_Application.pdf')
     buffer = BytesIO()
     pagesize = (816.0, 1056.0)
     c = canvas.Canvas(buffer, pagesize=pagesize)

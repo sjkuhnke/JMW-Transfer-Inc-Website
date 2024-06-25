@@ -664,6 +664,16 @@ form input, form select, form textarea {
     background-color: #fdd;
 }
 
+.success-message {
+    padding: 10px 20px;
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
 .error-message {
     color: red;
     font-size: 0.9em;
@@ -784,5 +794,20 @@ form input, form select, form textarea {
     .application-header {
         margin-left: 0;
         margin-right: 0;
+    }
+
+     /* About Us Mobile Styles */
+    .about-us-container {
+        display: block;
+    }
+
+    .about-us-text {
+        max-width: 100%;
+        margin-bottom: 20px; /* Add some space below the text section */
+    }
+
+    .about-us-image {
+        margin-left: 0;
+        text-align: center; /* Center the image on smaller screens */
     }
 }

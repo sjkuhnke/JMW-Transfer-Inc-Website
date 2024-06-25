@@ -4,6 +4,8 @@ from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
+from django.conf import settings
+from django.template.loader import render_to_string
 from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordFormSet, TrafficConvictionFormSet, \
     LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm, \
     ApplicableCheckboxesForm, AddressFormset
@@ -19,6 +21,33 @@ def about_us(request):
 
 
 def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        if not name or not email or not message:
+            return render(request, 'contact.html', {'error': 'All fields are required.'})
+
+        subject = 'New Contact Submission'
+        body = render_to_string('contact_email.txt', {
+            'name': name,
+            'email': email,
+            'message': message,
+        })
+
+        email_message = EmailMessage(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            ['shaejk29@gmail.com']
+        )
+
+        try:
+            email_message.send()
+            return render(request, 'contact.html', {'success': 'Thank you for your message. We will get back to you shortly.'})
+        except Exception as e:
+            return render(request, 'contact.html', {'error': f'An error occurred: {str(e)}'})
     return render(request, 'contact.html')
 
 

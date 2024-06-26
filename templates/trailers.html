@@ -116,6 +116,7 @@
         if (selectedType) {
             const selectedElement = document.getElementById(selectedType);
             if (selectedElement) {
+                selectedElement.scrollIntoView({ block: 'center' });
                 setTimeout(() => {
                     selectedElement.classList.add('flash-highlight');
     

@@ -207,21 +207,29 @@ nav ul li a:hover {
 
 .mySlides {
     display: none;
+    position: absolute;
+    width: 100%;
+    transition: transform 1.5s ease-in-out;
 }
 
 .featured-image {
     width: 100%;
     max-width: 1200px;
-    margin-bottom: 0;
+    cursor: grab;
 }
 
 .fade {
     animation: fadeEffect 1.5s;
 }
 
-@keyframes fadeEffect {
-    from {opacity: .4}
-    to {opacity: 1}
+@keyframes slideEffect {
+    0% {transform: translateX(100%);}
+    100% {transform: translateX(0);}
+}
+
+.mySlides.slide {
+    display: block;
+    animation: slideEffect 1.5s ease-in-out;
 }
 
 /* Main page trailers */
@@ -299,7 +307,7 @@ body.sticky-header-padding {
 }
 
 .trailer-type img {
-    max-width: 100%;
+    max-width: 250px;
     height: auto;
     border-radius: 10px;
     margin-bottom: 10px;

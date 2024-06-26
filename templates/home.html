@@ -50,33 +50,55 @@
         </div>
     </div>
     <div class="slideshow-container">
-        <div class="mySlides fade">
+        <div class="mySlides">
             <img src="{% static 'images/website-photo5.png' %}" alt="Featured 1" class="featured-image">
         </div>
-        <div class="mySlides fade">
-            <img src="{% static 'images/website-photo2.jpg' %}" alt="Featured 2" class="featured-image">
+        <div class="mySlides">
+            <img src="{% static 'images/website-photo6.jpg' %}" alt="Featured 2" class="featured-image">
         </div>
-        <div class="mySlides fade">
-            <img src="{% static 'images/website-photo3.jpg' %}" alt="Featured 3" class="featured-image">
+        <div class="mySlides">
+            <img src="{% static 'images/website-photo8.jpg' %}" alt="Featured 3" class="featured-image">
         </div>
-        <div class="mySlides fade">
+        <div class="mySlides">
             <img src="{% static 'images/website-photo4.jpeg' %}" alt="Featured 4" class="featured-image">
         </div>
+        <div class="mySlides">
+            <img src="{% static 'images/website-photo7.jpg' %}" alt="Featured 5" class="featured-image">
+        </div>
+        <div class="mySlides">
+            <img src="{% static 'images/website-photo10.jpg' %}" alt="Featured 6" class="featured-image">
+        </div>
         <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
+        document.addEventListener('DOMContentLoaded', () => {
             let slideIndex = 0;
-            showSlides();
+            let slides = document.getElementsByClassName("mySlides");
         
             function showSlides() {
-                let slides = document.getElementsByClassName("mySlides");
                 for (let i = 0; i < slides.length; i++) {
                     slides[i].style.display = "none";  
+                    slides[i].classList.remove("slide");
                 }
                 slideIndex++;
-                if (slideIndex > slides.length) {slideIndex = 1}    
+                if (slideIndex > slides.length) { slideIndex = 1; }
+                slides[slideIndex-1].classList.add("slide");
                 slides[slideIndex-1].style.display = "block";  
                 setTimeout(showSlides, 3000);
             }
+            
+            function makeImagesGrabbable() {
+                const images = document.getElementsByClassName("featured-image");
+                for (let i = 0; i < images.length; i++) {
+                    images[i].addEventListener('mousedown', function() {
+                       images[i].style.cursor = 'grabbing'; 
+                    });
+                    images[i].addEventListener('mouseup', function() {
+                       images[i].style.cursor = 'grab'; 
+                    });
+                }
+            }
+            
+            showSlides();
+            makeImagesGrabbable();
         });
         </script>
     </div>
@@ -87,19 +109,19 @@
                 <img src="{% static 'images/trailer1.jpg' %}" alt="Dry Van" class="trailer-image">
                 Dry Van
             </li>
-            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}#dry_van?type=heated'">
+            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=heated'">
                 <img src="{% static 'images/trailer5.jpg' %}" alt="Heated Flatbed Roll" class="trailer-image">
                 Heated Flatbed Roll
             </li>
-            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}#heated?type=conestoga'">
+            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=conestoga'">
                 <img src="{% static 'images/trailer4.jpg' %}" alt="Conestoga" class="trailer-image">
                 Conestoga
             </li>
-            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}#conestoga?type=flatbed'">
+            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=flatbed'">
                 <img src="{% static 'images/trailer3.jpg' %}" alt="Flatbed/Drop Deck" class="trailer-image">
                 Flatbed
             </li>
-            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}#flatbed?type=storage'">
+            <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=storage'">
                 <img src="{% static 'images/trailer2.jpg' %}" alt="Storage Van" class="trailer-image">
                 Storage Van
             </li>

@@ -1,6 +1,8 @@
 <!-- templates/contact.html -->
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Contact Us - JMW Transfer, Inc.{% endblock %}
 
 {% block content %}
@@ -30,4 +32,8 @@
         <button type="submit">Submit</button>
     </div>
 </form>
+    
+<div class="application-image">
+    <img src="{% static 'images/image1.jpg' %}" alt="Application Image">
+</div>
 {% endblock %}

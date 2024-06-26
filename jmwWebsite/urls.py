@@ -28,7 +28,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('services/', views.services, name='services'),
     path('jobs/', views.jobs, name='jobs'),
-    path('trailer-types/', views.trailer_types, name='trailer_types'),
+    path('trailers/', views.trailers, name='trailer_types'),
     path('job-application/', JobApplicationView.as_view(), name='job_application'),
     path('application-success/', TemplateView.as_view(template_name="application_success.html"), name='application_success'),
     path('download-application/', download_application, name='download_application'),

@@ -61,8 +61,8 @@ def jobs(request):
     return render(request, 'jobs.html')
 
 
-def trailer_types(request):
-    return render(request, 'trailer_types.html')
+def trailers(request):
+    return render(request, 'trailers.html')
 
 
 class JobApplicationView(View):

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+<!-- templates/services.html -->
+
+{% load static %}
+
+{% block title %}Services - JMW Transfer, Inc.{% endblock %}
+
+{% block content %}
+<div style="text-align: center;">
+    <h1>Our Services</h1>
+    <p>Explore the wide range of services we offer.</p>
+</div>
+<div class="services-container">
+    <!-- Special Loads -->
+    <div class="service" id="special_loads">
+        <h2>Special Loads</h2>
+        <div class="service-images">
+            <img src="{% static 'images/services_1.jfif' %}" alt="Special Load 1">
+            <img src="{% static 'images/services_2.jfif' %}" alt="Special Load 2">
+            <img src="{% static 'images/services_3.jfif' %}" alt="Special Load 3">
+            <img src="{% static 'images/services_4.jfif' %}" alt="Special Load 4">
+            <img src="{% static 'images/services_5.jfif' %}" alt="Special Load 5">
+            <img src="{% static 'images/services_6.jfif' %}" alt="Special Load 6">
+        </div>
+    </div>
+
+    <!-- Oversized Loads -->
+    <div class="service" id="oversized_loads">
+        <h2>Oversized Loads</h2>
+        <div class="service-images">
+            <img src="{% static 'images/services_11.jfif' %}" alt="Oversized Load 1">
+            <img src="{% static 'images/services_12.jfif' %}" alt="Oversized Load 2">
+        </div>
+    </div>
+
+    <!-- Van Loads -->
+    <div class="service" id="van_loads">
+        <h2>Van Loads</h2>
+        <div class="service-images">
+            <img src="{% static 'images/services_21.jfif' %}" alt="Van Load 1">
+            <img src="{% static 'images/services_22.jpg' %}" alt="Van Load 2">
+            <img src="{% static 'images/services_23.jfif' %}" alt="Van Load 3">
+        </div>
+    </div>
+
+    <!-- Flatbed Loads -->
+    <div class="service" id="flatbed_loads">
+        <h2>Flatbed Loads</h2>
+        <div class="service-images">
+            <img src="{% static 'images/services_31.jfif' %}" alt="Flatbed Load 1">
+            <img src="{% static 'images/services_32.jfif' %}" alt="Flatbed Load 2">
+            <img src="{% static 'images/services_33.jpg' %}" alt="Flatbed Load 3">
+            <img src="{% static 'images/services_34.jpg' %}" alt="Flatbed Load 4">
+            <img src="{% static 'images/services_35.jpeg' %}" alt="Flatbed Load 5">
+            <img src="{% static 'images/services_36.jpeg' %}" alt="Flatbed Load 6">
+        </div>
+    </div>
+</div>
+{% endblock %}

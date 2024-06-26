@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+<!-- templates/trailer_types.html -->
+
+{% load static %}
+
+{% block title %}Trailer Types - JMW Transfer, Inc.{% endblock %}
+
+{% block content %}
+<div style="text-align: center;">
+    <h1>Trailer Types</h1>
+    <p>We have a bunch of different types of trailers.</p>
+</div>
+<div class="trailer-types-container">
+    <div class="trailer-type" id="dry_van">
+        <img class="slide" src="{% static 'images/dry_van1.jpg' %}" alt="Dry Van">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 'dry_van', 4)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'dry_van', 4)">❯</button>
+        </div>
+        <h2>Dry Van Trailers</h2>
+        <p id="dry_van-size">53' x 102"</p>
+    </div>
+    <div class="trailer-type" id="heated">
+        <img class="slide" src="{% static 'images/heated1.jpg' %}" alt="Heated Flatbed Roll">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 'heated', 2)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'heated', 2)">❯</button>
+        </div>
+        <h2>Heated Flatbed Roll Trailers</h2>
+        <p id="heated-size">48' x 102"</p>
+    </div>
+    <div class="trailer-type" id="conestoga">
+        <img class="slide" src="{% static 'images/conestoga1.jpg' %}" alt="Conestoga">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 'conestoga', 2)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'conestoga', 2)">❯</button>
+        </div>
+        <h2>Conestoga Trailers</h2>
+        <p id="conestoga-size">Drop Deck: Bottom Deck Length - 37.5 ft. Top Deck Length - 10 ft. Inside Height - 118". Inside Width - 102"</p>
+    </div>
+    <div class="trailer-type" id="flatbed">
+        <img class="slide" src="{% static 'images/flatbed1.jpg' %}" alt="Flatbed">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 'flatbed', 5)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'flatbed', 5)">❯</button>
+        </div>
+        <h2>Flatbed/Drop Deck Trailers</h2>
+        <p id="flatbed-size">Many different sizes, sizes vary</p>
+    </div>
+    <div class="trailer-type" id="storage">
+        <img class="slide" src="{% static 'images/storage1.jpg' %}" alt="Storage">
+        <div class="slideshow-controls">
+            <button class="prev" onclick="plusSlides(-1, 'storage', 2)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'storage', 2)">❯</button>
+        </div>
+        <h2>Storage Trailers</h2>
+        <p id="storage-size">Van Storage: 53' x 102", 48' x 102", 48' x 110"</p>
+    </div>
+</div>
+<script>
+    const slideIndices = {
+        'dry_van': 1,
+        'heated': 1,
+        'conestoga': 1,
+        'flatbed': 1,
+        'storage': 1
+    };
+
+    const slideTexts = {
+        'dry_van': [
+            "53' x 102\"",
+            "48' x 102\"",
+            "48' x 110\"",
+            "53' x 110\""
+        ],
+        'heated': [
+            "48' x 102\"",
+            "45' x 102\""
+        ],
+        'conestoga': [
+            "Drop Deck: Bottom Deck Length - 37.5 ft. Top Deck Length - 10 ft. Inside Height - 118\". Inside Width - 102\"",
+            "Flatbed: Flatbed Length - 47.5 ft. Inside Height - 98\". Inside Width - 102\""
+        ],
+        'flatbed': [
+            "Many different sizes, sizes vary",
+            "Many different sizes, sizes vary",
+            "Many different sizes, sizes vary",
+            "Many different sizes, sizes vary",
+            "Many different sizes, sizes vary"
+        ],
+        'storage': [
+            "Van Storage: 53' x 102\", 48' x 102\", 48' x 110\"",
+            "Flatbed Storage: 48' x 102\" - 40' x 96\""
+        ]
+    };
+
+    function plusSlides(n, trailerType, totalSlides) {
+        showSlides(slideIndices[trailerType] += n, trailerType, totalSlides);
+    }
+
+    function showSlides(n, trailerType, totalSlides) {
+        if (n > totalSlides) { slideIndices[trailerType] = 1; }
+        if (n < 1) { slideIndices[trailerType] = totalSlides; }
+
+        const slide = document.querySelector(`#${trailerType} .slide`);
+        slide.src = `{% static 'images/' %}${trailerType}${slideIndices[trailerType]}.jpg`;
+        
+        const text = document.getElementById(`${trailerType}-size`);
+        text.innerText = slideTexts[trailerType][slideIndices[trailerType] - 1];
+    }
+
+    function highlightTrailerType() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedType = urlParams.get('type');
+        if (selectedType) {
+            const selectedElement = document.getElementById(selectedType);
+            if (selectedElement) {
+                setTimeout(() => {
+                    selectedElement.classList.add('flash-highlight');
+    
+                    setTimeout(() => {
+                        selectedElement.classList.remove('flash-highlight');
+                        const newUrl = window.location.href.split('?')[0];
+                        history.replaceState(null, '', newUrl);
+                    }, 1500);
+                }, 200);
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', highlightTrailerType);
+</script>
+{% endblock %}

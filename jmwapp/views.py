@@ -1,5 +1,7 @@
 import os
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -112,12 +114,10 @@ class JobApplicationView(View):
         email.attach(file_name, filled_pdf, 'application/pdf')
         email.send()
 
-        file_path = os.path.join('media', 'applications', file_name)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, 'wb') as f:
-            f.write(filled_pdf)
+        file_path = f'applications/{file_name}'
+        file_url = default_storage.save(file_path, ContentFile(filled_pdf))
 
-        file_url = f'/media/applications/{file_name}'
+        file_url = default_storage.url(file_path)
         return JsonResponse({'success': True, 'file_url': file_url})
 
 

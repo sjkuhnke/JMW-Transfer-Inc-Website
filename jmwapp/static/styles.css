@@ -827,6 +827,12 @@ form input, form select, form textarea {
 
 /* Media Queries for Responsive Design */
 @media (max-width: 768px) {
+    .featured-image {
+        height: auto;
+        width: 400px;
+        cursor: grab;
+    }
+
     .site-header .container {
         flex-direction: column; /* Stack header items vertically on smaller screens */
         text-align: center; /* Center align text for better appearance */

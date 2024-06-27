@@ -258,6 +258,7 @@ nav ul li a:hover {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
 .trailer-item:hover {
@@ -270,6 +271,18 @@ nav ul li a:hover {
     height: auto;
     margin-bottom: 10px;
     border-radius: 10px;
+}
+
+.rent-badge-home {
+    position: absolute;
+    top: 5px;
+    left: -5px;
+    background-color: #ff5c5c;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 
 .site-header {
@@ -301,6 +314,7 @@ body.sticky-header-padding {
 
 .trailer-type {
     text-align: center;
+    position: relative;
 }
 
 .trailer-type img {
@@ -352,6 +366,17 @@ body.sticky-header-padding {
     right: 0;
 }
 
+.rent-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff5c5c;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
 
 .flash-highlight {
     animation: flash 1.5s forwards;

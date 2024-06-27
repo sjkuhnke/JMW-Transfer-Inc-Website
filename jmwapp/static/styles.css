@@ -285,6 +285,24 @@ nav ul li a:hover {
     font-weight: bold;
 }
 
+.rent-trailers-info {
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.rent-trailers-info a {
+    color: #007bff;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom 0.3s ease;
+}
+
+.rent-trailers-info a:hover {
+    border-bottom: 1px solid #007bff;
+}
+
 .site-header {
     position: fixed;
     top: 0;

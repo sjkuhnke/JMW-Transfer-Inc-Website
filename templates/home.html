@@ -49,7 +49,7 @@
             </script>
         </div>
     </div>
-    <div class="slideshow-container">
+    <div class="slideshow-container" id="slideshow-container">
         <div class="mySlides">
             <img src="{% static 'images/website-photo5.png' %}" alt="Featured 1" class="featured-image">
         </div>
@@ -71,32 +71,51 @@
         <script>
         document.addEventListener('DOMContentLoaded', () => {
             let slideIndex = 0;
-            let slides = document.getElementsByClassName("mySlides");
-        
+            const slides = document.getElementsByClassName("mySlides");
+
             function showSlides() {
                 for (let i = 0; i < slides.length; i++) {
-                    slides[i].style.display = "none";  
-                    slides[i].classList.remove("slide");
+                    slides[i].style.display = "none";
+                    slides[i].classList.remove("slide-in", "slide-out");
                 }
+        
                 slideIndex++;
                 if (slideIndex > slides.length) { slideIndex = 1; }
-                slides[slideIndex-1].classList.add("slide");
-                slides[slideIndex-1].style.display = "block";  
-                setTimeout(showSlides, 3000);
+                const prevIndex = (slideIndex - 2 + slides.length) % slides.length;
+                const nextIndex = (slideIndex - 1) % slides.length;
+                
+                console.log(`${prevIndex}, ${nextIndex}`)
+        
+                slides[nextIndex].style.display = "block";
+                slides[nextIndex].style.left = "0";
+                slides[nextIndex].classList.add("slide-in");
+                
+                slides[prevIndex].style.display = "block";
+                slides[prevIndex].classList.add("slide-out");
+        
+                setTimeout(() => {
+                    slides[nextIndex].classList.remove("slide-in");
+                    if (prevIndex !== nextIndex) {
+                        slides[prevIndex].style.display = "none";
+                        slides[prevIndex].classList.remove("slide-out");
+                    }
+                }, 1500);
+        
+                setTimeout(showSlides, 4500);
             }
-            
+
             function makeImagesGrabbable() {
                 const images = document.getElementsByClassName("featured-image");
                 for (let i = 0; i < images.length; i++) {
                     images[i].addEventListener('mousedown', function() {
-                       images[i].style.cursor = 'grabbing'; 
+                       images[i].style.cursor = 'grabbing';
                     });
                     images[i].addEventListener('mouseup', function() {
-                       images[i].style.cursor = 'grab'; 
+                       images[i].style.cursor = 'grab';
                     });
                 }
             }
-            
+
             showSlides();
             makeImagesGrabbable();
         });

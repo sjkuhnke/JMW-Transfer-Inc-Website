@@ -81,29 +81,27 @@
                     slides[i].style.display = "none";
                     slides[i].classList.remove("sliding");
                 }
-        
+                const currentIndex = slideIndex;
                 slideIndex++;
-                if (slideIndex > slides.length) { slideIndex = 1; }
-                const prevIndex = (slideIndex - 2 + slides.length) % slides.length;
-                const nextIndex = (slideIndex - 1) % slides.length;
-                
-                console.log(`${prevIndex}, ${nextIndex}`)
+                if (slideIndex > slides.length - 1) { slideIndex = 0; }
+                const nextIndex = slideIndex;
         
                 slides[nextIndex].style.display = "block";
-                slides[nextIndex].style.left = "0";
                 slides[nextIndex].classList.add("sliding");
                 
-                if (prevIndex !== nextIndex) {
-                    slides[prevIndex].style.display = "block";
-                    slides[prevIndex].classList.add("sliding");
+                if (currentIndex === slides.length - 1 && nextIndex === 0) {
+                    slides[currentIndex].style.display = "block";
+                    slides[currentIndex].classList.add("sliding");
+                    console.log("looping");
+                } else {
+                    slides[currentIndex].style.display = "block";
+                    slides[currentIndex].classList.add("sliding");
                 }
         
                 setTimeout(() => {
+                    slides[currentIndex].style.display = "none";
+                    slides[currentIndex].classList.remove("sliding");
                     slides[nextIndex].classList.remove("sliding");
-                    if (prevIndex !== nextIndex) {
-                        slides[prevIndex].style.display = "none";
-                        slides[prevIndex].classList.remove("sliding");
-                    }
                 }, 1500);
         
                 setTimeout(showSlides, 4500);

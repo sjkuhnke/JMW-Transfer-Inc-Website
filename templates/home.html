@@ -74,35 +74,45 @@
         <script>
         document.addEventListener('DOMContentLoaded', () => {
             let slideIndex = 0;
+            const slideshowContainer = document.getElementById("slideshow-container");
             const slides = document.getElementsByClassName("mySlides");
+            const firstSlideClone = slides[0].cloneNode(true);
+            
+            slideshowContainer.appendChild(firstSlideClone);
 
             function showSlides() {
                 for (let i = 0; i < slides.length; i++) {
                     slides[i].style.display = "none";
                     slides[i].classList.remove("sliding");
                 }
+                
                 const currentIndex = slideIndex;
-                slideIndex++;
-                if (slideIndex > slides.length - 1) { slideIndex = 0; }
-                const nextIndex = slideIndex;
+                const nextIndex = slideIndex + 1;
+                const nextIndexLoops = nextIndex > slides.length - 1;
 
-                slides[nextIndex].style.display = "block";
-                slides[nextIndex].classList.add("sliding");
-
-                if (currentIndex === slides.length - 1 && nextIndex === 0) {
-                    slides[currentIndex].style.display = "block";
-                    slides[currentIndex].classList.add("sliding");
-                    console.log("looping");
+                slides[currentIndex].style.display = "block";
+                slides[currentIndex].classList.add("sliding");
+                
+                if (nextIndexLoops) {
+                    firstSlideClone.style.display = "block";
+                    firstSlideClone.classList.add("sliding");
                 } else {
-                    slides[currentIndex].style.display = "block";
-                    slides[currentIndex].classList.add("sliding");
+                    slides[nextIndex].style.display = "block";
+                    slides[nextIndex].classList.add("sliding");
                 }
         
                 setTimeout(() => {
                     slides[currentIndex].style.display = "none";
                     slides[currentIndex].classList.remove("sliding");
                     slides[nextIndex].classList.remove("sliding");
+                    firstSlideClone.classList.remove("sliding");
                 }, 1500);
+                
+                slideIndex++;
+                
+                if (slideIndex >= slides.length - 1) {
+                    slideIndex = 0;
+                }
         
                 setTimeout(showSlides, 4500);
             }

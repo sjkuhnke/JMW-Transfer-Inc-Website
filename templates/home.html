@@ -139,26 +139,37 @@
         <ul class="trailer-list">
             <li class="trailer-item for-rent" onclick="window.location.href='{% url 'trailer_types' %}?type=storage'">
                 <div class="rent-badge-home">For Rent</div>
-                <img src="{% static 'images/trailer2.jpg' %}" alt="Storage Van" class="trailer-image">
-                Storage Van
+                <div class="trailer-content">
+                    <img src="{% static 'images/trailer2.jpg' %}" alt="Storage Van" class="trailer-image">
+                    <div class="trailer-text">Storage Van</div>
+                </div>
             </li>
             <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=dry_van'">
-                <img src="{% static 'images/trailer1.jpg' %}" alt="Dry Van" class="trailer-image">
-                Dry Van
+                <div class="trailer-content">
+                    <img src="{% static 'images/trailer1.jpg' %}" alt="Dry Van" class="trailer-image">
+                    <div class="trailer-text">Dry Van</div>
+                </div>
             </li>
             <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=heated'">
-                <img src="{% static 'images/trailer5.jpg' %}" alt="Heated Flatbed Roll" class="trailer-image">
-                Heated Flatbed Roll
+                <div class="trailer-content">
+                    <img src="{% static 'images/trailer5.jpg' %}" alt="Heated Flatbed Roll" class="trailer-image">
+                    <div class="trailer-text">Heated Flatbed Roll</div>
+                </div>
             </li>
             <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=conestoga'">
-                <img src="{% static 'images/trailer4.jpg' %}" alt="Conestoga" class="trailer-image">
-                Conestoga
+                <div class="trailer-content">
+                    <img src="{% static 'images/trailer4.jpg' %}" alt="Conestoga" class="trailer-image">
+                    <div class="trailer-text">Conestoga</div>
+                </div>
             </li>
             <li class="trailer-item" onclick="window.location.href='{% url 'trailer_types' %}?type=flatbed'">
-                <img src="{% static 'images/trailer3.jpg' %}" alt="Flatbed/Drop Deck" class="trailer-image">
-                Flatbed
+                <div class="trailer-content">
+                    <img src="{% static 'images/trailer3.jpg' %}" alt="Flatbed/Drop Deck" class="trailer-image">
+                    <div class="trailer-text">Flatbed</div>
+                </div>
             </li>
         </ul>
     </div>
+
 </div>
 {% endblock %}

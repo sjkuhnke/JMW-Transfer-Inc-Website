@@ -74,6 +74,7 @@
                     e.preventDefault();
                     const trailerContainer = document.getElementById('trailers');
                     trailerContainer.scrollIntoView({ behavior: 'smooth' });
+                    navLinks.classList.toggle('active');
                     setTimeout(() => {
                         trailerContainer.classList.add('flash-highlight');
                         setTimeout(() => {
@@ -87,7 +88,7 @@
             });
             
             hamburgerMenu.addEventListener('click', () => {
-               navLinks.classList.toggle('active'); 
+               navLinks.classList.toggle('active');
             });
         });
     </script>

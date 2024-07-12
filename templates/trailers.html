@@ -16,17 +16,17 @@
         <div class="rent-badge">For Rent</div>
         <img class="slide" src="{% static 'images/storage1.jpg' %}" alt="Storage">
         <div class="slideshow-controls">
-            <button class="prev" onclick="plusSlides(-1, 'storage', 2)">❮</button>
-            <button class="next" onclick="plusSlides(1, 'storage', 2)">❯</button>
+            <button class="prev" onclick="plusSlides(-1, 'storage', 1)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'storage', 1)">❯</button>
         </div>
         <h2>Storage Trailers</h2>
-        <p id="storage-size">Van Storage: 53' x 102", 48' x 102", 48' x 110"</p>
+        <p id="storage-size">53' x 102", 48' x 102"</p>
     </div>
     <div class="trailer-type" id="dry_van">
         <img class="slide" src="{% static 'images/dry_van1.jpg' %}" alt="Dry Van">
         <div class="slideshow-controls">
-            <button class="prev" onclick="plusSlides(-1, 'dry_van', 4)">❮</button>
-            <button class="next" onclick="plusSlides(1, 'dry_van', 4)">❯</button>
+            <button class="prev" onclick="plusSlides(-1, 'dry_van', 2)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'dry_van', 2)">❯</button>
         </div>
         <h2>Dry Van Trailers</h2>
         <p id="dry_van-size">53' x 102"</p>
@@ -47,16 +47,16 @@
             <button class="next" onclick="plusSlides(1, 'conestoga', 2)">❯</button>
         </div>
         <h2>Conestoga Trailers</h2>
-        <p id="conestoga-size">Drop Deck: Bottom Deck Length - 37.5 ft. Top Deck Length - 10 ft. Inside Height - 118". Inside Width - 102"</p>
+        <p id="conestoga-size">Flatbed: Flatbed Length - 47.5 ft. Inside Height - 98". Inside Width - 102"</p>
     </div>
     <div class="trailer-type" id="flatbed">
         <img class="slide" src="{% static 'images/flatbed1.jpg' %}" alt="Flatbed">
         <div class="slideshow-controls">
-            <button class="prev" onclick="plusSlides(-1, 'flatbed', 5)">❮</button>
-            <button class="next" onclick="plusSlides(1, 'flatbed', 5)">❯</button>
+            <button class="prev" onclick="plusSlides(-1, 'flatbed', 3)">❮</button>
+            <button class="next" onclick="plusSlides(1, 'flatbed', 3)">❯</button>
         </div>
         <h2>Flatbed/Drop Deck Trailers</h2>
-        <p id="flatbed-size">Many different sizes, sizes vary</p>
+        <p id="flatbed-size">48' - 51' x 102"</p>
     </div>
 </div>
 <p class="rent-trailers-info">
@@ -110,8 +110,8 @@
         const slide = document.querySelector(`#${trailerType} .slide`);
         slide.src = `{% static 'images/' %}${trailerType}${slideIndices[trailerType]}.jpg`;
         
-        const text = document.getElementById(`${trailerType}-size`);
-        text.innerText = slideTexts[trailerType][slideIndices[trailerType] - 1];
+        //const text = document.getElementById(`${trailerType}-size`);
+        //text.innerText = slideTexts[trailerType][slideIndices[trailerType] - 1];
     }
 
     function highlightTrailerType() {

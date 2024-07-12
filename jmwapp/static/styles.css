@@ -25,7 +25,7 @@ html {
 }
 
 .footer-logo {
-    width: 75px; /* Adjust the size of the logo as needed */
+    width: 75px;
     height: auto;
 }
 
@@ -39,16 +39,16 @@ html {
 }
 
 .facebook-icon {
-    color: #3b5998; /* Facebook brand color */
+    color: #3b5998;
 }
 
 .facebook-icon:hover {
-    color: #2f66cb; /* Hover color */
+    color: #2f66cb;
 }
 
 /* Body */
 body {
-    background-color: #e0e0e0; /* Light gray background */
+    background-color: #e0e0e0;
     font-family: Candara, sans-serif;
     margin: 0;
     padding: 0;
@@ -56,7 +56,7 @@ body {
 }
 
 .container {
-    max-width: 1000px; /* Reduce the max-width for the main container */
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -96,7 +96,7 @@ body {
 }
 
 .logo {
-    width: 100px; /* Adjust the size of the logo as needed */
+    width: 100px;
     height: auto;
 }
 
@@ -554,8 +554,8 @@ body.sticky-header-padding {
 .fb-page {
     display: block;
     margin: 0 auto;
-    max-width: 1000px; /* Set a max-width that fits well within your layout */
-    width: 100%; /* Ensures it adapts to the width of the parent container */
+    max-width: 1000px;
+    width: 100%;
 }
 
 /* download application page */
@@ -904,8 +904,8 @@ form input, form select, form textarea {
     }
 
     .site-header .container {
-        flex-direction: column; /* Stack header items vertically on smaller screens */
-        text-align: center; /* Center align text for better appearance */
+        flex-direction: column;
+        text-align: center;
     }
 
     .right p {
@@ -913,7 +913,7 @@ form input, form select, form textarea {
     }
 
     nav ul {
-        justify-content: center; /* Center the navigation links */
+        justify-content: center;
         display: none;
         flex-direction: column;
     }
@@ -923,8 +923,8 @@ form input, form select, form textarea {
     }
 
     nav ul li {
-        margin-bottom: 10px; /* Add space between links */
-        margin-right: 0; /* Remove right margin */
+        margin-bottom: 10px;
+        margin-right: 0;
     }
 
     .hamburger-menu {
@@ -949,12 +949,31 @@ form input, form select, form textarea {
 
     .about-us-text {
         max-width: 100%;
-        margin-bottom: 20px; /* Add some space below the text section */
+        margin-bottom: 20px;
     }
 
     .about-us-image {
         margin-left: 0;
         max-width: 100%;
-        text-align: center; /* Center the image on smaller screens */
+        text-align: center;
+    }
+
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .buttons a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 auto;
+        margin: 5px;
+        width: 100px;
+        max-width: 100px;
+        min-width: 100px;
+        text-align: center;
+        height: 40px;
     }
 }

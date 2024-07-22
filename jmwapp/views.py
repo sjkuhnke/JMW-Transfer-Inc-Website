@@ -123,3 +123,7 @@ class JobApplicationView(View):
 
 def download_application(request):
     return render(request, 'download_application.html')
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', {}, status=404)

@@ -320,14 +320,14 @@ nav ul li a:hover {
 }
 
 .rent-trailers-info a {
-    color: #007bff;
+    color: #1672E9;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-bottom 0.3s ease;
 }
 
 .rent-trailers-info a:hover {
-    border-bottom: 1px solid #007bff;
+    border-bottom: 1px solid #1672E9;
 }
 
 .site-header {
@@ -893,6 +893,24 @@ form input, form select, form textarea {
 /* Contact Us */
 .book-antiqua {
     font-family: Book Antiqua, sans-serif;
+}
+
+/* 404 */
+.not-found-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    color: #fff;
+    background-color: #1672E9;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.not-found-button:hover {
+    background-color: #125BBA;
 }
 
 /* Media Queries for Responsive Design */

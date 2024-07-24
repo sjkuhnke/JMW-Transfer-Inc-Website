@@ -101,7 +101,7 @@ class JobApplicationView(View):
         email = EmailMessage(
             'New Job Application',
             f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
-            'itsrainyjupiter@gmail.com',  # change to app@jmwtransfer.com or no-reply@jmwtransfer.com
+            settings.DEFAULT_FROM_EMAIL,
             ['shaejk29@gmail.com'],  # change to jake@jmwtransfer.com, andy@jmwtransfer.com, and shaejk29@gmail.com
         )
         applicant_name = form_data['applicant_name']

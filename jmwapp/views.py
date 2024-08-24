@@ -38,7 +38,14 @@ def contact(request):
             'message': message,
         })
 
-        email_message = EmailMessage(
+        email = EmailMessage(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            ['jake@jmwtransfer.com', 'andy@jmwtransfer.com']
+        )
+
+        monitoring_email = EmailMessage(
             subject,
             body,
             settings.DEFAULT_FROM_EMAIL,
@@ -46,7 +53,8 @@ def contact(request):
         )
 
         try:
-            email_message.send()
+            email.send()
+            monitoring_email.send()
             return render(request, 'contact.html', {'success': 'Thank you for your message. We will get back to you shortly.'})
         except Exception as e:
             return render(request, 'contact.html', {'error': f'An error occurred: {str(e)}'})
@@ -98,12 +106,6 @@ class JobApplicationView(View):
         filled_pdf = fill_pdf(form_data)
         applicant_email = form_data['email_address']
         position_applied_for = form_data['position_applied_for']
-        email = EmailMessage(
-            'New Job Application',
-            f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
-            'itsrainyjupiter@gmail.com',  # change to app@jmwtransfer.com or no-reply@jmwtransfer.com
-            ['shaejk29@gmail.com'],  # change to jake@jmwtransfer.com, andy@jmwtransfer.com, and shaejk29@gmail.com
-        )
         applicant_name = form_data['applicant_name']
 
         name_parts = applicant_name.split()
@@ -111,8 +113,26 @@ class JobApplicationView(View):
         last_name = name_parts[1] if len(name_parts) > 1 else ''
         file_name = f"{last_name},{first_name}_Application.pdf" if last_name else f"{first_name}_Application.pdf"
 
+        # Email to Jake and Andy
+        email = EmailMessage(
+            'New Job Application',
+            f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
+            settings.DEFAULT_FROM_EMAIL,
+            ['jake@jmwtransfer.com', 'andy@jmwtransfer.com'],
+        )
+
         email.attach(file_name, filled_pdf, 'application/pdf')
         email.send()
+
+        email_monitoring = EmailMessage(
+            'New Job Application (Monitoring Copy)',
+            f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
+            settings.DEFAULT_FROM_EMAIL,
+            ['shaejk29@gmail.com'],
+        )
+
+        email_monitoring.attach(file_name, filled_pdf, 'application/pdf')
+        email_monitoring.send()
 
         file_path = f'applications/{file_name}'
         file_url = default_storage.save(file_path, ContentFile(filled_pdf))
@@ -123,3 +143,7 @@ class JobApplicationView(View):
 
 def download_application(request):
     return render(request, 'download_application.html')
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', {}, status=404)

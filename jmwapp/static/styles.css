@@ -895,6 +895,12 @@ form input, form select, form textarea {
     font-family: Book Antiqua, sans-serif;
 }
 
+.g-recaptcha {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
 /* 404 */
 .not-found-button {
     display: inline-block;

@@ -147,11 +147,11 @@ def fill_pdf(form_data):
                 y_base -= 2
             if subject_to_fmcsr == 'Yes':
                 draw_string(c, 281 - x_offset, y_base - 62, "\u2713")
-            else:
+            elif subject_to_fmcsr == 'No':
                 draw_string(c, 313 - x_offset, y_base - 62, "\u2713")
             if drug_alcohol_testing == 'Yes':
                 draw_string(c, 236 - x_offset, y_base - 87, "\u2713")
-            else:
+            elif subject_to_fmcsr == 'No':
                 draw_string(c, 268 - x_offset, y_base - 87, "\u2713")
             c.setFont("Helvetica", 9)
             if 0 < i < 3:

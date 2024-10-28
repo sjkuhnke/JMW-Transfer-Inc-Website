@@ -1,5 +1,6 @@
 import os
 
+import boto3
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.mail import EmailMessage
@@ -12,6 +13,11 @@ from .forms import JobApplicationForm, EmploymentHistoryFormSet, AccidentRecordF
     LicenseFormSet, License2Form, DrivingExperienceForm, ExperienceQualificationsForm, SignatureForm, \
     ApplicableCheckboxesForm, AddressFormset
 from .pdf_utils import fill_pdf
+import traceback
+import logging
+import requests
+from datetime import datetime
+from botocore.exceptions import ClientError
 
 
 def home(request):
@@ -27,9 +33,22 @@ def contact(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
+        recaptcha_response = request.POST.get('g-recaptcha-response')
 
         if not name or not email or not message:
             return render(request, 'contact.html', {'error': 'All fields are required.'})
+
+        recaptcha_verify_url = 'https://www.google.com/recaptcha/api/siteverify'
+        recaptcha_data = {
+            'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+            'response': recaptcha_response
+        }
+        recaptcha_result = requests.post(recaptcha_verify_url, data=recaptcha_data)
+        recaptcha_result_json = recaptcha_result.json()
+
+        print(recaptcha_result_json)
+        if not recaptcha_result_json['success']:
+            return render(request, 'contact.html', {'error': 'reCAPTCHA validation failed. Please try again.'})
 
         subject = 'New Contact Submission'
         body = render_to_string('contact_email.txt', {
@@ -58,7 +77,9 @@ def contact(request):
             return render(request, 'contact.html', {'success': 'Thank you for your message. We will get back to you shortly.'})
         except Exception as e:
             return render(request, 'contact.html', {'error': f'An error occurred: {str(e)}'})
-    return render(request, 'contact.html')
+    return render(request, 'contact.html', {
+        'recaptcha_site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY
+    })
 
 
 def services(request):
@@ -101,44 +122,96 @@ class JobApplicationView(View):
         })
 
     def post(self, request):
-        form_data = request.POST
+        try:
+            form_data = request.POST
 
-        filled_pdf = fill_pdf(form_data)
-        applicant_email = form_data['email_address']
-        position_applied_for = form_data['position_applied_for']
-        applicant_name = form_data['applicant_name']
+            filled_pdf = fill_pdf(form_data)
+            applicant_email = form_data['email_address']
+            position_applied_for = form_data['position_applied_for']
+            applicant_name = form_data['applicant_name']
 
-        name_parts = applicant_name.split()
-        first_name = name_parts[0] if name_parts else ''
-        last_name = name_parts[1] if len(name_parts) > 1 else ''
-        file_name = f"{last_name},{first_name}_Application.pdf" if last_name else f"{first_name}_Application.pdf"
+            name_parts = applicant_name.split()
+            first_name = name_parts[0] if name_parts else ''
+            last_name = name_parts[1] if len(name_parts) > 1 else ''
+            file_name = f"{last_name},{first_name}_Application.pdf" if last_name else f"{first_name}_Application.pdf"
 
-        # Email to Jake and Andy
-        email = EmailMessage(
-            'New Job Application',
-            f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
-            settings.DEFAULT_FROM_EMAIL,
-            ['jake@jmwtransfer.com', 'andy@jmwtransfer.com'],
+            # Email to Jake and Andy
+            email = EmailMessage(
+                'New Job Application',
+                f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
+                settings.DEFAULT_FROM_EMAIL,
+                ['jake@jmwtransfer.com', 'andy@jmwtransfer.com'],
+            )
+
+            email.attach(file_name, filled_pdf, 'application/pdf')
+            email.send()
+
+            email_monitoring = EmailMessage(
+                'New Job Application (Monitoring Copy)',
+                f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
+                settings.DEFAULT_FROM_EMAIL,
+                ['shaejk29@gmail.com'],
+            )
+
+            email_monitoring.attach(file_name, filled_pdf, 'application/pdf')
+            email_monitoring.send()
+
+            file_path = f'applications/{file_name}'
+            file_url = default_storage.save(file_path, ContentFile(filled_pdf))
+
+            self.log_application_data_to_s3(form_data, applicant_name)
+
+            file_url = default_storage.url(file_path)
+            return JsonResponse({'success': True, 'file_url': file_url})
+        except Exception as e:
+            error_message = traceback.format_exc()
+            self.log_error_to_s3(error_message)
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    def log_error_to_s3(self, error_message):
+        s3_client = boto3.client(
+            's3',
+            region_name=settings.AWS_S3_REGION_NAME,
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
         )
+        bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+        timestamp = datetime.utcnow().strftime('%Y-%m-%d_%H-%M-%S')
+        log_file_name = f'job_application_errors/{timestamp}_error_log.txt'
+        try:
+            s3_client.put_object(
+                Bucket=bucket_name,
+                Key=log_file_name,
+                Body=error_message,
+            )
+        except ClientError as e:
+            logging.error("Failed to upload error log to S3: %s", e)
 
-        email.attach(file_name, filled_pdf, 'application/pdf')
-        email.send()
-
-        email_monitoring = EmailMessage(
-            'New Job Application (Monitoring Copy)',
-            f'A new job application has been submitted.\n\nFrom: {applicant_email}\nPosition: {position_applied_for}',
-            settings.DEFAULT_FROM_EMAIL,
-            ['shaejk29@gmail.com'],
+    def log_application_data_to_s3(self, form_data, applicant_name):
+        s3_client = boto3.client(
+            's3',
+            region_name=settings.AWS_S3_REGION_NAME,
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
         )
+        bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+        timestamp = datetime.utcnow().strftime('%Y-%m-%d_%H-%M-%S')
+        text_file_name = f'job_application_logs/{timestamp}_{applicant_name}_log.txt'
 
-        email_monitoring.attach(file_name, filled_pdf, 'application/pdf')
-        email_monitoring.send()
+        log_content = "Job Application Submission\n"
+        log_content += f"Timestamp: {timestamp}\n\n"
+        for field, value in form_data.items():
+            log_content += f"{field}: {value}\n"
 
-        file_path = f'applications/{file_name}'
-        file_url = default_storage.save(file_path, ContentFile(filled_pdf))
-
-        file_url = default_storage.url(file_path)
-        return JsonResponse({'success': True, 'file_url': file_url})
+        try:
+            s3_client.put_object(
+                Bucket=bucket_name,
+                Key=text_file_name,
+                Body=log_content,
+                ContentType='text/plain',
+            )
+        except ClientError as e:
+            logging.error("Failed to upload log to S3: %s", e)
 
 
 def download_application(request):

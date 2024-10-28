@@ -814,11 +814,12 @@
                     if (data.success) {
                         window.location.href = `/application-success?file_url=${encodeURIComponent(data.file_url)}`;
                     } else {
-                        alert('There was an error submitting your application.');
+                        alert('There was an error submitting your application: ' + (data.error || 'Unknown error'));
+                        console.error('Submission error:', data);
                     }
                 }).catch(error => {
                     console.error('Error:', error);
-                    alert('There was an error submitting your application.');
+                    alert('There was an error submitting your application. See console for details.');
                 });
             }
         });

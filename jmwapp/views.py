@@ -29,6 +29,8 @@ def about_us(request):
 
 
 def contact(request):
+    recaptcha_site_key = settings.GOOGLE_RECAPTCHA_SITE_KEY
+    
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -36,7 +38,10 @@ def contact(request):
         recaptcha_response = request.POST.get('g-recaptcha-response')
 
         if not name or not email or not message:
-            return render(request, 'contact.html', {'error': 'All fields are required.'})
+            return render(request, 'contact.html', {
+                'error': 'All fields are required.',
+                'recaptcha_site_key': recaptcha_site_key
+            })
 
         recaptcha_verify_url = 'https://www.google.com/recaptcha/api/siteverify'
         recaptcha_data = {
@@ -46,9 +51,11 @@ def contact(request):
         recaptcha_result = requests.post(recaptcha_verify_url, data=recaptcha_data)
         recaptcha_result_json = recaptcha_result.json()
 
-        print(recaptcha_result_json)
         if not recaptcha_result_json['success']:
-            return render(request, 'contact.html', {'error': 'reCAPTCHA validation failed. Please try again.'})
+            return render(request, 'contact.html', {
+                'error': 'reCAPTCHA validation failed. Please try again.',
+                'recaptcha_site_key': recaptcha_site_key
+            })
 
         subject = 'New Contact Submission'
         body = render_to_string('contact_email.txt', {
@@ -74,11 +81,17 @@ def contact(request):
         try:
             email.send()
             monitoring_email.send()
-            return render(request, 'contact.html', {'success': 'Thank you for your message. We will get back to you shortly.'})
+            return render(request, 'contact.html', {
+                'success': 'Thank you for your message. We will get back to you shortly.',
+                'recaptcha_site_key': recaptcha_site_key
+            })
         except Exception as e:
-            return render(request, 'contact.html', {'error': f'An error occurred: {str(e)}'})
+            return render(request, 'contact.html', {
+                'error': f'An error occurred: {str(e)}',
+                'recaptcha_site_key': recaptcha_site_key
+            })
     return render(request, 'contact.html', {
-        'recaptcha_site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY
+        'recaptcha_site_key': recaptcha_site_key
     })
 
 

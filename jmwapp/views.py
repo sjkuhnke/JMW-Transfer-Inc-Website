@@ -79,7 +79,7 @@ def contact(request):
         )
 
         try:
-            email.send()
+            #email.send()
             monitoring_email.send()
             return render(request, 'contact.html', {
                 'success': 'Thank you for your message. We will get back to you shortly.',

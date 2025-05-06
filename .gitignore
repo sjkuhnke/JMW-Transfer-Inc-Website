@@ -1,0 +1,48 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django migrations (optional — you may keep them if shared intentionally)
+**/migrations/*.pyc
+**/migrations/__pycache__/
+**/migrations/*.py~
+
+# Django local database (remove if you're versioning it on purpose)
+db.sqlite3
+db.sqlite3-journal
+
+# Django secret environment settings
+.env
+*.env
+
+# Media/static files (if handled by S3 or built dynamically)
+media/
+static/
+staticfiles/
+assets/
+
+# Ignore collected static files
+collected_static/
+
+# VS Code / PyCharm settings
+.vscode/
+.idea/
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# Compiled C extensions
+*.so
+
+# Logs and temporary files
+*.log
+*.pot~
+*.swp
+
+# Heroku files
+*.sqlite3
+*.pyc
+*.pyo
+*.pyd

@@ -19,7 +19,10 @@
     <div id="section1-content" class="collapsible-content expanded">
         {{ form.non_field_errors }}
         <div>
-            {{ form.applicant_name.label_tag }} {{ form.applicant_name }}
+            {{ form.first_name.label_tag }} {{ form.first_name }}
+        </div>
+        <div>
+            {{ form.last_name.label_tag }} {{ form.last_name }}
         </div>
         <div>
             {{ form.date_of_application.label_tag }} {{ form.date_of_application }}

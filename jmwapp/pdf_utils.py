@@ -8,8 +8,6 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from io import BytesIO
 
-from jmwWebsite import settings
-
 
 def fill_pdf(form_data):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +23,7 @@ def fill_pdf(form_data):
     # -- Section 1 -- #
     first_name = form_data['first_name']
     last_name = form_data['last_name']
-    first_last = first_name + ' ' + last_name
+    first_last = f"{first_name} {last_name}"
     draw_string(c, 110, 690, first_last)
     draw_string(c, 475, 688, format_date(form_data['date_of_application']))
     draw_string(c, 162, 666, 'JMW Transfer, Inc.')

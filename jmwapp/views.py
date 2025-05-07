@@ -1,5 +1,3 @@
-import os
-
 import boto3
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -144,6 +142,16 @@ class JobApplicationView(View):
             first_name = form_data['first_name']
             last_name = form_data['last_name']
             file_name = f"{last_name},{first_name}_Application.pdf"
+            applicant_name = f"{first_name} {last_name}"
+            timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+
+            # Construct log content
+            log_content = "Job Application Submission\n"
+            log_content += f"Timestamp: {timestamp}\n\n"
+            for field, value in form_data.items():
+                log_content += f"{field}: {value}\n"
+
+            log_filename = f"{last_name},{first_name}_Application_Log.txt"
 
             # Email to Jake and Andy
             email = EmailMessage(
@@ -154,6 +162,7 @@ class JobApplicationView(View):
             )
 
             email.attach(file_name, filled_pdf, 'application/pdf')
+            email.attach(log_filename, log_content, 'text/plain')
             email.send()
 
             email_monitoring = EmailMessage(
@@ -164,13 +173,13 @@ class JobApplicationView(View):
             )
 
             email_monitoring.attach(file_name, filled_pdf, 'application/pdf')
+            email.attach(log_filename, log_content, 'text/plain')
             email_monitoring.send()
 
             file_path = f'applications/{file_name}'
             file_url = default_storage.save(file_path, ContentFile(filled_pdf))
 
-            applicant_name = first_name + ' ' + last_name
-            self.log_application_data_to_s3(form_data, applicant_name)
+            self.log_application_data_to_s3(log_content, applicant_name, timestamp)
 
             file_url = default_storage.url(file_path)
             return JsonResponse({'success': True, 'file_url': file_url})
@@ -198,7 +207,7 @@ class JobApplicationView(View):
         except ClientError as e:
             logging.error("Failed to upload error log to S3: %s", e)
 
-    def log_application_data_to_s3(self, form_data, applicant_name):
+    def log_application_data_to_s3(self, log_content, applicant_name, timestamp):
         s3_client = boto3.client(
             's3',
             region_name=settings.AWS_S3_REGION_NAME,
@@ -206,13 +215,7 @@ class JobApplicationView(View):
             aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
         )
         bucket_name = settings.AWS_STORAGE_BUCKET_NAME
-        timestamp = datetime.utcnow().strftime('%Y-%m-%d_%H-%M-%S')
         text_file_name = f'job_application_logs/{timestamp}_{applicant_name}_log.txt'
-
-        log_content = "Job Application Submission\n"
-        log_content += f"Timestamp: {timestamp}\n\n"
-        for field, value in form_data.items():
-            log_content += f"{field}: {value}\n"
 
         try:
             s3_client.put_object(

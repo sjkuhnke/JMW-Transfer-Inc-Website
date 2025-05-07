@@ -173,7 +173,7 @@ class JobApplicationView(View):
             )
 
             email_monitoring.attach(file_name, filled_pdf, 'application/pdf')
-            email.attach(log_filename, log_content, 'text/plain')
+            email_monitoring.attach(log_filename, log_content, 'text/plain')
             email_monitoring.send()
 
             file_path = f'applications/{file_name}'

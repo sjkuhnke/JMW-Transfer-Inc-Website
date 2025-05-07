@@ -42,13 +42,14 @@ This professional web application serves as the online presence for JMW Transfer
 
 ## ⚙️ Tech Stack
 
-- **Backend**: Python, Django
-- **Frontend**: HTML5, CSS3, JavaScript
+- **Backend**: Python, Django 5
+- **Frontend**: HTML5, CSS3, JavaScript (vanilla)
 - **Forms**: Django Forms, JavaScript validation
-- **PDF Generation**: ReportLab
-- **Email**: Django's Email Backend + Amazon SES
-- **Deployment**: Heroku, GitHub
+- **PDF Generation**: ReportLab, PyPDF2
+- **Email**: Django's Email Backend + Amazon SES (via `boto3`)
+- **Deployment**: Gunicorn, Heroku, GitHub
 - **Security**: Google reCAPTCHA, `.env` configuration
+- **Other**: Pillow (image handling), python-dotenv, custom logging to S3
 
 ## 📄 License
 

@@ -141,12 +141,9 @@ class JobApplicationView(View):
             filled_pdf = fill_pdf(form_data)
             applicant_email = form_data['email_address']
             position_applied_for = form_data['position_applied_for']
-            applicant_name = form_data['applicant_name']
-
-            name_parts = applicant_name.split()
-            first_name = name_parts[0] if name_parts else ''
-            last_name = name_parts[1] if len(name_parts) > 1 else ''
-            file_name = f"{last_name},{first_name}_Application.pdf" if last_name else f"{first_name}_Application.pdf"
+            first_name = form_data['first_name']
+            last_name = form_data['last_name']
+            file_name = f"{last_name},{first_name}_Application.pdf"
 
             # Email to Jake and Andy
             email = EmailMessage(
@@ -172,6 +169,7 @@ class JobApplicationView(View):
             file_path = f'applications/{file_name}'
             file_url = default_storage.save(file_path, ContentFile(filled_pdf))
 
+            applicant_name = first_name + ' ' + last_name
             self.log_application_data_to_s3(form_data, applicant_name)
 
             file_url = default_storage.url(file_path)

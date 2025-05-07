@@ -63,7 +63,8 @@ boolean = [
 
 class JobApplication(models.Model):
     # Top of application
-    applicant_name = models.CharField(max_length=255, verbose_name="Applicant Name")
+    first_name = models.CharField(max_length=255, verbose_name="Applicant First Name")
+    last_name = models.CharField(max_length=255, verbose_name="Applicant Last Name")
     date_of_application = models.DateField(verbose_name="Date of Application")
     email_address = models.CharField(max_length=50, verbose_name="Email Address")
 

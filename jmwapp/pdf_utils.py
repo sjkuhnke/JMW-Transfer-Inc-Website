@@ -23,7 +23,9 @@ def fill_pdf(form_data):
     c.setFont("Helvetica", 12)
 
     # -- Section 1 -- #
-    first_last = form_data['first_name'] + ' ' + form_data['last_name']
+    first_name = form_data['first_name']
+    last_name = form_data['last_name']
+    first_last = first_name + ' ' + last_name
     draw_string(c, 110, 690, first_last)
     draw_string(c, 475, 688, format_date(form_data['date_of_application']))
     draw_string(c, 162, 666, 'JMW Transfer, Inc.')
@@ -42,7 +44,6 @@ def fill_pdf(form_data):
 
     # -- Section 2 -- #
     draw_string(c, 133, 731, form_data['position_applied_for'])
-    first_name, last_name = first_last.split(' ')
     middle_initial = form_data['middle_initial']
     draw_string(c, 69, 712, last_name)
     draw_string(c, 240, 712, first_name)

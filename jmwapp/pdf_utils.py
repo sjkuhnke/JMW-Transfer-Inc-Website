@@ -296,8 +296,8 @@ def fill_pdf(form_data):
     draw_string(c, 491, 316, form_data.get('other_miles', ''))
 
     wrap_text(c, form_data.get('states_operated_in', ''), 332, 248, 297, 13, 49)
-    draw_string(c, 348, 271, form_data.get('special_courses', ''))
-    draw_string(c, 308, 258, form_data.get('safe_driving_awards', ''))
+    draw_string(c, 346, 271, form_data.get('special_courses', ''))
+    draw_string(c, 306, 258, form_data.get('safe_driving_awards', ''))
 
     # -- Section 8 -- #
     wrap_text(c, form_data.get('trucking_experience', ''), 530, 50, 212, 13)

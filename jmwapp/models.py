@@ -247,7 +247,7 @@ class DrivingExperience(models.Model):
 
     states_operated_in = models.TextField(verbose_name="List States Operated In For Last 5 Years (NONE if none)")
     special_courses = models.CharField(max_length=50, verbose_name="Show Special Courses Or Training That Will help You As a Driver (NONE if none)")
-    safe_driving_awards = models.CharField(max_length=50, verbose_name="Which Safe Driving Awards Do You Hold And From Whom? (NONE if none)")
+    safe_driving_awards = models.CharField(max_length=60, verbose_name="Which Safe Driving Awards Do You Hold And From Whom? (NONE if none)")
 
 
 class ExperienceQualifications(models.Model):
